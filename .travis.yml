@@ -11,4 +11,4 @@ deploy:
   file: build/main.pdf
   skip_cleanup: true
   on:
-    repo: nemkin/onlab
+    tags: true
