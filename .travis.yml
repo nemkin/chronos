@@ -3,7 +3,7 @@ before_install:
   texlive-latex-extra texlive-fonts-extra texlive-latex-recommended dvipng
 script:
 - mkdir build
-- pdflatex -output-directory build -jobname nemkin_viktoria_onlab.tex main.tex
+- pdflatex -output-directory build -jobname nemkin_viktoria_onlab main.tex
 deploy:
   provider: releases
   api_key:
