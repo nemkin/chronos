@@ -1,12 +1,14 @@
 \documentclass[11pt,oneside]{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % Hungarian letters
+\usepackage[T1]{fontenc} % No separate accents
 
-\usepackage{graphicx}
-\usepackage{float}
+\usepackage{graphicx} % Insert images (floats)
+\usepackage{float} % Fix floats into place
 
-\usepackage[left=1.5cm, right=1.5cm, top=1.5cm, bottom=1.5cm]{geometry}
+\usepackage[left=1.5cm, right=1.5cm, top=1.5cm, bottom=1.5cm]{geometry} % Margins
+
+\usepackage{booktabs} % Schedule table
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{7pt}
@@ -22,19 +24,51 @@
 
 \section{Introduction}
 
-CV4SensorHub is a .NET and C# based framework that supports the development of different intelligent tools with image processing technologies for interdisciplinary applications.
+CV4SensorHub is a .NET and C\# based framework that supports the development of different intelligent tools with image processing technologies for interdisciplinary applications.
 
 GrainAutLine is one of these applications, which is a smart drawing program specializing in marble thin section and sandstone analytics designed to aid and automate the work of the user as much as possible.
 
-LivePolyline is one of the operations this application supports. This operation aids.
+LivePolyline is one of the operations this application supports, which draws around segments of the thin sections using pathfinding algorithms to stay close to the edge.
 
 \section{Schedule}
 
+\begin{table}[H]
+\centering
+\caption{Schedule} \vspace{0.1cm}
+\label{schedule}
+\begin{tabular}{@{}lll@{}}
+\toprule
+
+\multicolumn{1}{c}{\textbf{Due}} &
+\multicolumn{1}{c}{\textbf{Function}} &
+\multicolumn{1}{c}{\textbf{Description}} \\
+
+\midrule
+
+\multicolumn{1}{|l|}{2017. 09. 10.} &
+\multicolumn{1}{l|}{PathFinding} &
+\multicolumn{1}{l|}{Breath first search} \\
+
+\multicolumn{1}{|l|}{2017. 09. 20.} & 
+\multicolumn{1}{l|}{Debugging} & 
+\multicolumn{1}{l|}{Showoff} \\
+
+&& \\
+
+\bottomrule
+
+\end{tabular}
+\end{table}
 
 \section{User stories}
 
 
 \section{Architecture}
 
+
+PathFinder
+- Open list
+- Closed list
+- How you choose from these?
 
 \end{document}
