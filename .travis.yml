@@ -3,10 +3,10 @@ before_install:
   texlive-latex-extra texlive-fonts-extra texlive-latex-recommended dvipng
 script:
 - mkdir build
-- pdflatex -output-directory build -jobname nemkin_viktoria_szakdolgozat main.tex
-- pdflatex -output-directory build -jobname nemkin_viktoria_szakdolgozat main.tex
-- pdflatex -output-directory build -jobname nemkin_viktoria_szakdolgozat main.tex
-- pdflatex -output-directory build -jobname nemkin_viktoria_szakdolgozat main.tex
+- pdflatex -output-directory build -jobname nemkin_viktoria_szakdolgozat diploma.tex
+- pdflatex -output-directory build -jobname nemkin_viktoria_szakdolgozat diploma.tex
+- pdflatex -output-directory build -jobname nemkin_viktoria_szakdolgozat diploma.tex
+- pdflatex -output-directory build -jobname nemkin_viktoria_szakdolgozat diploma.tex
 deploy:
   provider: releases
   api_key:
