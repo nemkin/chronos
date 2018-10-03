@@ -1,5 +1,10 @@
+# Build
+bin
+
+# Latex
 *.aux
 *.log
 *.pdf
 *.toc
 *.swp
+
