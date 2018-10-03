@@ -1,0 +1,87 @@
+accounts:
+- id
+- name (Kiss Júlia)
+- email (kiss.julia@kth.bme.hu)
+- password_hash
+- modified_timestamp
+- is_deleted
+
+locations:
+- id
+- name (I épület)
+- latitude
+- longitude
+- modified_timestamp
+- is_deleted
+
+distances:
+- id
+- location_id_1
+- location_id_2
+- distance_minutes
+- modified_timestamp
+- is_deleted
+
+room_types:
+- id
+- name (előadó, labor, gyakorlati terem)
+- size
+- modified_timestamp
+- is_deleted
+
+rooms:
+- id
+- name (QB203)
+- room_type_id
+- modified_timestamp
+- is_deleted
+
+departments:
+- id
+- name (Számítástudományi és Információelméleti Tanszék)
+- modified_timestamp
+- is_deleted
+
+faculty_members:
+- id
+- name (Dr. Szeszlér Dávid)
+- modified_timestamp
+- is_deleted
+
+courses:
+- id
+- name (Bevezetés a számításelméletbe I.)
+
+grade_types:
+- id
+- name (1. félév, 2. félév, 3. félév...)
+- major_id (mérnök informatikus...)
+
+grades:
+- grade_type_id
+- semester_id
+- size
+
+semester_types:
+- id
+- name (ősz, tavasz)
+
+semesters:
+- id
+- semester_type_id
+- name (2018/2019 tavasz)
+
+
+majors:
+- id
+- name
+
+timeslot:
+- id
+- weekday
+- hour
+- minute
+
+schedule:
+- id
+- 
