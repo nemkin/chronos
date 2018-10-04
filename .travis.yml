@@ -1,10 +1,10 @@
-dist: bionic
+language: cpp
+dist: trusty
+compiler: g++
+sudo: required
 
-before_install:
-- ./dependencies.sh
-
-script:
-- ./build.sh
+before_install: ./dependencies.sh
+script: ./build.sh
 
 deploy:
   provider: releases
