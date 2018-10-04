@@ -1,5 +1,10 @@
-sudo apt install qtbase5-dev
-sudo apt install qttols5-dev
-sudo apt install qtmultimedia5-dev
-sudo apt install libqt5sql5-psql
-sudo apt install libqt5serialport5-dev
+#!/bin/bash
+
+# Refresh package list.
+sudo apt update
+
+# Qt dependencies.
+sudo apt install qtbase5-dev qttols5-dev qtmultimedia5-dev libqt5sql5-psql libqt5serialport5-dev
+
+# Latex dependencies.
+sudo apt install texlive-full
