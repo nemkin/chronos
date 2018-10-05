@@ -10,4 +10,4 @@ sudo apt update -qq
 sudo apt install qt510base qt510tools qt510multimedia libqt5sql5-psql libqt5serialport5-dev
 
 # Latex dependencies.
-sudo apt install --no-install-recommends texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra dvipng
+sudo apt install texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra dvipng
