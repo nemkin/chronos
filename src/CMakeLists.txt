@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
-project(cryptex)
+project(chronos)
 
 find_package(Qt5Core)
 find_package(Qt5Network)
@@ -11,19 +11,7 @@ find_package(Qt5Multimedia)
 find_package(Qt5MultimediaWidgets)
 find_package(Qt5Test)
 
-if(NOT CMAKE_BUILD_TYPE)
- set(CMAKE_BUILD_TYPE Debug)
-endif()
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-deprecated-declarations -std=c++11")
-
-include_directories(${QT_INCLUDES})
-MESSAGE("HEYOOO")
-MESSAGE("${QT_INCLUDES}")
-MESSAGE("HEYOOO")
-
-add_executable(server server/main.cpp)
-target_link_libraries(server
+set(QT_LIBRARIES
     Qt5::Core
     Qt5::Network
     Qt5::Sql
@@ -33,5 +21,22 @@ target_link_libraries(server
     Qt5::Multimedia
     Qt5::MultimediaWidgets
     Qt5::Test
+)   
+
+if(NOT CMAKE_BUILD_TYPE)
+ set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-deprecated-declarations -std=c++11")
+
+include_directories(${QT_INCLUDES})
+include_directories(${PROJECT_SOURCE_DIR})
+
+set(SERVER_SOURCES
+${PROJECT_SOURCE_DIR}/server/main.cpp
+${PROJECT_SOURCE_DIR}/server/database/database.cpp
 )
+
+add_executable(server ${SERVER_SOURCES})
+target_link_libraries(server ${QT_LIBRARIES})
 

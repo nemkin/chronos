@@ -1,25 +1,14 @@
 #include <QApplication>
-#include <QSqlDatabase>
-#include <QDebug>
-#include "QSqlError"
+
+#include "database/database.h"
 
 int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
-    QSqlDatabase db=QSqlDatabase::addDatabase("QPSQL");
 
-    db.setHostName("localhost");
-    db.setDatabaseName("timetable_planner");
-    db.setUserName("timetable_user");
-    db.setPassword("timetable_user");
+    chronos::Database db;
 
-    if(db.open()) {
-        qDebug() <<"opened" ;
-        db.close();
-    } else {
-        qDebug() << db.lastError().text();
-        exit(1);
-    }
+    db.test();
 
     return a.exec();
 }

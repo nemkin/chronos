@@ -11,8 +11,8 @@ install:
     - sudo apt install qt58base qt58tools qt58multimedia
     - sudo apt install libqt5sql5-psql libqt5serialport5-dev
     - source /opt/qt58/bin/qt58-env.sh
-    - sudo apt install texlive-latex-recommended texlive-fonts-recommended
-    - sudo apt install texlive-latex-extra texlive-fonts-extra dvipng
+#    - sudo apt install texlive-latex-recommended texlive-fonts-recommended
+#    - sudo apt install texlive-latex-extra texlive-fonts-extra dvipng
 
 script: ./build.sh
 
