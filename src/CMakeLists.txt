@@ -34,6 +34,7 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 set(SERVER_SOURCES
 ${PROJECT_SOURCE_DIR}/server/main.cpp
+${PROJECT_SOURCE_DIR}/common/entities/department.cpp
 ${PROJECT_SOURCE_DIR}/server/database/database.cpp
 )
 

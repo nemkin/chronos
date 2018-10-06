@@ -24,7 +24,7 @@ distances:
 
 room_types:
 - id
-- name (előadó, labor, gyakorlati terem)
+- name (előadó, számítógépes labor, gyakorlati terem, mérő labor)
 - size
 - modified_timestamp
 - is_deleted
@@ -34,6 +34,7 @@ rooms:
 - name (QB203)
 - room_type_id
 - modified_timestamp
+- size
 - is_deleted
 
 departments:
@@ -45,36 +46,73 @@ departments:
 faculty_members:
 - id
 - name (Dr. Szeszlér Dávid)
+- department_id
 - modified_timestamp
 - is_deleted
-
-courses:
-- id
-- name (Bevezetés a számításelméletbe I.)
-
-grade_types:
-- id
-- name (1. félév, 2. félév, 3. félév...)
-- major_id (mérnök informatikus...)
-
-grades:
-- grade_type_id
-- semester_id
-- size
-
-semester_types:
-- id
-- name (ősz, tavasz)
-
-semesters:
-- id
-- semester_type_id
-- name (2018/2019 tavasz)
-
 
 majors:
 - id
 - name
+- modified_timestamp
+- is_deleted
+
+grades:
+- id
+- name (1. félév, 2. félév, 3. félév...)
+- major_id (mérnök informatikus...)
+- modified_timestamp
+- is_deleted
+
+semester_types:
+- id
+- name (ősz, tavasz)
+- modified_timestamp
+- is_deleted
+
+semesters:
+- id
+- name (2018/2019 tavasz)
+- semester_type_id
+- modified_timestamp
+- is_deleted
+
+
+courses:
+- id
+- name (Bevezetés a számításelméletbe I.)
+- grade_id
+- modified_timestamp
+- is_deleted
+
+
+class_types:
+- id
+- name (előadás, labor, gyakorlat)
+- modified_timestamp
+- is_deleted
+
+
+license: // Who can hold this type of class?
+- id
+- course_id
+- class_type_id
+- faculty_member_id
+- modified_timestamp
+- is_deleted
+
+
+classes:
+- id
+- name
+- class_type_id
+- course_id
+- lesson_count
+- regularity (weekly, odd/even, 3 / 2 weeks)
+- maximum_student_count
+- modified_timestamp
+- is_deleted
+
+
 
 timeslot:
 - id
