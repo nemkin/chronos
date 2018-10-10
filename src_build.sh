@@ -7,5 +7,6 @@ cd build/src
 cmake ../../src
 make
 
-mv server ../../bin/server
+mv server ../../bin
+mv client ../../bin
 

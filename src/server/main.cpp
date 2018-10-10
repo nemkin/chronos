@@ -1,7 +1,8 @@
 #include <QApplication>
 #include <QDebug>
 
-#include "database/database.h"
+#include "server/database/database.h"
+#include "server/server.h"
 
 int main(int argc, char *argv[]) {
 
@@ -19,5 +20,7 @@ int main(int argc, char *argv[]) {
         qDebug() << d.name();
     }
 
-    return 0; // a.exec();
+    chronos::Server s;
+    
+    a.exec();
 }

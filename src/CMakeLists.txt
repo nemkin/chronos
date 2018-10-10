@@ -23,6 +23,13 @@ set(QT_LIBRARIES
     Qt5::Test
 )   
 
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+# Create code from a list of Qt designer ui files
+set(CMAKE_AUTOUIC ON)
+
 if(NOT CMAKE_BUILD_TYPE)
  set(CMAKE_BUILD_TYPE Debug)
 endif()
@@ -34,10 +41,20 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 set(SERVER_SOURCES
 ${PROJECT_SOURCE_DIR}/server/main.cpp
+${PROJECT_SOURCE_DIR}/server/server.cpp
+${PROJECT_SOURCE_DIR}/server/service/service.cpp
 ${PROJECT_SOURCE_DIR}/common/entities/department.cpp
 ${PROJECT_SOURCE_DIR}/server/database/database.cpp
 )
 
+set(CLIENT_SOURCES
+${PROJECT_SOURCE_DIR}/client/main.cpp
+${PROJECT_SOURCE_DIR}/client/client.cpp
+)
+
 add_executable(server ${SERVER_SOURCES})
 target_link_libraries(server ${QT_LIBRARIES})
+
+add_executable(client ${CLIENT_SOURCES})
+target_link_libraries(client ${QT_LIBRARIES})
 

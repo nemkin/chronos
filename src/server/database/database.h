@@ -1,3 +1,8 @@
+#pragma once
+
+#ifndef __DATABASE__H__
+#define __DATABASE__H__
+
 #include <QSqlDatabase>
 #include <QList>
 
@@ -23,3 +28,6 @@ private:
 };
 
 }
+
+#endif //__DATABASE__H__
+
