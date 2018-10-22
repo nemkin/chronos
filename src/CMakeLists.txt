@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 project(chronos)
 
-set(PQXX /usr/include/pqxx)
+# set(PQXX /usr/include/pqxx)
 
 find_library(PQXX_LIB pqxx)
 find_library(PQ_LIB pq)
