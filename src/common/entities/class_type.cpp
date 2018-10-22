@@ -1,22 +1,22 @@
-#include "department.h"
+#include "class_type.h"
 
 #include <sstream>
 
 using namespace chronos;
 
-Department::Department(
+ClassType::ClassType(
 ) :
     _id(0),
     _name(""),
-    _modified_timestamp(""),
+    _modified_timestamp(0),
     _is_deleted(false) {
 
 }
 
-Department::Department(
+ClassType::ClassType(
     int p_id,
     std::string p_name,
-    std::string p_modified_timestamp,
+    int p_modified_timestamp,
     bool p_is_deleted
 ) : 
     _id(p_id),
@@ -26,31 +26,31 @@ Department::Department(
 
 }
 
-int Department::id() const {
+int ClassType::id() const {
 
     return _id;
 }
 
-std::string Department::name() const {
+std::string ClassType::name() const {
 
     return _name;
 } 
 
-std::string Department::modified_timestamp() const {
+int ClassType::modified_timestamp() const {
 
     return _modified_timestamp;
 }
 
-bool Department::is_deleted() const {
+bool ClassType::is_deleted() const {
 
     return _is_deleted;
 }
 
-std::string Department::to_string() const {
+std::string ClassType::to_string() const {
 
     std::stringstream ss;
     
-    ss << "department           "                         << std::endl;
+    ss << "class_type           "                         << std::endl;
     ss << "id:                  " << _id                  << std::endl;
     ss << "name:                " << _name                << std::endl; 
     ss << "modified_timestamp:  " << _modified_timestamp  << std::endl;

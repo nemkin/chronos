@@ -1,26 +1,27 @@
-#include <QApplication>
-#include <QDebug>
+#include <iostream>
 
-#include "server/database/database.h"
-#include "server/server.h"
+#include "common/database/database.h"
 
 int main(int argc, char *argv[]) {
 
-    QApplication a(argc, argv);
+    std::string user;
+    std::string pass;
 
-    chronos::Database db;
+    std::cout<<"User: ";
+    std::cin>>user;
 
-    db.test();
-    //db.drop();
-    //db.init();
+    std::cout<<"Pass: ";
+    std::cin>>pass;
 
-    QList<chronos::Department> departments = db.get_departments();
-
-    for(auto d: departments) {
-        qDebug() << d.name();
-    }
-
-    chronos::Server s;
+    chronos::Database d(user, pass);
     
-    a.exec();
+    d.test(); 
+
+    std::vector<chronos::Department> departments = d.get_departments();
+
+    for(auto dep: departments) {
+         std::cout << dep.to_string() << std::endl;
+    }
+    
+    return 0;
 }

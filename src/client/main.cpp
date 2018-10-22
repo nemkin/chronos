@@ -1,26 +1,29 @@
-#include <QApplication>
-#include <QDebug>
+#include <iostream>
+#include <string>
 
-#include "client/client.h"
+#include "common/database/database.h"
 
 int main(int argc, char *argv[]) {
     
-    QApplication a(argc, argv);
+    std::string user;
+    std::string pass;
 
-    chronos::Client c;
-   
-    c.connect_to_host("127.0.0.1");
+    std::cout<<"User: ";
+    std::cin>>user;
+
+    std::cout<<"Pass: ";
+    std::cin>>pass;
+
+    chronos::Database d(user, pass);
     
-    qDebug()<<"Connected.";
+    d.test(); 
 
-    c.write_data(QString("get_all_departments").toUtf8());
-    c.read_data();
-    c.read_data();
-    c.read_data();
-    c.read_data();
-    c.read_data();
+    auto list = d.get_departments();
+    
+    for(auto dep : list) {
 
-    qDebug()<<"Written.";
+        std::cout << dep.to_string();
+    }
 
-    return a.exec();
+    return 0;
 }

@@ -1,83 +1,65 @@
 #include "database.h"
 
+#include <iostream>
 #include <vector>
-
-#include <QDebug>
-#include <QSqlQuery>
-#include <QSqlError>
 
 using namespace chronos;
 
-Database::Database() {
-
-    _db = QSqlDatabase::addDatabase("QPSQL");
-    _db.setHostName("localhost");
-    _db.setDatabaseName("timetable_planner");
-    _db.setUserName("timetable_user");
-    _db.setPassword("timetable_user");
+Database::Database(
+    std::string user_name,
+    std::string password,
+    std::string host_name,
+    std::string database_name
+) :
+    _db(
+        "host = " + host_name + " "
+        "dbname = " + database_name + " " 
+        "user = " + user_name + " "
+        "password = " + password) {
 }
 
-QList<Department> Database::get_departments() {
+std::vector<Department> Database::get_departments() {
 
-    QList<Department> ret;
+    std::vector<Department> ret;
 
     try {
 
-        _db.open();
-        auto query = _db.exec("SELECT * FROM departments;");
+        pqxx::nontransaction n(_db);
 
-        qDebug() << "Query...";
-        qDebug() << query.lastQuery();
-        qDebug() << query.lastError().text();
+        pqxx::result r(n.exec("SELECT * FROM departments;"));
 
-        while(query.next()) {
+        for(auto i = r.begin(); i != r.end(); ++i) {
 
-            int id = query.value(0).toInt();
-            QString name = query.value(1).toString();
-            int timestamp = query.value(2).toInt();
-            bool is_deleted = query.value(3).toInt();
+            int id = i[0].as<int>();
+            std::string name = i[1].as<std::string>();
+            std::string modified_timestamp = i[2].as<std::string>();
+            bool is_deleted = i[3].as<bool>();
 
-            Department d(id, name, timestamp, is_deleted);
+            Department d(id, name, modified_timestamp, is_deleted);
             
-            ret.append(d);
+            ret.push_back(d);
         }
 
     } catch (std::exception& e) {
-        qDebug() << e.what();
+        std::cerr << e.what();
     }
 
-    _db.close();
-    
     return ret;
 }
 
 void Database::test() {
-    
-    qDebug()<<"#################### Testing...";
-    if(_db.open()) {
-        qDebug() <<"Database connection works." ;
-        _db.close();
 
+    if(_db.is_open()) {
+        std::cout << "Connection successful!" << std::endl;
     } else {
-        qDebug() << _db.lastError().text();
-        exit(1);
+        std::cout << "Connection failed." << std::endl;
     }
+ 
 }
 
 void Database::init() {
 
-    qDebug()<<"#################### Init...";
-    std::vector<QString> creates;
-
-    creates.push_back(
-        "CREATE TABLE accounts ( "
-            "id SERIAL PRIMARY KEY, "
-            "name TEXT NOT NULL, "
-            "email TEXT NOT NULL UNIQUE, "
-            "password_hash TEXT NOT NULL, "
-            "modified_timestamp TIMESTAMP NOT NULL, "
-            "is_deleted BOOLEAN DEFAULT false NOT NULL);"
-    );
+    std::vector<std::string> creates;
 
     creates.push_back(
         "CREATE TABLE locations ( "
@@ -209,6 +191,7 @@ void Database::init() {
             "is_deleted BOOLEAN DEFAULT false NOT NULL);"
     );
 
+    /*
     try {
         _db.open();
 
@@ -224,15 +207,14 @@ void Database::init() {
     }
 
     _db.close();
+
+    */
 }
 
 void Database::drop() {
 
-    qDebug()<<"#################### Drop...";
+    std::vector<std::string> drops;
 
-    std::vector<QString> drops;
-
-    drops.push_back("DROP TABLE accounts CASCADE;"); 
     drops.push_back("DROP TABLE locations CASCADE;"); 
     drops.push_back("DROP TABLE distances CASCADE;"); 
     drops.push_back("DROP TABLE room_types CASCADE;"); 
@@ -248,6 +230,7 @@ void Database::drop() {
     drops.push_back("DROP TABLE licenses CASCADE;");
     drops.push_back("DROP TABLE classes CASCADE;");
 
+    /*
     try {
         _db.open();
 
@@ -263,6 +246,7 @@ void Database::drop() {
     }
 
     _db.close();
+    */
 }
 
 
