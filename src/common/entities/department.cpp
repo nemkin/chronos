@@ -50,11 +50,11 @@ std::string Department::to_string() const {
 
     std::stringstream ss;
 
-    ss << "department          "                       << std::endl;
-    ss << "id:                 " << id                 << std::endl;
-    ss << "name:               " << name               << std::endl;
-    ss << "modified_timestamp: " << modified_timestamp << std::endl;
-    ss << "is_deleted:         " << is_deleted         << std::endl;
+    ss << "department          "                        << std::endl;
+    ss << "id:                 " << _id                 << std::endl;
+    ss << "name:               " << _name               << std::endl;
+    ss << "modified_timestamp: " << _modified_timestamp << std::endl;
+    ss << "is_deleted:         " << _is_deleted         << std::endl;
 
     return ss.str();
 }

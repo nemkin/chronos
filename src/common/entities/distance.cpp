@@ -66,13 +66,13 @@ std::string Distance::to_string() const {
 
     std::stringstream ss;
 
-    ss << "distance            "                       << std::endl;
-    ss << "id:                 " << id                 << std::endl;
-    ss << "location_id_1:      " << location_id_1      << std::endl;
-    ss << "location_id_2:      " << location_id_2      << std::endl;
-    ss << "distance_minutes:   " << distance_minutes   << std::endl;
-    ss << "modified_timestamp: " << modified_timestamp << std::endl;
-    ss << "is_deleted:         " << is_deleted         << std::endl;
+    ss << "distance            "                        << std::endl;
+    ss << "id:                 " << _id                 << std::endl;
+    ss << "location_id_1:      " << _location_id_1      << std::endl;
+    ss << "location_id_2:      " << _location_id_2      << std::endl;
+    ss << "distance_minutes:   " << _distance_minutes   << std::endl;
+    ss << "modified_timestamp: " << _modified_timestamp << std::endl;
+    ss << "is_deleted:         " << _is_deleted         << std::endl;
 
     return ss.str();
 }

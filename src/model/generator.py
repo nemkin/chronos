@@ -168,7 +168,7 @@ with open(data_model_file_path) as data_model_file:
             ' ' +\
             ' ' * (max_len - len(class_model['class'])) +\
             ' "' +\
-            '    ' +\
+            '     ' +\
             ' ' * max_len +\
             ' << std::endl;\n'
 
@@ -180,7 +180,7 @@ with open(data_model_file_path) as data_model_file:
                 ':' +\
                 ' ' * (max_len - len(member['name'])) +\
                 ' "' +\
-                ' << ' +\
+                ' << _' +\
                 member['name'] +\
                 ' ' * (max_len - len(member['name'])) +\
                 ' << std::endl;\n'

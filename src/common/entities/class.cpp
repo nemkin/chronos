@@ -90,16 +90,16 @@ std::string Class::to_string() const {
 
     std::stringstream ss;
 
-    ss << "class                  "                          << std::endl;
-    ss << "id:                    " << id                    << std::endl;
-    ss << "name:                  " << name                  << std::endl;
-    ss << "class_type_id:         " << class_type_id         << std::endl;
-    ss << "course_id:             " << course_id             << std::endl;
-    ss << "lesson_count:          " << lesson_count          << std::endl;
-    ss << "regularity:            " << regularity            << std::endl;
-    ss << "maximum_student_count: " << maximum_student_count << std::endl;
-    ss << "modified_timestamp:    " << modified_timestamp    << std::endl;
-    ss << "is_deleted:            " << is_deleted            << std::endl;
+    ss << "class                  "                           << std::endl;
+    ss << "id:                    " << _id                    << std::endl;
+    ss << "name:                  " << _name                  << std::endl;
+    ss << "class_type_id:         " << _class_type_id         << std::endl;
+    ss << "course_id:             " << _course_id             << std::endl;
+    ss << "lesson_count:          " << _lesson_count          << std::endl;
+    ss << "regularity:            " << _regularity            << std::endl;
+    ss << "maximum_student_count: " << _maximum_student_count << std::endl;
+    ss << "modified_timestamp:    " << _modified_timestamp    << std::endl;
+    ss << "is_deleted:            " << _is_deleted            << std::endl;
 
     return ss.str();
 }
