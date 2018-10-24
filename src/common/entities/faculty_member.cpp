@@ -9,17 +9,18 @@ FacultyMember::FacultyMember(
     _id(0),
     _name(""),
     _department_id(0),
-    _modified_timestamp(0),
+    _modified_timestamp(""),
     _is_deleted(false) {
+
 }
 
 FacultyMember::FacultyMember(
     int p_id,
     std::string p_name,
     int p_department_id,
-    int p_modified_timestamp,
+    std::string p_modified_timestamp,
     bool p_is_deleted
-):
+) :
     _id(p_id),
     _name(p_name),
     _department_id(p_department_id),
@@ -43,7 +44,7 @@ int FacultyMember::department_id() const {
     return _department_id;
 }
 
-int FacultyMember::modified_timestamp() const {
+std::string FacultyMember::modified_timestamp() const {
 
     return _modified_timestamp;
 }
@@ -56,13 +57,13 @@ bool FacultyMember::is_deleted() const {
 std::string FacultyMember::to_string() const {
 
     std::stringstream ss;
-    
-    ss << "faculty_member      "                            << std::endl;
-    ss << "id:                 " << _id                     << std::endl;
-    ss << "name:               " << _name                   << std::endl; 
-    ss << "department_id:      " << _department_id          << std::endl; 
-    ss << "modified_timestamp: " << _modified_timestamp     << std::endl;
-    ss << "is_deleted:         " << _is_deleted             << std::endl;
+
+    ss << "faculty_member      "                       << std::endl;
+    ss << "id:                 " << id                 << std::endl;
+    ss << "name:               " << name               << std::endl;
+    ss << "department_id:      " << department_id      << std::endl;
+    ss << "modified_timestamp: " << modified_timestamp << std::endl;
+    ss << "is_deleted:         " << is_deleted         << std::endl;
 
     return ss.str();
 }

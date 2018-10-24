@@ -12,28 +12,27 @@ class ClassType {
 public:
 
     ClassType();
- 
+
     ClassType(
         int p_id,
         std::string p_name,
-        int p_modified_timestamp,
+        std::string p_modified_timestamp,
         bool p_is_deleted
     );
 
     int id() const;
     std::string name() const;
-    int modified_timestamp() const;
+    std::string modified_timestamp() const;
     bool is_deleted() const;
-
-    std::string to_string() const;     
+    std::string to_string() const;
 
 private:
 
     int _id;
     std::string _name;
-    int _modified_timestamp;
+    std::string _modified_timestamp;
     bool _is_deleted;
-    
+
 };
 
 }

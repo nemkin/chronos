@@ -12,7 +12,7 @@ class Department {
 public:
 
     Department();
- 
+
     Department(
         int p_id,
         std::string p_name,
@@ -24,8 +24,7 @@ public:
     std::string name() const;
     std::string modified_timestamp() const;
     bool is_deleted() const;
-
-    std::string to_string() const;     
+    std::string to_string() const;
 
 private:
 
@@ -33,7 +32,7 @@ private:
     std::string _name;
     std::string _modified_timestamp;
     bool _is_deleted;
-    
+
 };
 
 }

@@ -18,7 +18,7 @@ Department::Department(
     std::string p_name,
     std::string p_modified_timestamp,
     bool p_is_deleted
-) : 
+) :
     _id(p_id),
     _name(p_name),
     _modified_timestamp(p_modified_timestamp),
@@ -34,7 +34,7 @@ int Department::id() const {
 std::string Department::name() const {
 
     return _name;
-} 
+}
 
 std::string Department::modified_timestamp() const {
 
@@ -49,12 +49,12 @@ bool Department::is_deleted() const {
 std::string Department::to_string() const {
 
     std::stringstream ss;
-    
-    ss << "department           "                         << std::endl;
-    ss << "id:                  " << _id                  << std::endl;
-    ss << "name:                " << _name                << std::endl; 
-    ss << "modified_timestamp:  " << _modified_timestamp  << std::endl;
-    ss << "is_deleted:          " << _is_deleted          << std::endl;
+
+    ss << "department          "                       << std::endl;
+    ss << "id:                 " << id                 << std::endl;
+    ss << "name:               " << name               << std::endl;
+    ss << "modified_timestamp: " << modified_timestamp << std::endl;
+    ss << "is_deleted:         " << is_deleted         << std::endl;
 
     return ss.str();
 }

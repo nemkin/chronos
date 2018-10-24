@@ -1,0 +1,370 @@
+{
+    "classes": [
+        {
+            "class": "class",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "class_type_id",
+                    "type": "int"
+                },
+                {
+                    "name": "course_id",
+                    "type": "int"
+                },
+                {
+                    "name": "lesson_count",
+                    "type": "int"
+                },
+                {
+                    "name": "regularity",
+                    "type": "int"
+                },
+                {
+                    "name": "maximum_student_count",
+                    "type": "int"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "class_type",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "course",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "grade_id",
+                    "type": "int"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "department",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "distance",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "location_id_1",
+                    "type": "int"
+                },
+                {
+                    "name": "location_id_2",
+                    "type": "int"
+                },
+                {
+                    "name": "distance_minutes",
+                    "type": "double"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "faculty_member",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "department_id",
+                    "type": "int"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "grade",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "major_id",
+                    "type": "int"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "license",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "course_id",
+                    "type": "int"
+                },
+                {
+                    "name": "class_type_id",
+                    "type": "int"
+                },
+                {
+                    "name": "faculty_member_id",
+                    "type": "int"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "location",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "latitude",
+                    "type": "double"
+                },
+                {
+                    "name": "longitude",
+                    "type": "double"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "major",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "room",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "room_type_id",
+                    "type": "int"
+                },
+                {
+                    "name": "size",
+                    "type": "int"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "room_type",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "size",
+                    "type": "int"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "semester",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "semester_type_id",
+                    "type": "int"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "class": "semester_type",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "name",
+                    "type": "std::string"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "std::string"
+                },
+                {
+                    "name": "is_deleted",
+                    "type": "bool"
+                }
+            ]
+        }
+    ]
+}

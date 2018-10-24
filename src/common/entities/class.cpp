@@ -13,7 +13,7 @@ Class::Class(
     _lesson_count(0),
     _regularity(0),
     _maximum_student_count(0),
-    _modified_timestamp(0),
+    _modified_timestamp(""),
     _is_deleted(false) {
 
 }
@@ -26,9 +26,9 @@ Class::Class(
     int p_lesson_count,
     int p_regularity,
     int p_maximum_student_count,
-    int p_modified_timestamp,
+    std::string p_modified_timestamp,
     bool p_is_deleted
-) : 
+) :
     _id(p_id),
     _name(p_name),
     _class_type_id(p_class_type_id),
@@ -49,10 +49,10 @@ int Class::id() const {
 std::string Class::name() const {
 
     return _name;
-} 
+}
 
 int Class::class_type_id() const {
-    
+
     return _class_type_id;
 }
 
@@ -76,7 +76,7 @@ int Class::maximum_student_count() const {
     return _maximum_student_count;
 }
 
-int Class::modified_timestamp() const {
+std::string Class::modified_timestamp() const {
 
     return _modified_timestamp;
 }
@@ -89,17 +89,17 @@ bool Class::is_deleted() const {
 std::string Class::to_string() const {
 
     std::stringstream ss;
-    
-    ss << "class:                 "                           << std::endl;
-    ss << "id:                    " << _id                    << std::endl;
-    ss << "name:                  " << _name                  << std::endl; 
-    ss << "class_type_id:         " << _class_type_id         << std::endl;
-    ss << "course_id:             " << _course_id             << std::endl;
-    ss << "lesson_count:          " << _lesson_count          << std::endl;
-    ss << "regularity:            " << _regularity            << std::endl;
-    ss << "maximum_student_count: " << _maximum_student_count << std::endl;
-    ss << "modified_timestamp:    " << _modified_timestamp    << std::endl;
-    ss << "is_deleted:            " << _is_deleted            << std::endl;
+
+    ss << "class                  "                          << std::endl;
+    ss << "id:                    " << id                    << std::endl;
+    ss << "name:                  " << name                  << std::endl;
+    ss << "class_type_id:         " << class_type_id         << std::endl;
+    ss << "course_id:             " << course_id             << std::endl;
+    ss << "lesson_count:          " << lesson_count          << std::endl;
+    ss << "regularity:            " << regularity            << std::endl;
+    ss << "maximum_student_count: " << maximum_student_count << std::endl;
+    ss << "modified_timestamp:    " << modified_timestamp    << std::endl;
+    ss << "is_deleted:            " << is_deleted            << std::endl;
 
     return ss.str();
 }

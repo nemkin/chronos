@@ -12,7 +12,7 @@ class Class {
 public:
 
     Class();
- 
+
     Class(
         int p_id,
         std::string p_name,
@@ -21,7 +21,7 @@ public:
         int p_lesson_count,
         int p_regularity,
         int p_maximum_student_count,
-        int p_modified_timestamp,
+        std::string p_modified_timestamp,
         bool p_is_deleted
     );
 
@@ -32,10 +32,9 @@ public:
     int lesson_count() const;
     int regularity() const;
     int maximum_student_count() const;
-    int modified_timestamp() const;
+    std::string modified_timestamp() const;
     bool is_deleted() const;
-
-    std::string to_string() const;     
+    std::string to_string() const;
 
 private:
 
@@ -46,9 +45,9 @@ private:
     int _lesson_count;
     int _regularity;
     int _maximum_student_count;
-    int _modified_timestamp;
+    std::string _modified_timestamp;
     bool _is_deleted;
-    
+
 };
 
 }
