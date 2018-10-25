@@ -2,10 +2,10 @@ import os
 import json
 import shutil
 
-generated_directory_path = './generated'
+generated_directory_path = 'generated'
 
-entities_directory_path = './generated/entities'
-database_directory_path = './generated/database'
+entities_directory_path = 'generated/entities'
+database_directory_path = 'generated/database'
 
 type_model_file_path = 'descriptors/type_model.json'
 data_model_file_path = 'descriptors/data_model.json'
@@ -17,6 +17,10 @@ with open(type_model_file_path) as type_model_file:
 with open(data_model_file_path) as data_model_file:
 
     data_model = json.load(data_model_file)
+
+def plural(noun):
+
+    return noun + ('e' if noun[-1] == 's' else '') + 's'
 
 def cpp_class_name(class_model):
 
@@ -69,7 +73,7 @@ def generate_header(class_model):
   
     for i, member in enumerate(cpp_class_members(class_model)):
         
-        header +=\
+        header += \
             '        ' +\
             type_model[member['type']]['cpp'] +\
             ' p_' +\
@@ -82,7 +86,7 @@ def generate_header(class_model):
     
     for member in cpp_class_members(class_model):
     
-        header +=\
+        header += \
             '    ' +\
             type_model[member['type']]['cpp'] +\
             ' ' +\
@@ -96,7 +100,7 @@ def generate_header(class_model):
     
     for member in cpp_class_members(class_model):
     
-        header +=\
+        header += \
             '    ' +\
             type_model[member['type']]['cpp'] +\
             ' _' +\
@@ -131,7 +135,7 @@ def generate_source(class_model):
     
     for i, member in enumerate(cpp_class_members(class_model)):
     
-        source +=\
+        source += \
             '    _' +\
             member['name'] +\
             '(' +\
@@ -147,7 +151,7 @@ def generate_source(class_model):
 
     for i, member in enumerate(cpp_class_members(class_model)):
         
-        source +=\
+        source += \
             '    ' +\
             type_model[member['type']]['cpp'] +\
             ' p_' +\
@@ -159,7 +163,7 @@ def generate_source(class_model):
     
     for i, member in enumerate(cpp_class_members(class_model)):
     
-        source +=\
+        source += \
             '    _' +\
             member['name'] +\
             '(p_' +\
@@ -174,7 +178,7 @@ def generate_source(class_model):
 
     for member in cpp_class_members(class_model):
     
-        source +=\
+        source += \
             type_model[member['type']]['cpp'] +\
             ' ' +\
             cpp_class_name(class_model) +\
@@ -195,7 +199,7 @@ def generate_source(class_model):
 
     max_len = max(map(len, [member['name'] for member in cpp_class_members(class_model)]))
 
-    source +=\
+    source += \
         '    ss << "' +\
         class_model['class'] +\
         ' ' +\
@@ -207,7 +211,7 @@ def generate_source(class_model):
 
     for member in cpp_class_members(class_model):
 
-        source +=\
+        source += \
             '    ss << "' +\
             member['name'] +\
             ':' +\
@@ -222,6 +226,167 @@ def generate_source(class_model):
     source += '    return ss.str();\n'
     source += '}\n'
     source += '\n'
+
+    return source
+
+def generate_database_header():
+
+    global type_model
+    global data_model
+
+    header = ''
+    
+    header += '#pragma once\n'
+    header += '\n'
+    header += '#ifndef __DATABASE__H__\n'    
+    header += '#define __DATABASE__H__\n'    
+    header += '\n'
+    header += '#include <string>\n'
+    header += '#include <vector>\n'
+    header += '\n'
+    header += '#include <pqxx/pqxx>\n'
+    header += '\n'
+    
+    for class_model in data_model['classes']:
+
+        header += \
+            '#include "model/' +\
+            entities_directory_path +\
+            '/' +\
+            class_model['class'] +\
+            '.h"\n'
+
+    header += '\n'
+    header += 'namespace chronos {\n' 
+    header += '\n'
+    header += 'class Database {\n'
+    header += '\n'
+    header += 'public:\n'
+    header += '\n'
+    header += '    Database(\n'
+    header += '        std::string user,\n'
+    header += '        std::string pass,\n'
+    header += '        std::string host = "localhost,"\n'
+    header += '        std::string database = "chronos"\n'
+    header += '    );\n'
+    header += '\n' 
+
+    for class_model in data_model['classes']:
+
+        header += \
+            '    std::vector<' +\
+            cpp_class_name(class_model) +\
+            '> get_' +\
+            plural(class_model['class']) +\
+            '();\n'
+
+    header += '\n'
+    header += '    void test();\n'
+    header += '    void init();\n'
+    header += '    void destroy();\n'
+    header += '\n'
+    header += 'private:\n'
+    header += '\n'
+    header += '    pqxx::connection _db;'
+    header += '\n'
+    header += '};\n'
+    header += '\n'
+    header += '}\n'
+    header += '\n' 
+    header += '#endif //__DATABASE__H__\n'    
+    header += '\n'
+
+    return header
+
+def generate_database_source():
+
+    global type_model
+    global data_model
+
+    source = ''
+
+    source += '#include "database.h"\n'
+    source += '\n'
+    source += '#include <iostream>\n'
+    source += '\n'
+    source += 'using namespace chronos;\n'
+    source += '\n'
+    source += 'Database::Database(\n'
+    source += '    std::string user,\n'
+    source += '    std::string password,\n'
+    source += '    std::string host,\n'
+    source += '    std::string database\n'
+    source += '):\n'
+    source += '    _db(\n'
+    source += '        "host = " + host + " "\n'
+    source += '        "dbname = " + database + " "\n'
+    source += '        "user = " + user + " "\n'
+    source += '        "password = " + password) {\n'
+    source += '\n'
+    source += '}\n'
+    source += '\n'
+
+    for class_model in data_model['classes']:
+
+        source += \
+            'std::vector<' +\
+            cpp_class_name(class_model) +\
+            '> Database::get_' +\
+            plural(class_model['class']) +\
+            '() {\n'
+
+        source += '\n'
+
+        source += \
+            '    std::vector<' +\
+            cpp_class_name(class_model) +\
+            '> ret;\n'
+
+        source += '\n'
+        source += '    try {\n'
+        source += '\n'
+        source += '        pqxx::nontransaction n(_db);\n'
+        source += '\n'
+
+        source += \
+            '        pqxx::result r(n.exec("SELECT * FROM ' +\
+            plural(class_model['class']) +\
+            ';"));\n'
+        
+        source += '\n'
+        source += '        for(auto i = r.begin(); i != r.end(); ++i) {\n'
+        source += '\n'
+        source += \
+            '            ' +\
+            cpp_class_name(class_model) +\
+            ' p(\n' 
+
+        for i, member in enumerate(cpp_class_members(class_model)):
+
+            source += \
+                '                i[' +\
+                str(i) +\
+                '].as<' +\
+                type_model[member['type']]['cpp'] +\
+                '>()' +\
+                (',' if i != len(cpp_class_members(class_model))-1 else '') +\
+                ' // ' +\
+                member['name'] +\
+                '\n'
+
+        source += '            );\n'
+        source += '\n'
+        source += '            ret.push_back(p);\n'
+        source += '        }\n'
+        source += '\n'
+        source += '    } catch (std::exception& e) {\n'
+        source += '\n'
+        source += '        std::cerr << e.what() << std::endl;\n'
+        source += '    }\n'
+        source += '\n'
+        source += '    return ret;\n'
+        source += '}\n'
+        source += '\n'
 
     return source
 
@@ -241,4 +406,12 @@ if __name__ == '__main__':
         with open(os.path.join(entities_directory_path, class_model['class'] + '.cpp'), 'w+') as source_file:
 
             source_file.write(generate_source(class_model))
+
+    with open(os.path.join(database_directory_path, 'database.h'), 'w+') as database_header_file:
+
+        database_header_file.write(generate_database_header())
+
+    with open(os.path.join(database_directory_path, 'database.cpp'), 'w+') as database_header_file:
+
+        database_header_file.write(generate_database_source())
 

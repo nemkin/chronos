@@ -1,20 +1,19 @@
 #include "database.h"
 
 #include <iostream>
-#include <vector>
 
 using namespace chronos;
 
 Database::Database(
-    std::string user_name,
+    std::string user,
     std::string password,
-    std::string host_name,
-    std::string database_name
+    std::string host,
+    std::string database
 ) :
     _db(
-        "host = " + host_name + " "
-        "dbname = " + database_name + " " 
-        "user = " + user_name + " "
+        "host = " + host + " "
+        "dbname = " + database + " " 
+        "user = " + user + " "
         "password = " + password) {
 }
 
@@ -35,12 +34,18 @@ std::vector<Department> Database::get_departments() {
             std::string modified_timestamp = i[2].as<std::string>();
             bool is_deleted = i[3].as<bool>();
 
-            Department d(id, name, modified_timestamp, is_deleted);
+            Department d(
+                id,
+                name,
+                modified_timestamp,
+                is_deleted
+            );
             
             ret.push_back(d);
         }
 
     } catch (std::exception& e) {
+
         std::cerr << e.what();
     }
 
@@ -209,7 +214,7 @@ void Database::init() {
 
 }
 
-void Database::drop() {
+void Database::destroy() {
 
     std::vector<std::string> drops;
 
