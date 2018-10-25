@@ -22,6 +22,13 @@ def plural(noun):
 
     return noun + ('e' if noun[-1] == 's' else '') + 's'
 
+def name_of_reference(reference):
+
+    return \
+        reference['class'] + '_id' \
+        if 'name' not in reference else \
+        reference['name']
+
 def cpp_class_name(class_model):
 
     return ''.join([part.capitalize() \
@@ -35,16 +42,48 @@ def cpp_class_members(class_model):
     ret = []
   
     ret += [{'name': 'id', 'type': 'id'}]
+    ret += data_model['default']['members'] 
     ret += class_model['members']
+
     for reference in class_model['references']:
 
         ret += [{\
-            'name': reference['class'] + '_id' if 'name' not in reference else reference['name'],\
+            'name': name_of_reference(reference),\
             'type': 'reference'\
         }]
 
-    ret += data_model['default']['members'] 
    
+    return ret 
+
+def sql_class_members(class_model):
+
+    ret = []
+
+    normal = []
+ 
+    normal += [{'name': 'id', 'type': 'id'}]
+    normal += data_model['default']['members'] 
+    normal += class_model['members']
+
+    for member in normal: 
+        ret += [ \
+            member['name'] +\
+            ' ' +\
+            type_model[member['type']]['sql'] +\
+            ' NOT NULL'
+        ]
+
+    for reference in class_model['references']:
+
+        ret += [ \
+            name_of_reference(reference) +\
+            ' ' +\
+            type_model['reference']['sql'] +\
+            ' REFERENCES ' +\
+            plural(reference['class']) +\
+            '(id) NOT NULL'
+        ]
+
     return ret 
 
 def generate_header(class_model):
@@ -266,7 +305,7 @@ def generate_database_header():
     header += '    Database(\n'
     header += '        std::string user,\n'
     header += '        std::string pass,\n'
-    header += '        std::string host = "localhost,"\n'
+    header += '        std::string host = "localhost",\n'
     header += '        std::string database = "chronos"\n'
     header += '    );\n'
     header += '\n' 
@@ -387,6 +426,90 @@ def generate_database_source():
         source += '    return ret;\n'
         source += '}\n'
         source += '\n'
+
+    source += 'void Database::test() {\n'
+    source += '\n'
+    source += '    if(_db.is_open()) {\n'
+    source += '\n'
+    source += '        std::cout << "Connection successful!" << std::endl;\n'
+    source += '\n'
+    source += '    } else {\n'
+    source += '\n'
+    source += '        std::cout << "Connection failed." << std::endl;\n'
+    source += '    }\n'
+    source += '}\n'
+    source += '\n'
+    source += 'void Database::init() {\n'
+    source += '\n'
+    source += '    std::vector<std::string> creates;\n'
+    source += '\n'
+
+    for class_model in data_model['classes']:
+
+        source += '    creates.push_back(\n'
+        source += \
+            '        "CREATE TABLE ' +\
+            plural(class_model['class']) +\
+            ' ( "\n'
+
+        for i, member in enumerate(sql_class_members(class_model)):
+        
+            source += \
+                '            "' +\
+                member +\
+                (', ' if i != len(sql_class_members(class_model))-1 else ');') +\
+                '"\n'
+
+        source += '    );\n'
+        source += '\n'
+
+    source += '    try {\n'
+    source += '\n'
+    source += '        pqxx::work w(_db);\n'
+    source += '\n'
+    source += '        for(auto create : creates) {\n' 
+    source += '\n'
+    source += '            w.exec(create);\n'
+    source += '        }\n'
+    source += '\n'
+    source += '        w.commit();\n'
+    source += '\n'
+    source += '    } catch (std::exception& e) {\n'
+    source += '\n'
+    source += '        std::cerr << e.what();\n'
+    source += '    }\n'
+    source += '}\n'
+    source += '\n'
+    source += 'void Database::destroy() {\n'
+    source += '\n'
+    source += '    std::vector<std::string> drops;\n'
+    source += '\n'
+
+    for class_model in data_model['classes']:
+
+        source += \
+            '    drops.push_back("DROP TABLE ' +\
+            plural(class_model['class']) +\
+            ' CASCADE;");\n'
+
+    source += '\n'
+    source += '    try {\n'
+    source += '\n'
+    source += '        pqxx::work w(_db);\n'
+    source += '\n'
+    source += '        for(auto drop : drops) {\n'
+    source += '            \n'
+    source += '            w.exec(drop);\n'
+    source += '        }\n'
+    source += '\n'
+    source += '        w.commit();\n'
+    source += '\n'
+    source += '    } catch (std::exception& e) {\n'
+    source += '\n'
+    source += '        std::cerr << e.what();\n'
+    source += '    }\n'
+    source += '}\n'
+    source += '\n'
 
     return source
 

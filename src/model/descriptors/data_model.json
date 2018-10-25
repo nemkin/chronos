@@ -13,35 +13,6 @@
     },
     "classes": [
         {
-            "class": "class",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                },
-                {
-                    "name": "lesson_count",
-                    "type": "int"
-                },
-                {
-                    "name": "regularity",
-                    "type": "int"
-                },
-                {
-                    "name": "maximum_student_count",
-                    "type": "int"
-                }
-            ],
-            "references": [
-                {
-                    "class": "class_type"
-                },
-                {
-                    "class": "course"
-                } 
-            ]
-        },
-        {
             "class": "class_type",
             "members": [
                 {
@@ -54,20 +25,6 @@
             ]
         },
         {
-            "class": "course",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "grade"
-                }
-            ]
-        },
-        {
             "class": "department",
             "members": [
                 {
@@ -77,70 +34,6 @@
             ],
             "references": [
 
-            ]
-        },
-        {
-            "class": "distance",
-            "members": [
-                {
-                    "name": "distance_minutes",
-                    "type": "double"
-                }
-            ],
-            "references": [
-                {
-                    "class": "location",
-                    "name": "location_id_1"
-                },
-                {
-                    "class": "location",
-                    "name": "location_id_2"
-                }
-            ]
-        },
-        {
-            "class": "faculty_member",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "department"
-                }
-            ]
-        },
-        {
-            "class": "grade",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "major"
-                }
-            ]
-        },
-        {
-            "class": "license",
-            "members" : [
-
-            ],
-            "references": [
-                {
-                    "class": "course"
-                },
-                {
-                    "class": "class_type"
-                },
-                {
-                    "class": "faculty_member"
-                }
             ]
         },
         {
@@ -176,6 +69,76 @@
             ]
         },
         {
+            "class": "room_type",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "size",
+                    "type": "int"
+                }
+            ],
+            "references": [
+
+            ]
+        },
+        {
+            "class": "semester_type",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+
+            ]
+        },
+        {
+            "class": "grade",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "major"
+                }
+            ]
+        },
+        {
+            "class": "course",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "grade"
+                }
+            ]
+        },
+        {
+            "class": "faculty_member",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "department"
+                }
+            ]
+        },
+        {
             "class": "room",
             "members": [
                 {
@@ -194,22 +157,6 @@
             ]
         },
         {
-            "class": "room_type",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                },
-                {
-                    "name": "size",
-                    "type": "int"
-                }
-            ],
-            "references": [
-
-            ]
-        },
-        {
             "class": "semester",
             "members": [
                 {
@@ -224,15 +171,68 @@
             ]
         },
         {
-            "class": "semester_type",
+            "class": "class",
             "members": [
                 {
                     "name": "name",
                     "type": "text"
+                },
+                {
+                    "name": "lesson_count",
+                    "type": "int"
+                },
+                {
+                    "name": "regularity",
+                    "type": "int"
+                },
+                {
+                    "name": "maximum_student_count",
+                    "type": "int"
                 }
             ],
             "references": [
+                {
+                    "class": "class_type"
+                },
+                {
+                    "class": "course"
+                } 
+            ]
+        },
+        {
+            "class": "distance",
+            "members": [
+                {
+                    "name": "distance_minutes",
+                    "type": "double"
+                }
+            ],
+            "references": [
+                {
+                    "class": "location",
+                    "name": "location_id_1"
+                },
+                {
+                    "class": "location",
+                    "name": "location_id_2"
+                }
+            ]
+        },
+        {
+            "class": "license",
+            "members" : [
 
+            ],
+            "references": [
+                {
+                    "class": "course"
+                },
+                {
+                    "class": "class_type"
+                },
+                {
+                    "class": "faculty_member"
+                }
             ]
         }
     ]

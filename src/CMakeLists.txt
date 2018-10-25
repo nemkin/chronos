@@ -46,7 +46,7 @@ include_directories(${QT_INCLUDES})
 include_directories(${PROJECT_SOURCE_DIR})
 
 set(MODEL_SOURCES
-${PROJECT_SOURCE_DIR}/common/database/database.cpp
+${PROJECT_SOURCE_DIR}/model/generated/database/database.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/class.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/class_type.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/course.cpp

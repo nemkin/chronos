@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "common/database/database.h"
+#include "model/generated/database/database.h"
 
 int main(int argc, char *argv[]) {
     
