@@ -8,7 +8,7 @@
 
 #include <pqxx/pqxx>
 
-#include "common/entities/department.h"
+#include "model/generated/entities/department.h"
 
 namespace chronos {
 

@@ -1,0 +1,239 @@
+{
+    "default": {
+        "members": [
+            {
+                "name": "modified_timestamp",
+                "type": "timestamp"
+            },
+            {
+                "name": "is_deleted",
+                "type": "bool"
+            }
+        ]
+    },
+    "classes": [
+        {
+            "class": "class",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "lesson_count",
+                    "type": "int"
+                },
+                {
+                    "name": "regularity",
+                    "type": "int"
+                },
+                {
+                    "name": "maximum_student_count",
+                    "type": "int"
+                }
+            ],
+            "references": [
+                {
+                    "class": "class_type"
+                },
+                {
+                    "class": "course"
+                } 
+            ]
+        },
+        {
+            "class": "class_type",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+
+            ]
+        },
+        {
+            "class": "course",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "grade"
+                }
+            ]
+        },
+        {
+            "class": "department",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+
+            ]
+        },
+        {
+            "class": "distance",
+            "members": [
+                {
+                    "name": "distance_minutes",
+                    "type": "double"
+                }
+            ],
+            "references": [
+                {
+                    "class": "location",
+                    "name": "location_id_1"
+                },
+                {
+                    "class": "location",
+                    "name": "location_id_2"
+                }
+            ]
+        },
+        {
+            "class": "faculty_member",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "department"
+                }
+            ]
+        },
+        {
+            "class": "grade",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "major"
+                }
+            ]
+        },
+        {
+            "class": "license",
+            "members" : [
+
+            ],
+            "references": [
+                {
+                    "class": "course"
+                },
+                {
+                    "class": "class_type"
+                },
+                {
+                    "class": "faculty_member"
+                }
+            ]
+        },
+        {
+            "class": "location",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "latitude",
+                    "type": "double"
+                },
+                {
+                    "name": "longitude",
+                    "type": "double"
+                }
+            ],
+            "references": [
+
+            ]
+        },
+        {
+            "class": "major",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+
+            ]
+        },
+        {
+            "class": "room",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "size",
+                    "type": "int"
+                }
+            ],
+            "references": [
+                {
+                    "class": "room_type"
+                }
+            ]
+        },
+        {
+            "class": "room_type",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "size",
+                    "type": "int"
+                }
+            ],
+            "references": [
+
+            ]
+        },
+        {
+            "class": "semester",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "semester_type"
+                }
+            ]
+        },
+        {
+            "class": "semester_type",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+
+            ]
+        }
+    ]
+}

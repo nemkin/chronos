@@ -191,24 +191,22 @@ void Database::init() {
             "is_deleted BOOLEAN DEFAULT false NOT NULL);"
     );
 
-    /*
     try {
-        _db.open();
 
-        for (auto create : creates) {
-            auto query = _db.exec(create);
-            qDebug() << "Query...";
-            qDebug() << query.lastQuery();
-            qDebug() << query.lastError().text();
+        pqxx::work w(_db);
+
+        for(auto create : creates) {
+            
+            w.exec(create);
         }
 
+        w.commit();
+
     } catch (std::exception& e) {
-        qDebug() << e.what();
+
+        std::cerr << e.what();
     }
 
-    _db.close();
-
-    */
 }
 
 void Database::drop() {
@@ -230,23 +228,22 @@ void Database::drop() {
     drops.push_back("DROP TABLE licenses CASCADE;");
     drops.push_back("DROP TABLE classes CASCADE;");
 
-    /*
     try {
-        _db.open();
 
-        for (auto drop : drops) {
-            auto query = _db.exec(drop);
-            qDebug() << "Query...";
-            qDebug() << query.lastQuery();
-            qDebug() << query.lastError().text();
+        pqxx::work w(_db);
+
+        for(auto drop : drops) {
+            
+            w.exec(drop);
         }
 
+        w.commit();
+
     } catch (std::exception& e) {
-        qDebug() << e.what();
+
+        std::cerr << e.what();
     }
 
-    _db.close();
-    */
 }
 
 

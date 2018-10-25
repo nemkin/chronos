@@ -45,22 +45,22 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpqxx -lpq")
 include_directories(${QT_INCLUDES})
 include_directories(${PROJECT_SOURCE_DIR})
 
-set(COMMON_SOURCES
+set(MODEL_SOURCES
 ${PROJECT_SOURCE_DIR}/common/database/database.cpp
-${PROJECT_SOURCE_DIR}/common/entities/class.cpp
-${PROJECT_SOURCE_DIR}/common/entities/class_type.cpp
-${PROJECT_SOURCE_DIR}/common/entities/course.cpp
-${PROJECT_SOURCE_DIR}/common/entities/department.cpp
-${PROJECT_SOURCE_DIR}/common/entities/distance.cpp
-${PROJECT_SOURCE_DIR}/common/entities/faculty_member.cpp
-${PROJECT_SOURCE_DIR}/common/entities/grade.cpp
-${PROJECT_SOURCE_DIR}/common/entities/license.cpp
-${PROJECT_SOURCE_DIR}/common/entities/location.cpp
-${PROJECT_SOURCE_DIR}/common/entities/major.cpp
-${PROJECT_SOURCE_DIR}/common/entities/room.cpp
-${PROJECT_SOURCE_DIR}/common/entities/room_type.cpp
-${PROJECT_SOURCE_DIR}/common/entities/semester.cpp
-${PROJECT_SOURCE_DIR}/common/entities/semester_type.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/class.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/class_type.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/course.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/department.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/distance.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/faculty_member.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/grade.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/license.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/location.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/major.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/room.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/room_type.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/semester.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/semester_type.cpp
 )
 
 set(SERVER_SOURCES
@@ -74,12 +74,12 @@ ${PROJECT_SOURCE_DIR}/client/main.cpp
 message(${PQXX_LIB})
 message(${PQ_LIB})
 
-add_executable(server ${COMMON_SOURCES} ${SERVER_SOURCES})
+add_executable(server ${MODEL_SOURCES} ${SERVER_SOURCES})
 target_link_libraries(server ${PQXX_LIB} ${PQ_LIB})
 
 # target_link_libraries(server ${QT_LIBRARIES})
 
-add_executable(client ${COMMON_SOURCES} ${CLIENT_SOURCES})
+add_executable(client ${MODEL_SOURCES} ${CLIENT_SOURCES})
 target_link_libraries(client ${PQXX_LIB} ${PQ_LIB})
 
 # target_link_libraries(client ${QT_LIBRARIES})

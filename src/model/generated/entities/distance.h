@@ -15,17 +15,17 @@ public:
 
     Distance(
         int p_id,
+        double p_distance_minutes,
         int p_location_id_1,
         int p_location_id_2,
-        double p_distance_minutes,
         std::string p_modified_timestamp,
         bool p_is_deleted
     );
 
     int id() const;
+    double distance_minutes() const;
     int location_id_1() const;
     int location_id_2() const;
-    double distance_minutes() const;
     std::string modified_timestamp() const;
     bool is_deleted() const;
     std::string to_string() const;
@@ -33,9 +33,9 @@ public:
 private:
 
     int _id;
+    double _distance_minutes;
     int _location_id_1;
     int _location_id_2;
-    double _distance_minutes;
     std::string _modified_timestamp;
     bool _is_deleted;
 
