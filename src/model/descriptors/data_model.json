@@ -13,92 +13,26 @@
     },
     "classes": [
         {
-            "class": "class_type",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-
-            ]
-        },
-        {
-            "class": "department",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-
-            ]
-        },
-        {
-            "class": "location",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                },
-                {
-                    "name": "latitude",
-                    "type": "double"
-                },
-                {
-                    "name": "longitude",
-                    "type": "double"
-                }
-            ],
-            "references": [
-
-            ]
-        },
-        {
             "class": "major",
             "members": [
                 {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-
-            ]
-        },
-        {
-            "class": "room_type",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
+                    "name": "id",
+                    "type": "id"
                 },
                 {
-                    "name": "size",
-                    "type": "int"
-                }
-            ],
-            "references": [
-
-            ]
-        },
-        {
-            "class": "semester_type",
-            "members": [
-                {
                     "name": "name",
                     "type": "text"
                 }
             ],
-            "references": [
-
-            ]
+            "references": []
         },
         {
             "class": "grade",
             "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
                 {
                     "name": "name",
                     "type": "text"
@@ -111,54 +45,26 @@
             ]
         },
         {
-            "class": "course",
+            "class": "semester_type",
             "members": [
                 {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "grade"
-                }
-            ]
-        },
-        {
-            "class": "faculty_member",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "department"
-                }
-            ]
-        },
-        {
-            "class": "room",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
+                    "name": "id",
+                    "type": "id"
                 },
                 {
-                    "name": "size",
-                    "type": "int"
+                    "name": "name",
+                    "type": "text"
                 }
             ],
-            "references": [
-                {
-                    "class": "room_type"
-                }
-            ]
+            "references": []
         },
         {
             "class": "semester",
             "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
                 {
                     "name": "name",
                     "type": "text"
@@ -171,8 +77,118 @@
             ]
         },
         {
+            "class": "department",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "short",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "course",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "grade"
+                },
+                {
+                    "class": "department"
+                }
+            ]
+        },
+        {
+            "class": "class_type",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "location",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "room_type",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "room",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "size",
+                    "type": "int"
+                }
+            ],
+            "references": [
+                {
+                    "class": "room_type"
+                },
+                {
+                    "class": "location"
+                }
+            ]
+        },
+        {
             "class": "class",
             "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
                 {
                     "name": "name",
                     "type": "text"
@@ -183,7 +199,7 @@
                 },
                 {
                     "name": "regularity",
-                    "type": "int"
+                    "type": "text"
                 },
                 {
                     "name": "maximum_student_count",
@@ -196,32 +212,34 @@
                 },
                 {
                     "class": "course"
-                } 
+                }
             ]
         },
         {
-            "class": "distance",
+            "class": "faculty_member",
             "members": [
                 {
-                    "name": "distance_minutes",
-                    "type": "double"
+                    "name": "id",
+                    "type": "id"
+                },
+                {
+                    "name": "name",
+                    "type": "text"
                 }
             ],
             "references": [
                 {
-                    "class": "location",
-                    "name": "location_id_1"
-                },
-                {
-                    "class": "location",
-                    "name": "location_id_2"
+                    "class": "department"
                 }
             ]
         },
         {
             "class": "license",
-            "members" : [
-
+            "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                }
             ],
             "references": [
                 {
