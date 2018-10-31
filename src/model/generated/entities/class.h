@@ -17,9 +17,10 @@ public:
         int p_id,
         std::string p_modified_timestamp,
         bool p_is_deleted,
+        int p_id,
         std::string p_name,
         int p_lesson_count,
-        int p_regularity,
+        std::string p_regularity,
         int p_maximum_student_count,
         int p_class_type_id,
         int p_course_id
@@ -28,9 +29,10 @@ public:
     int id() const;
     std::string modified_timestamp() const;
     bool is_deleted() const;
+    int id() const;
     std::string name() const;
     int lesson_count() const;
-    int regularity() const;
+    std::string regularity() const;
     int maximum_student_count() const;
     int class_type_id() const;
     int course_id() const;
@@ -41,9 +43,10 @@ private:
     int _id;
     std::string _modified_timestamp;
     bool _is_deleted;
+    int _id;
     std::string _name;
     int _lesson_count;
-    int _regularity;
+    std::string _regularity;
     int _maximum_student_count;
     int _class_type_id;
     int _course_id;

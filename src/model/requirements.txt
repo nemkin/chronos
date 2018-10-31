@@ -1,0 +1,29 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: linux-64
+bzip2=1.0.6=h470a237_2
+ca-certificates=2018.10.15=ha4d7672_0
+certifi=2018.10.15=py37_1000
+icu=58.2=hfc679d8_0
+libffi=3.2.1=hfc679d8_5
+libgcc-ng=7.2.0=hdf63c60_3
+libiconv=1.15=h470a237_3
+libstdcxx-ng=7.2.0=hdf63c60_3
+libxml2=2.9.8=h422b904_5
+libxslt=1.1.32=h88dbc4e_2
+lml=0.0.1=py_0
+lxml=4.2.5=py37hc9114bc_0
+ncurses=6.1=hfc679d8_1
+openssl=1.0.2p=h470a237_1
+pip=18.1=py37_1000
+pyexcel-ezodf=0.3.4=py_0
+pyexcel-io=0.5.9.1=py_0
+pyexcel-ods3=0.5.2=py_0
+python=3.7.0=h5001a0f_4
+readline=7.0=haf1bffa_1
+setuptools=40.5.0=py37_0
+sqlite=3.25.2=hb1c47c0_0
+tk=8.6.8=ha92aebf_0
+wheel=0.32.2=py37_0
+xz=5.2.4=h470a237_1
+zlib=1.2.11=h470a237_3

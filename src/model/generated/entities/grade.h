@@ -17,6 +17,7 @@ public:
         int p_id,
         std::string p_modified_timestamp,
         bool p_is_deleted,
+        int p_id,
         std::string p_name,
         int p_major_id
     );
@@ -24,6 +25,7 @@ public:
     int id() const;
     std::string modified_timestamp() const;
     bool is_deleted() const;
+    int id() const;
     std::string name() const;
     int major_id() const;
     std::string to_string() const;
@@ -33,6 +35,7 @@ private:
     int _id;
     std::string _modified_timestamp;
     bool _is_deleted;
+    int _id;
     std::string _name;
     int _major_id;
 
