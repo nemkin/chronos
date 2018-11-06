@@ -216,24 +216,6 @@
             ]
         },
         {
-            "class": "faculty_member",
-            "members": [
-                {
-                    "name": "id",
-                    "type": "id"
-                },
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "department"
-                }
-            ]
-        },
-        {
             "class": "license",
             "members": [
                 {
@@ -250,6 +232,24 @@
                 },
                 {
                     "class": "faculty_member"
+                }
+            ]
+        },
+        {
+            "class": "faculty_member",
+            "members": [
+                {
+                    "name": "id",
+                    "type": "id"
+                },
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "department"
                 }
             ]
         }

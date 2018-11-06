@@ -372,38 +372,6 @@ std::vector<Class> Database::get_classes() {
     return ret;
 }
 
-std::vector<FacultyMember> Database::get_faculty_members() {
-
-    std::vector<FacultyMember> ret;
-
-    try {
-
-        pqxx::nontransaction n(_db);
-
-        pqxx::result r(n.exec("SELECT * FROM faculty_members;"));
-
-        for(auto i = r.begin(); i != r.end(); ++i) {
-
-            FacultyMember p(
-                i[0].as<int>(), // id
-                i[1].as<std::string>(), // modified_timestamp
-                i[2].as<bool>(), // is_deleted
-                i[3].as<int>(), // id
-                i[4].as<std::string>(), // name
-                i[5].as<int>() // department_id
-            );
-
-            ret.push_back(p);
-        }
-
-    } catch (std::exception& e) {
-
-        std::cerr << e.what() << std::endl;
-    }
-
-    return ret;
-}
-
 std::vector<License> Database::get_licenses() {
 
     std::vector<License> ret;
@@ -424,6 +392,38 @@ std::vector<License> Database::get_licenses() {
                 i[4].as<int>(), // course_id
                 i[5].as<int>(), // class_type_id
                 i[6].as<int>() // faculty_member_id
+            );
+
+            ret.push_back(p);
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::vector<FacultyMember> Database::get_faculty_members() {
+
+    std::vector<FacultyMember> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM faculty_members;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            FacultyMember p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<int>(), // id
+                i[4].as<std::string>(), // name
+                i[5].as<int>() // department_id
             );
 
             ret.push_back(p);
@@ -566,16 +566,6 @@ void Database::init() {
     );
 
     creates.push_back(
-        "CREATE TABLE faculty_members ( "
-            "id SERIAL PRIMARY KEY NOT NULL, "
-            "modified_timestamp TIMESTAMP NOT NULL, "
-            "is_deleted BOOLEAN NOT NULL, "
-            "id SERIAL PRIMARY KEY NOT NULL, "
-            "name TEXT NOT NULL, "
-            "department_id INTEGER REFERENCES departments(id) NOT NULL);"
-    );
-
-    creates.push_back(
         "CREATE TABLE licenses ( "
             "id SERIAL PRIMARY KEY NOT NULL, "
             "modified_timestamp TIMESTAMP NOT NULL, "
@@ -584,6 +574,16 @@ void Database::init() {
             "course_id INTEGER REFERENCES courses(id) NOT NULL, "
             "class_type_id INTEGER REFERENCES class_types(id) NOT NULL, "
             "faculty_member_id INTEGER REFERENCES faculty_members(id) NOT NULL);"
+    );
+
+    creates.push_back(
+        "CREATE TABLE faculty_members ( "
+            "id SERIAL PRIMARY KEY NOT NULL, "
+            "modified_timestamp TIMESTAMP NOT NULL, "
+            "is_deleted BOOLEAN NOT NULL, "
+            "id SERIAL PRIMARY KEY NOT NULL, "
+            "name TEXT NOT NULL, "
+            "department_id INTEGER REFERENCES departments(id) NOT NULL);"
     );
 
     try {
@@ -618,8 +618,8 @@ void Database::destroy() {
     drops.push_back("DROP TABLE room_types CASCADE;");
     drops.push_back("DROP TABLE rooms CASCADE;");
     drops.push_back("DROP TABLE classes CASCADE;");
-    drops.push_back("DROP TABLE faculty_members CASCADE;");
     drops.push_back("DROP TABLE licenses CASCADE;");
+    drops.push_back("DROP TABLE faculty_members CASCADE;");
 
     try {
 
