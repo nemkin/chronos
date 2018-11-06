@@ -9,7 +9,6 @@ Class::Class(
     _id(0),
     _modified_timestamp(""),
     _is_deleted(false),
-    _id(0),
     _name(""),
     _lesson_count(0),
     _regularity(""),
@@ -23,7 +22,6 @@ Class::Class(
     int p_id,
     std::string p_modified_timestamp,
     bool p_is_deleted,
-    int p_id,
     std::string p_name,
     int p_lesson_count,
     std::string p_regularity,
@@ -34,7 +32,6 @@ Class::Class(
     _id(p_id),
     _modified_timestamp(p_modified_timestamp),
     _is_deleted(p_is_deleted),
-    _id(p_id),
     _name(p_name),
     _lesson_count(p_lesson_count),
     _regularity(p_regularity),
@@ -57,11 +54,6 @@ std::string Class::modified_timestamp() const {
 bool Class::is_deleted() const {
 
     return _is_deleted;
-}
-
-int Class::id() const {
-
-    return _id;
 }
 
 std::string Class::name() const {
@@ -102,7 +94,6 @@ std::string Class::to_string() const {
     ss << "id:                    " << _id                    << std::endl;
     ss << "modified_timestamp:    " << _modified_timestamp    << std::endl;
     ss << "is_deleted:            " << _is_deleted            << std::endl;
-    ss << "id:                    " << _id                    << std::endl;
     ss << "name:                  " << _name                  << std::endl;
     ss << "lesson_count:          " << _lesson_count          << std::endl;
     ss << "regularity:            " << _regularity            << std::endl;

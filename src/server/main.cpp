@@ -16,7 +16,6 @@ int main(int argc, char *argv[]) {
     chronos::Database d(user, pass);
     
     d.test(); 
-    d.destroy();
     d.init();
 
     std::vector<chronos::Department> departments = d.get_departments();

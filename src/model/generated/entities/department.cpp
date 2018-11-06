@@ -9,9 +9,8 @@ Department::Department(
     _id(0),
     _modified_timestamp(""),
     _is_deleted(false),
-    _id(0),
     _name(""),
-    _short("") {
+    _short_name("") {
 
 }
 
@@ -19,16 +18,14 @@ Department::Department(
     int p_id,
     std::string p_modified_timestamp,
     bool p_is_deleted,
-    int p_id,
     std::string p_name,
-    std::string p_short
+    std::string p_short_name
 ) :
     _id(p_id),
     _modified_timestamp(p_modified_timestamp),
     _is_deleted(p_is_deleted),
-    _id(p_id),
     _name(p_name),
-    _short(p_short) {
+    _short_name(p_short_name) {
 
 }
 
@@ -47,19 +44,14 @@ bool Department::is_deleted() const {
     return _is_deleted;
 }
 
-int Department::id() const {
-
-    return _id;
-}
-
 std::string Department::name() const {
 
     return _name;
 }
 
-std::string Department::short() const {
+std::string Department::short_name() const {
 
-    return _short;
+    return _short_name;
 }
 
 std::string Department::to_string() const {
@@ -70,9 +62,8 @@ std::string Department::to_string() const {
     ss << "id:                 " << _id                 << std::endl;
     ss << "modified_timestamp: " << _modified_timestamp << std::endl;
     ss << "is_deleted:         " << _is_deleted         << std::endl;
-    ss << "id:                 " << _id                 << std::endl;
     ss << "name:               " << _name               << std::endl;
-    ss << "short:              " << _short              << std::endl;
+    ss << "short_name:         " << _short_name         << std::endl;
 
     return ss.str();
 }

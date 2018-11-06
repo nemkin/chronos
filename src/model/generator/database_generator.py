@@ -18,9 +18,10 @@ def header(type_model, data_model, entities_directory_path):
     
     for class_model in data_model['classes']:
 
+        # Hot fix. Entity path has ../ in it.
         header += \
             '#include "model/' +\
-            entities_directory_path +\
+            entities_directory_path[3:] +\
             '/' +\
             class_model['class'] +\
             '.h"\n'

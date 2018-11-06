@@ -16,10 +16,6 @@
             "class": "major",
             "members": [
                 {
-                    "name": "id",
-                    "type": "id"
-                },
-                {
                     "name": "name",
                     "type": "text"
                 }
@@ -29,10 +25,6 @@
         {
             "class": "grade",
             "members": [
-                {
-                    "name": "id",
-                    "type": "id"
-                },
                 {
                     "name": "name",
                     "type": "text"
@@ -48,10 +40,6 @@
             "class": "semester_type",
             "members": [
                 {
-                    "name": "id",
-                    "type": "id"
-                },
-                {
                     "name": "name",
                     "type": "text"
                 }
@@ -61,10 +49,6 @@
         {
             "class": "semester",
             "members": [
-                {
-                    "name": "id",
-                    "type": "id"
-                },
                 {
                     "name": "name",
                     "type": "text"
@@ -80,15 +64,11 @@
             "class": "department",
             "members": [
                 {
-                    "name": "id",
-                    "type": "id"
-                },
-                {
                     "name": "name",
                     "type": "text"
                 },
                 {
-                    "name": "short",
+                    "name": "short_name",
                     "type": "text"
                 }
             ],
@@ -97,10 +77,6 @@
         {
             "class": "course",
             "members": [
-                {
-                    "name": "id",
-                    "type": "id"
-                },
                 {
                     "name": "name",
                     "type": "text"
@@ -119,10 +95,6 @@
             "class": "class_type",
             "members": [
                 {
-                    "name": "id",
-                    "type": "id"
-                },
-                {
                     "name": "name",
                     "type": "text"
                 }
@@ -132,10 +104,6 @@
         {
             "class": "location",
             "members": [
-                {
-                    "name": "id",
-                    "type": "id"
-                },
                 {
                     "name": "name",
                     "type": "text"
@@ -147,10 +115,6 @@
             "class": "room_type",
             "members": [
                 {
-                    "name": "id",
-                    "type": "id"
-                },
-                {
                     "name": "name",
                     "type": "text"
                 }
@@ -160,10 +124,6 @@
         {
             "class": "room",
             "members": [
-                {
-                    "name": "id",
-                    "type": "id"
-                },
                 {
                     "name": "name",
                     "type": "text"
@@ -185,10 +145,6 @@
         {
             "class": "class",
             "members": [
-                {
-                    "name": "id",
-                    "type": "id"
-                },
                 {
                     "name": "name",
                     "type": "text"
@@ -216,13 +172,22 @@
             ]
         },
         {
-            "class": "license",
+            "class": "faculty_member",
             "members": [
                 {
-                    "name": "id",
-                    "type": "id"
+                    "name": "name",
+                    "type": "text"
                 }
             ],
+            "references": [
+                {
+                    "class": "department"
+                }
+            ]
+        },
+        {
+            "class": "license",
+            "members": [],
             "references": [
                 {
                     "class": "course"
@@ -232,24 +197,6 @@
                 },
                 {
                     "class": "faculty_member"
-                }
-            ]
-        },
-        {
-            "class": "faculty_member",
-            "members": [
-                {
-                    "name": "id",
-                    "type": "id"
-                },
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "department"
                 }
             ]
         }

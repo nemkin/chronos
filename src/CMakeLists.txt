@@ -51,7 +51,6 @@ ${PROJECT_SOURCE_DIR}/model/generated/entities/class.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/class_type.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/course.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/department.cpp
-${PROJECT_SOURCE_DIR}/model/generated/entities/distance.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/faculty_member.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/grade.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/license.cpp
