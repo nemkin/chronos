@@ -6,6 +6,8 @@ project(chronos)
 find_library(PQXX_LIB pqxx)
 find_library(PQ_LIB pq)
 
+find_package(ortools CONFIG REQUIRED)
+
 # find_package(Qt5Core)
 # find_package(Qt5Network)
 # find_package(Qt5Sql)
@@ -52,14 +54,11 @@ ${PROJECT_SOURCE_DIR}/model/generated/entities/class_type.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/course.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/department.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/faculty_member.cpp
-${PROJECT_SOURCE_DIR}/model/generated/entities/grade.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/license.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/location.cpp
-${PROJECT_SOURCE_DIR}/model/generated/entities/major.cpp
 ${PROJECT_SOURCE_DIR}/model/generated/entities/room.cpp
-${PROJECT_SOURCE_DIR}/model/generated/entities/room_type.cpp
-${PROJECT_SOURCE_DIR}/model/generated/entities/semester.cpp
-${PROJECT_SOURCE_DIR}/model/generated/entities/semester_type.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/timeslot.cpp
+${PROJECT_SOURCE_DIR}/model/generated/entities/year.cpp
 )
 
 set(SERVER_SOURCES
@@ -75,6 +74,7 @@ message(${PQ_LIB})
 
 add_executable(server ${MODEL_SOURCES} ${SERVER_SOURCES})
 target_link_libraries(server ${PQXX_LIB} ${PQ_LIB})
+target_link_libraries(server ortools::ortools)
 
 # target_link_libraries(server ${QT_LIBRARIES})
 

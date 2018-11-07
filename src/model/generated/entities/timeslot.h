@@ -1,19 +1,19 @@
 #pragma once
 
-#ifndef __MAJOR__H__
-#define __MAJOR__H__
+#ifndef __TIMESLOT__H__
+#define __TIMESLOT__H__
 
 #include <string>
 
 namespace chronos {
 
-class Major {
+class Timeslot {
 
 public:
 
-    Major();
+    Timeslot();
 
-    Major(
+    Timeslot(
         int p_id,
         std::string p_modified_timestamp,
         bool p_is_deleted,
@@ -37,5 +37,5 @@ private:
 
 }
 
-#endif //__MAJOR__H__
+#endif //__TIMESLOT__H__
 

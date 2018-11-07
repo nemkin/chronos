@@ -34,10 +34,10 @@ def header(type_model, data_model, entities_directory_path):
     header += 'public:\n'
     header += '\n'
     header += '    Database(\n'
-    header += '        std::string user,\n'
-    header += '        std::string pass,\n'
-    header += '        std::string host = "localhost",\n'
-    header += '        std::string database = "chronos"\n'
+    header += '        std::string p_user,\n'
+    header += '        std::string p_pass,\n'
+    header += '        std::string p_host = "localhost",\n'
+    header += '        std::string p_database = "chronos"\n'
     header += '    );\n'
     header += '\n' 
 
@@ -53,11 +53,13 @@ def header(type_model, data_model, entities_directory_path):
     header += '\n'
     header += '    void test();\n'
     header += '    void init();\n'
+    header += '    void fill();\n'
     header += '    void destroy();\n'
     header += '\n'
     header += 'private:\n'
     header += '\n'
-    header += '    pqxx::connection _db;'
+    header += '    std::string _user;\n'
+    header += '    pqxx::connection _db;\n'
     header += '\n'
     header += '};\n'
     header += '\n'
@@ -68,7 +70,7 @@ def header(type_model, data_model, entities_directory_path):
 
     return header
 
-def source(type_model, data_model):
+def source(type_model, data_model, data_sql):
 
     source = ''
 
@@ -79,16 +81,17 @@ def source(type_model, data_model):
     source += 'using namespace chronos;\n'
     source += '\n'
     source += 'Database::Database(\n'
-    source += '    std::string user,\n'
-    source += '    std::string password,\n'
-    source += '    std::string host,\n'
-    source += '    std::string database\n'
+    source += '    std::string p_user,\n'
+    source += '    std::string p_password,\n'
+    source += '    std::string p_host,\n'
+    source += '    std::string p_database\n'
     source += '):\n'
+    source += '    _user(p_user),\n'
     source += '    _db(\n'
-    source += '        "host = " + host + " "\n'
-    source += '        "dbname = " + database + " "\n'
-    source += '        "user = " + user + " "\n'
-    source += '        "password = " + password) {\n'
+    source += '        "host = " + p_host + " "\n'
+    source += '        "dbname = " + p_database + " "\n'
+    source += '        "user = " + p_user + " "\n'
+    source += '        "password = " + p_password) {\n'
     source += '\n'
     source += '}\n'
     source += '\n'
@@ -208,26 +211,22 @@ def source(type_model, data_model):
     source += '    }\n'
     source += '}\n'
     source += '\n'
-    source += 'void Database::destroy() {\n'
+    source += 'void Database::fill() {\n'
     source += '\n'
-    source += '    std::vector<std::string> drops;\n'
+    source += '    std::vector<std::string> inserts;\n'
     source += '\n'
 
-    for class_model in data_model['classes']:
+    for sql in data_sql:
 
-        source += \
-            '    drops.push_back("DROP TABLE ' +\
-            utils.plural(class_model['class']) +\
-            ' CASCADE;");\n'
+        source += '    inserts.push_back("'+sql+'");\n'
 
-    source += '\n'
     source += '    try {\n'
     source += '\n'
     source += '        pqxx::work w(_db);\n'
     source += '\n'
-    source += '        for(auto drop : drops) {\n'
-    source += '            \n'
-    source += '            w.exec(drop);\n'
+    source += '        for(auto insert : inserts) {\n' 
+    source += '\n'
+    source += '            w.exec(insert);\n'
     source += '        }\n'
     source += '\n'
     source += '        w.commit();\n'
@@ -239,9 +238,24 @@ def source(type_model, data_model):
     source += '}\n'
     source += '\n'
 
+    source += 'void Database::destroy() {\n'
+    source += '\n'
+    source += '    try {\n'
+    source += '\n'
+    source += '        pqxx::work w(_db);\n'
+    source += '        w.exec("DROP OWNED BY " + _user + ";");\n'
+    source += '        w.commit();\n'
+    source += '\n'
+    source += '    } catch (std::exception& e) {\n'
+    source += '\n'
+    source += '        std::cerr << e.what();\n'
+    source += '    }\n'
+    source += '}\n'
+    source += '\n'
+
     return source
 
-def generate(path, type_model, data_model, entities_directory_path):
+def generate(path, type_model, data_model, data_sql, entities_directory_path):
 
     with open(os.path.join(path, 'database.h'), 'w+') as file:
     
@@ -249,5 +263,5 @@ def generate(path, type_model, data_model, entities_directory_path):
     
     with open(os.path.join(path, 'database.cpp'), 'w+') as file:
     
-        file.write(source(type_model, data_model))
+        file.write(source(type_model, data_model, data_sql))
 

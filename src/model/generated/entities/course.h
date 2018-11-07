@@ -18,7 +18,7 @@ public:
         std::string p_modified_timestamp,
         bool p_is_deleted,
         std::string p_name,
-        int p_grade_id,
+        int p_year_id,
         int p_department_id
     );
 
@@ -26,7 +26,7 @@ public:
     std::string modified_timestamp() const;
     bool is_deleted() const;
     std::string name() const;
-    int grade_id() const;
+    int year_id() const;
     int department_id() const;
     std::string to_string() const;
 
@@ -36,7 +36,7 @@ private:
     std::string _modified_timestamp;
     bool _is_deleted;
     std::string _name;
-    int _grade_id;
+    int _year_id;
     int _department_id;
 
 };

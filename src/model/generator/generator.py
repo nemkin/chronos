@@ -14,6 +14,7 @@ descriptors_directory_path = '../descriptors'
 
 type_model_file_path = descriptors_directory_path + '/type_model.json'
 data_model_file_path = descriptors_directory_path + '/data_model.json'
+data_sql_file_path = descriptors_directory_path + '/data.sql'
 
 with open(type_model_file_path) as type_model_file:
 
@@ -23,6 +24,10 @@ with open(data_model_file_path) as data_model_file:
 
     data_model = json.load(data_model_file)
 
+with open(data_sql_file_path) as data_sql_file:
+
+    data_sql = data_sql_file.read().splitlines()
+    
 shutil.rmtree(generated_directory_path)
 
 os.makedirs(entities_directory_path)
@@ -32,5 +37,5 @@ for class_model in data_model['classes']:
 
     entity_generator.generate(entities_directory_path, type_model, data_model, class_model)
 
-database_generator.generate(database_directory_path, type_model, data_model, entities_directory_path)
+database_generator.generate(database_directory_path, type_model, data_model, data_sql, entities_directory_path)
  

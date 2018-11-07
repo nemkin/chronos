@@ -1,10 +1,10 @@
-#include "semester_type.h"
+#include "timeslot.h"
 
 #include <sstream>
 
 using namespace chronos;
 
-SemesterType::SemesterType(
+Timeslot::Timeslot(
 ) :
     _id(0),
     _modified_timestamp(""),
@@ -13,7 +13,7 @@ SemesterType::SemesterType(
 
 }
 
-SemesterType::SemesterType(
+Timeslot::Timeslot(
     int p_id,
     std::string p_modified_timestamp,
     bool p_is_deleted,
@@ -26,31 +26,31 @@ SemesterType::SemesterType(
 
 }
 
-int SemesterType::id() const {
+int Timeslot::id() const {
 
     return _id;
 }
 
-std::string SemesterType::modified_timestamp() const {
+std::string Timeslot::modified_timestamp() const {
 
     return _modified_timestamp;
 }
 
-bool SemesterType::is_deleted() const {
+bool Timeslot::is_deleted() const {
 
     return _is_deleted;
 }
 
-std::string SemesterType::name() const {
+std::string Timeslot::name() const {
 
     return _name;
 }
 
-std::string SemesterType::to_string() const {
+std::string Timeslot::to_string() const {
 
     std::stringstream ss;
 
-    ss << "semester_type       "                        << std::endl;
+    ss << "timeslot            "                        << std::endl;
     ss << "id:                 " << _id                 << std::endl;
     ss << "modified_timestamp: " << _modified_timestamp << std::endl;
     ss << "is_deleted:         " << _is_deleted         << std::endl;

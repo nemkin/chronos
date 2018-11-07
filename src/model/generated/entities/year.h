@@ -1,19 +1,19 @@
 #pragma once
 
-#ifndef __SEMESTER_TYPE__H__
-#define __SEMESTER_TYPE__H__
+#ifndef __YEAR__H__
+#define __YEAR__H__
 
 #include <string>
 
 namespace chronos {
 
-class SemesterType {
+class Year {
 
 public:
 
-    SemesterType();
+    Year();
 
-    SemesterType(
+    Year(
         int p_id,
         std::string p_modified_timestamp,
         bool p_is_deleted,
@@ -37,5 +37,5 @@ private:
 
 }
 
-#endif //__SEMESTER_TYPE__H__
+#endif //__YEAR__H__
 

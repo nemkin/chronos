@@ -13,7 +13,7 @@
     },
     "classes": [
         {
-            "class": "major",
+            "class": "timeslot",
             "members": [
                 {
                     "name": "name",
@@ -23,21 +23,7 @@
             "references": []
         },
         {
-            "class": "grade",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "major"
-                }
-            ]
-        },
-        {
-            "class": "semester_type",
+            "class": "year",
             "members": [
                 {
                     "name": "name",
@@ -45,20 +31,6 @@
                 }
             ],
             "references": []
-        },
-        {
-            "class": "semester",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "semester_type"
-                }
-            ]
         },
         {
             "class": "department",
@@ -84,7 +56,7 @@
             ],
             "references": [
                 {
-                    "class": "grade"
+                    "class": "year"
                 },
                 {
                     "class": "department"
@@ -112,33 +84,19 @@
             "references": []
         },
         {
-            "class": "room_type",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": []
-        },
-        {
             "class": "room",
             "members": [
                 {
                     "name": "name",
                     "type": "text"
-                },
-                {
-                    "name": "size",
-                    "type": "int"
                 }
             ],
             "references": [
                 {
-                    "class": "room_type"
+                    "class": "location"
                 },
                 {
-                    "class": "location"
+                    "class": "class_type"
                 }
             ]
         },
@@ -148,18 +106,6 @@
                 {
                     "name": "name",
                     "type": "text"
-                },
-                {
-                    "name": "lesson_count",
-                    "type": "int"
-                },
-                {
-                    "name": "regularity",
-                    "type": "text"
-                },
-                {
-                    "name": "maximum_student_count",
-                    "type": "int"
                 }
             ],
             "references": [

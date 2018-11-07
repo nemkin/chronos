@@ -10,7 +10,7 @@ Course::Course(
     _modified_timestamp(""),
     _is_deleted(false),
     _name(""),
-    _grade_id(0),
+    _year_id(0),
     _department_id(0) {
 
 }
@@ -20,14 +20,14 @@ Course::Course(
     std::string p_modified_timestamp,
     bool p_is_deleted,
     std::string p_name,
-    int p_grade_id,
+    int p_year_id,
     int p_department_id
 ) :
     _id(p_id),
     _modified_timestamp(p_modified_timestamp),
     _is_deleted(p_is_deleted),
     _name(p_name),
-    _grade_id(p_grade_id),
+    _year_id(p_year_id),
     _department_id(p_department_id) {
 
 }
@@ -52,9 +52,9 @@ std::string Course::name() const {
     return _name;
 }
 
-int Course::grade_id() const {
+int Course::year_id() const {
 
-    return _grade_id;
+    return _year_id;
 }
 
 int Course::department_id() const {
@@ -71,7 +71,7 @@ std::string Course::to_string() const {
     ss << "modified_timestamp: " << _modified_timestamp << std::endl;
     ss << "is_deleted:         " << _is_deleted         << std::endl;
     ss << "name:               " << _name               << std::endl;
-    ss << "grade_id:           " << _grade_id           << std::endl;
+    ss << "year_id:            " << _year_id            << std::endl;
     ss << "department_id:      " << _department_id      << std::endl;
 
     return ss.str();

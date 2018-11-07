@@ -9,3 +9,5 @@ build
 *.toc
 *.swp
 
+# Python
+__pycache__
