@@ -16,13 +16,20 @@ int main(int argc, char *argv[]) {
     chronos::Database d(user, pass);
     
     d.test(); 
-    d.init();
+    ///d.init();
 
     std::vector<chronos::Department> departments = d.get_departments();
 
     for(auto dep: departments) {
+
          std::cout << dep.to_string() << std::endl;
     }
     
+    std::vector<chronos::FacultyMember> faculty_members = d.get_faculty_members();
+
+    for(auto fm: faculty_members) {
+
+         std::cout << fm.to_string() << std::endl;
+    }
     return 0;
 }

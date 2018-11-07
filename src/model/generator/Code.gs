@@ -6,6 +6,12 @@ function run() {
   generate_sql();
 }
 
+function plural(noun) {
+
+    if(noun[noun.length-1] == 's') return noun + "es";
+    return noun + "s";
+}
+
 function Table(name) {
   
   this.name = name;
@@ -107,7 +113,7 @@ function generate_faculty_members_and_licenses() {
         var row = faculty_member.new_row();
         
         row[faculty_member.indexOf("id")] = faculty_member_id;
-        row[faculty_member.indexOf("name")] = department.values[department_i][department.indexOf("short")] + " " + class_type.values[class_type_i][class_type.indexOf("name")] + "tartó " + c;
+        row[faculty_member.indexOf("name")] = department.values[department_i][department.indexOf("short_name")] + " " + class_type.values[class_type_i][class_type.indexOf("name")] + "tartó " + c;
         row[faculty_member.indexOf("department_id")] = department.values[department_i][department.indexOf("id")];
 
         
@@ -169,9 +175,9 @@ function generate_data_model() {
     class["members"] = [];
     class["references"] = [];
     
-    var cols = sheets[i].getMaxColumns();
+    var cols = sheets[i].getMaxColumns()-1; // ID
     
-    var sheet_values = sheets[i].getRange(1,1,2,cols).getValues();
+    var sheet_values = sheets[i].getRange(1,2,2,cols).getValues();
     
     for(j=0; j<cols; ++j) {
       
@@ -225,7 +231,9 @@ function generate_sql() {
     
     for(j=0; j<rows-2; ++j) {
       
-      var string = "INSERT INTO " + sheet_name + " (";
+      var string = "INSERT INTO " + plural(sheet_name) + " (";
+      
+      string += "modified_timestamp,is_deleted,"
       
       for(k=0; k<cols; ++k) {
         string += sheet_header[0][k] + (k != cols-1 ? "," : ")");
@@ -233,8 +241,10 @@ function generate_sql() {
       
       string += " VALUES (";
       
+      string += "current_timestamp,false,"
+      
       for(k=0; k<cols; ++k) {
-        var around = sheet_header[1][k] == "text" ? "\"" : "";
+        var around = sheet_header[1][k] == "text" ? "\'" : "";
         string +=  around + sheet_values[j][k] + around + (k != cols-1 ? ", " : ");\n");
       }
       
