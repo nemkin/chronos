@@ -48,7 +48,7 @@ public:
     void fill();
     void destroy();
 
-private:
+protected:
 
     std::string _user;
     pqxx::connection _db;

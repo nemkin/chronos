@@ -56,7 +56,7 @@ def header(type_model, data_model, entities_directory_path):
     header += '    void fill();\n'
     header += '    void destroy();\n'
     header += '\n'
-    header += 'private:\n'
+    header += 'protected:\n'
     header += '\n'
     header += '    std::string _user;\n'
     header += '    pqxx::connection _db;\n'

@@ -3,7 +3,7 @@
 
 #include <ortools/constraint_solver/constraint_solver.h>
 
-#include "model/generated/database/database.h"
+#include "server/database_manual.h"
 
 namespace ort = operations_research;
 
@@ -14,64 +14,59 @@ int main(int argc, char *argv[]) {
     std::string user = "nemkin";
     std::string pass = "nemkin";
 
-    chronos::Database d(user, pass);
+    chronos::DatabaseManual d(user, pass);
     
     d.test(); 
     d.destroy(); 
     d.init(); 
     d.fill();
 
-    auto departments = d.get_departments();
-    auto courses = d.get_courses();
-    auto years = d.get_years();
+    auto proposals = d.get_proposals();
+    int n = proposals.size();
 
-    int slots = 10;
-    int n = courses.size();
-    ort::Solver s("solvy");
+    ort::Solver s("chronos_solver");
 
     std::vector<ort::IntVar*> x;
+    x.resize(n);
 
-    x.resize(n * slots);
     for(int i=0; i<n; ++i) {
-        
-        for(int j=0; j<slots; ++j) {
-           x[i * slots + j] = s.MakeIntVar(0, 1, "course " + courses[i].name() + " slot " + std::to_string(j)); 
+       x[i] = s.MakeBoolVar(proposals[i].to_string()); 
+    }
+
+    for(int i=0; i<n; ++i) {
+        for(int j=0; j<n; ++j) {
+            
+            if(
+                proposals[i].class_id() != proposals[j].class_id() && 
+                proposals[i].timeslot_id() == proposals[j].timeslot_id()) {
+           
+                if(
+                    proposals[i].faculty_member_id() == proposals[j].faculty_member_id() ||
+                    proposals[i].room_id() == proposals[j].room_id() ||
+                    proposals[i].year_id() == proposals[j].year_id()) {
+                    
+                    s.AddConstraint(s.MakeEquality(s.MakeProd(x[i], x[j]), 0));
+                }
+            }
         }
     }
-
-    std::vector<ort::IntExpr*> sum_for_slots;
-    sum_for_slots.resize(n);
-
-    for(int i=0; i<n; ++i) {
-        sum_for_slots[i] = x[i * slots + 0];
-    }
-
-    for(int i=0; i<n; ++i) {
-        for(int j=1; j<slots; ++j) {
-            sum_for_slots[i] =  s.MakeSum(sum_for_slots[i], x[i * slots + j]);
-        }
-    }
-
+/*
     std::vector<ort::Constraint*> sum_is_one;
     sum_is_one.resize(n);
     for(int i=0; i<n; ++i) {
         sum_is_one[i] = s.MakeEquality(sum_for_slots[i], 1);
         s.AddConstraint(sum_is_one[i]);
     }
-
+*/
     ort::DecisionBuilder* const db = s.MakePhase(x, ort::Solver::CHOOSE_FIRST_UNBOUND, ort::Solver::ASSIGN_MIN_VALUE);
     
     s.NewSearch(db);
     
     CHECK(s.NextSolution());
 
-    for(int j=0; j<slots; ++j) {
-
-        for(int i=0; i<n; ++i) {
+    for(int i=0; i<n; ++i) {
         
-           std::cout << x[i * slots + j]->Value() << ' '; 
-        }
-        std::cout << std::endl;
+       std::cout << x[i]->name() << std::endl << x[i]->Value() << ' ' << std::endl;
     }
 
     LOG(INFO) << s.DebugString();
