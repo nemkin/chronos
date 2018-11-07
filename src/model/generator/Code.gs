@@ -71,9 +71,6 @@ function generate_classes() {
 
       row[class.indexOf("id")] = class_id;
       row[class.indexOf("name")] = course.values[course_i][course.indexOf("name")] + " " + class_type.values[class_type_i][class_type.indexOf("name")];
-      row[class.indexOf("lesson_count")] = 14;
-      row[class.indexOf("regularity")] = "WEEKLY";
-      row[class.indexOf("maximum_student_count")] = class_type.values[class_type_i][class_type.indexOf("name")] == "előadás" ? 600 : 35
       row[class.indexOf("class_type_id")] = class_type.values[class_type_i][class_type.indexOf("id")];
       row[class.indexOf("course_id")] = course.values[course_i][course.indexOf("id")];
       
