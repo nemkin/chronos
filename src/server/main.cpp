@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
     d.init(); 
     d.fill();
 
+    auto classes = d.get_classes();
     auto proposals = d.get_proposals();
     int n = 20;
 
@@ -33,7 +34,7 @@ int main(int argc, char *argv[]) {
     for(int i=0; i<n; ++i) {
        x[i] = s.MakeBoolVar(proposals[i].to_string()); 
     }
-
+    
     for(int i=0; i<n; ++i) {
         for(int j=0; j<n; ++j) {
             
@@ -51,14 +52,26 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-/*
-    std::vector<ort::Constraint*> sum_is_one;
-    sum_is_one.resize(n);
+
+    std::vector<ort::IntExpr*> sum_of_accepted_proposals_per_class;
+    
+    sum_of_accepted_proposals_per_class.resize(classes.size() + 1);
     for(int i=0; i<n; ++i) {
-        sum_is_one[i] = s.MakeEquality(sum_for_slots[i], 1);
-        s.AddConstraint(sum_is_one[i]);
+
+        auto id = proposals[i].class_id();
+        if(sum_of_accepted_proposals_per_class[id] == nullptr) {
+            sum_of_accepted_proposals_per_class[id] = x[i];
+        } else {
+            sum_of_accepted_proposals_per_class[id] = s.MakeSum(sum_of_accepted_proposals_per_class[id], x[i]);
+        }
     }
-*/
+
+    for(auto sum : sum_of_accepted_proposals_per_class) {
+        if(sum != nullptr) {
+            s.AddConstraint(s.MakeEquality(sum, 1));
+        }
+    }
+
     ort::DecisionBuilder* const db = s.MakePhase(x, ort::Solver::CHOOSE_FIRST_UNBOUND, ort::Solver::ASSIGN_MIN_VALUE);
     
     s.NewSearch(db);
