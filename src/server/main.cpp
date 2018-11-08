@@ -22,10 +22,11 @@ int main(int argc, char *argv[]) {
     d.fill();
 
     auto proposals = d.get_proposals();
-    int n = proposals.size();
+    int n = 20;
 
     ort::Solver s("chronos_solver");
 
+    auto logger = s.MakeSearchLog(1000000);
     std::vector<ort::IntVar*> x;
     x.resize(n);
 
