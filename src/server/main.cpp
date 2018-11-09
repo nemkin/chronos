@@ -22,8 +22,11 @@ int main(int argc, char *argv[]) {
     d.fill();
 
     auto classes = d.get_classes();
+
     auto proposals = d.get_proposals();
-    int n = 20;
+    int n = proposals.size();
+
+    std::cout << "Number of variables: " << n << std::endl;
 
     ort::Solver s("chronos_solver");
 
@@ -79,8 +82,10 @@ int main(int argc, char *argv[]) {
     CHECK(s.NextSolution());
 
     for(int i=0; i<n; ++i) {
-        
-       std::cout << x[i]->name() << std::endl << x[i]->Value() << ' ' << std::endl;
+       
+        if(x[i]->Value()) { 
+            std::cout << x[i]->name() << std::endl << std::endl;
+        }
     }
 
     LOG(INFO) << s.DebugString();

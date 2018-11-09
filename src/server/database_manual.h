@@ -21,6 +21,8 @@ public:
         std::string p_database = "chronos"
     );
 
+    std::vector<int> get_rooms_by_id_to_hold_class(int class_id);
+    std::vector<int> get_faculty_members_by_id_licensed_to_teach_class(int class_id);
     std::vector<Proposal> get_proposals();
 
 };

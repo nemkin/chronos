@@ -18,6 +18,67 @@ DatabaseManual::DatabaseManual(
 
 }
 
+std::vector<int> DatabaseManual::get_rooms_by_id_to_hold_class(int class_id) {
+
+    std::vector<int> ret;
+
+    try {
+        
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec(
+            "SELECT rooms.id"
+            "FROM rooms, classes"
+            "WHERE "
+            "rooms.class_type_id = classes.class_type_id AND "
+            "classes.id = " + std::to_string(class_id) + ";"
+        ));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            ret.push_back(i[0].as<int>());
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::vector<int> DatabaseManual::get_faculty_members_by_id_licensed_to_teach_class(int class_id) {
+
+    std::vector<int> ret;
+
+    try {
+        
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec(
+            "SELECT faculty_members.id "
+            "FROM "
+            "classes, faculty_members, licenses "
+            "WHERE "
+            "licenses.course_id = classes.course_id AND "
+            "licenses.class_type_id = classes.class_type_id AND "
+            "licenses.faculty_member_id = faculty_members.id AND "
+            "classes.id = " + std::to_string(class_id) + ";"
+        ));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            ret.push_back(i[0].as<int>());
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
 std::vector<Proposal> DatabaseManual::get_proposals() {
 
     std::vector<Proposal> ret;
@@ -43,7 +104,7 @@ std::vector<Proposal> DatabaseManual::get_proposals() {
             "licenses.course_id = courses.id AND "
             "licenses.class_type_id = class_types.id AND "
             "licenses.faculty_member_id = faculty_members.id;"
-            ));
+        ));
 
         for(auto i = r.begin(); i != r.end(); ++i) {
 
