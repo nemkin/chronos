@@ -4,6 +4,7 @@
 #include <ortools/constraint_solver/constraint_solver.h>
 
 #include "server/database_manual.h"
+#include "server/proposal.h"
 
 namespace ort = operations_research;
 
@@ -21,59 +22,155 @@ int main(int argc, char *argv[]) {
     d.init(); 
     d.fill();
 
+    auto timeslots = d.get_timeslots();
     auto classes = d.get_classes();
-
-    auto proposals = d.get_proposals();
-    int n = proposals.size();
-
-    std::cout << "Number of variables: " << n << std::endl;
+    auto rooms = d.get_rooms();
+    auto faculty_members = d.get_faculty_members();
+    auto years = d.get_years();
 
     ort::Solver s("chronos_solver");
 
-    auto logger = s.MakeSearchLog(1000000);
+    std::vector<ort::IntVar*> timeslot_of_class;
+    timeslot_of_class.resize(classes.size());
+    for(int i=0; i<classes.size(); ++i) {
+        timeslot_of_class[i] =
+            s.MakeIntVar(
+                1,
+                timeslots.size(),
+                classes[i].name()
+            );
+    } 
+
+    std::vector<ort::IntVar*> room_of_class;
+    room_of_class.resize(classes.size());
+    for(int i=0; i<classes.size(); ++i) {
+        room_of_class[i] =
+            s.MakeIntVar(
+                d.get_rooms_by_id_to_hold_class(
+                    classes[i].id()
+                ),
+                classes[i].name()
+            );
+    }
+
+    std::vector<ort::IntVar*> faculty_member_for_class;
+    faculty_member_for_class.resize(classes.size());
+    for(int i=0; i<classes.size(); ++i) {
+        faculty_member_for_class[i] =
+            s.MakeIntVar(
+                d.get_faculty_members_by_id_licensed_to_teach_class(
+                    classes[i].id()
+                ),
+                classes[i].name()
+            );
+    }
+
+    std::cout << "Number of variables: " << 3 * classes.size() << std::endl;
+
+    std::vector<ort::IntVar*> timeslot_and_room_pair_is_unique;
+    timeslot_and_room_pair_is_unique.resize(classes.size());
+    for(int i=0; i<classes.size(); ++i) {
+
+        timeslot_and_room_pair_is_unique[i] =
+            s.MakeIntVar(
+                1,
+                (timeslots.size() + 1) * (rooms.size() + 1)
+            );
+
+        s.AddConstraint(
+            s.MakeEquality(
+                timeslot_and_room_pair_is_unique[i],
+                s.MakeSum(
+                    s.MakeProd(
+                        room_of_class[i],
+                        timeslots.size() + 1
+                    ),
+                    timeslot_of_class[i]
+                )
+            )
+        );
+    }
+    s.AddConstraint(s.MakeAllDifferent(timeslot_and_room_pair_is_unique));
+
+    std::vector<ort::IntVar*> timeslot_and_faculty_member_pair_is_unique;
+    timeslot_and_faculty_member_pair_is_unique.resize(classes.size());
+    for(int i=0; i<classes.size(); ++i) {
+
+        timeslot_and_faculty_member_pair_is_unique[i] =
+            s.MakeIntVar(
+                1,
+                (timeslots.size() + 1) * (faculty_members.size() + 1)
+            );
+
+        s.AddConstraint(
+            s.MakeEquality(
+                timeslot_and_faculty_member_pair_is_unique[i], 
+                s.MakeSum(
+                    s.MakeProd(
+                        faculty_member_for_class[i],
+                        timeslots.size() + 1
+                    ),
+                    timeslot_of_class[i]
+                )
+            )
+        );
+    }
+    s.AddConstraint(s.MakeAllDifferent(timeslot_and_faculty_member_pair_is_unique));
+
+    std::vector<ort::IntVar*> timeslot_and_year_pair_is_unique;
+    timeslot_and_year_pair_is_unique.resize(classes.size());
+    for(int i=0; i<classes.size(); ++i) {
+
+        timeslot_and_year_pair_is_unique[i] =
+            s.MakeIntVar(
+                1,
+                (timeslots.size() + 1) * (years.size() + 1)
+            );
+
+        s.AddConstraint(
+            s.MakeEquality(
+                timeslot_and_year_pair_is_unique[i],
+                s.MakeSum(
+                    timeslot_of_class[i],
+                    (timeslots.size() + 1) *
+                    d.get_year_by_id_for_class(classes[i].id())
+                )
+            )
+        );
+    }
+    s.AddConstraint(s.MakeAllDifferent(timeslot_and_year_pair_is_unique));
+
     std::vector<ort::IntVar*> x;
-    x.resize(n);
-
-    for(int i=0; i<n; ++i) {
-       x[i] = s.MakeBoolVar(proposals[i].to_string()); 
-    }
-    
-    for(int i=0; i<n; ++i) {
-        for(int j=0; j<n; ++j) {
-            
-            if(
-                proposals[i].class_id() != proposals[j].class_id() && 
-                proposals[i].timeslot_id() == proposals[j].timeslot_id()) {
-           
-                if(
-                    proposals[i].faculty_member_id() == proposals[j].faculty_member_id() ||
-                    proposals[i].room_id() == proposals[j].room_id() ||
-                    proposals[i].year_id() == proposals[j].year_id()) {
-                    
-                    s.AddConstraint(s.MakeEquality(s.MakeProd(x[i], x[j]), 0));
-                }
-            }
-        }
-    }
-
-    std::vector<ort::IntExpr*> sum_of_accepted_proposals_per_class;
-    
-    sum_of_accepted_proposals_per_class.resize(classes.size() + 1);
-    for(int i=0; i<n; ++i) {
-
-        auto id = proposals[i].class_id();
-        if(sum_of_accepted_proposals_per_class[id] == nullptr) {
-            sum_of_accepted_proposals_per_class[id] = x[i];
-        } else {
-            sum_of_accepted_proposals_per_class[id] = s.MakeSum(sum_of_accepted_proposals_per_class[id], x[i]);
-        }
-    }
-
-    for(auto sum : sum_of_accepted_proposals_per_class) {
-        if(sum != nullptr) {
-            s.AddConstraint(s.MakeEquality(sum, 1));
-        }
-    }
+    x.insert(
+        x.end(),
+        timeslot_of_class.begin(),
+        timeslot_of_class.end()
+    );
+    x.insert(
+        x.end(),
+        room_of_class.begin(),
+        room_of_class.end()
+    );
+    x.insert(
+        x.end(),
+        faculty_member_for_class.begin(),
+        faculty_member_for_class.end()
+    );
+    x.insert(
+        x.end(),
+        timeslot_and_room_pair_is_unique.begin(),
+        timeslot_and_room_pair_is_unique.end()
+    );
+    x.insert(
+        x.end(),
+        timeslot_and_faculty_member_pair_is_unique.begin(),
+        timeslot_and_faculty_member_pair_is_unique.end()
+    );
+    x.insert(
+        x.end(),
+        timeslot_and_year_pair_is_unique.begin(),
+        timeslot_and_year_pair_is_unique.end()
+    );
 
     ort::DecisionBuilder* const db = s.MakePhase(x, ort::Solver::CHOOSE_FIRST_UNBOUND, ort::Solver::ASSIGN_MIN_VALUE);
     
@@ -81,11 +178,28 @@ int main(int argc, char *argv[]) {
     
     CHECK(s.NextSolution());
 
-    for(int i=0; i<n; ++i) {
-       
-        if(x[i]->Value()) { 
-            std::cout << x[i]->name() << std::endl << std::endl;
-        }
+    for(int i=0; i<classes.size(); ++i) {
+   
+        auto timeslot_id = timeslot_of_class[i] -> Value();
+        auto year_id = d.get_year_by_id_for_class(classes[i].id());
+        auto class_id = classes[i].id();
+        auto room_id = room_of_class[i] -> Value();
+        auto faculty_member_id = faculty_member_for_class[i] -> Value();
+
+        chronos::Proposal p(
+            timeslot_id,
+            year_id,
+            class_id,
+            room_id,
+            faculty_member_id,
+            timeslots[timeslot_id-1].name(),
+            years[year_id-1].name(),
+            classes[class_id-1].name(),
+            rooms[room_id-1].name(),
+            faculty_members[faculty_member_id-1].name()
+        );
+
+        std::cout << p.to_string() << std::endl << std::endl;
     }
 
     LOG(INFO) << s.DebugString();

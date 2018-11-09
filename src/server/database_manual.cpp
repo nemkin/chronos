@@ -27,8 +27,8 @@ std::vector<int> DatabaseManual::get_rooms_by_id_to_hold_class(int class_id) {
         pqxx::nontransaction n(_db);
 
         pqxx::result r(n.exec(
-            "SELECT rooms.id"
-            "FROM rooms, classes"
+            "SELECT rooms.id "
+            "FROM rooms, classes "
             "WHERE "
             "rooms.class_type_id = classes.class_type_id AND "
             "classes.id = " + std::to_string(class_id) + ";"
@@ -79,6 +79,29 @@ std::vector<int> DatabaseManual::get_faculty_members_by_id_licensed_to_teach_cla
     return ret;
 }
 
+int DatabaseManual::get_year_by_id_for_class(int class_id) {
+
+    try {
+        
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec(
+            "SELECT courses.year_id "
+            "FROM courses, classes "
+            "WHERE "
+            "courses.id = classes.course_id AND "
+            "classes.id = " + std::to_string(class_id) + ";"
+        ));
+
+        return r[0][0].as<int>();
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return 0;
+}
 std::vector<Proposal> DatabaseManual::get_proposals() {
 
     std::vector<Proposal> ret;
