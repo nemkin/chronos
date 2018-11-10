@@ -7,29 +7,21 @@ before_install:
     - sudo apt-get update -qq
 
 install:
-    - sudo apt install libpqxx-dev
     - sudo apt install texlive-latex-recommended texlive-fonts-recommended
     - sudo apt install texlive-latex-extra texlive-fonts-extra dvipng
 
 script:
-    - mkdir bin
-    - cd bin
-    - cmake ../src
-    - make
-    - cd ../docs
-    - pdflatex -output-directory ../bin -jobname thesis diploma.tex
-    - pdflatex -output-directory ../bin -jobname thesis diploma.tex
-    - pdflatex -output-directory ../bin -jobname thesis diploma.tex
-    - pdflatex -output-directory ../bin -jobname thesis diploma.tex
+    - pdflatex diploma.tex
+    - pdflatex diploma.tex
+    - pdflatex diploma.tex
+    - pdflatex diploma.tex
 
 deploy:
   provider: releases
   api_key:
     secure: HKzNloQIHONdqzHCCCO3amss5FGeznvz4GClg+hAnUizutCl+xuVo2DwlW85p/l2acykAVAoI/3hshtK/Y7LUn5a+W67YBF+6kakxdYsgw79/PaL/6ng4bQSuI/lB4RszSsbv2SbrOw7UpucKhK0zIg69l+o3WKUYmiSKrQns5GKnSj4U8z5L116GyArlDHXFyMuJLYj3G4SyxOc6PakX87APyGdnHOmHLUkdTo3hYiCN5XGIk9LSpG0RJUUKEzizr0/lAikJq+R4/JilpuQAj/eBK9AwRT96I/SWv3V2XxnPQDMEsj9d3kkoqb+5v7fVf8jsRLFuNueJ9cJr5Sy1vghScJA2TPMQMYWG0EsNgrEU5z5C/uxbvrpi6uF+ngShAaqLfjRfg/Hwz59fvYBJhZ+EljnUysa0yK2TN2+ayzPfgPSGEWd4C8hlA2zoMfZzbWa0NlhjZvY9PZciYqxFZs/OLDqiT/GaZvLxAeSr9oSReBVsNVD0IVbOM1g18xqZp/cHpt+s3PpoVDIFRyyy1gDaK9/O4jNTKAiUZ8Q9RBTJiyoSVqleE4OEWlFuoCTaHx+Zz7W50eAvjW7VGpWGtBkB5uYA3LjYQB/AOQ3RYWC7B4P0Xxw3a0PrAduV8Or1nVw5JiYXSTYoAWJfpWKNMuzBWKihy5KMDFClPYGVxk=
   file:
-    - bin/client
-    - bin/server
-    - bin/thesis.pdf
+    - diploma.pdf
   skip_cleanup: true
 
 after_success:
