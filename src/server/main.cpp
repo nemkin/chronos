@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <utility>
 
 #include <ortools/constraint_solver/constraint_solver.h>
 
@@ -178,6 +179,8 @@ int main(int argc, char *argv[]) {
     
     CHECK(s.NextSolution());
 
+    std::vector<chronos::Proposal> proposals;
+
     for(int i=0; i<classes.size(); ++i) {
    
         auto timeslot_id = timeslot_of_class[i] -> Value();
@@ -199,7 +202,39 @@ int main(int argc, char *argv[]) {
             faculty_members[faculty_member_id-1].name()
         );
 
-        std::cout << p.to_string() << std::endl << std::endl;
+        proposals.push_back(p);
+    }
+
+    bool collision = false;
+
+    std::map<std::pair<int, int>, chronos::Proposal> proposals_by_timeslot;
+
+    for(auto proposal : proposals) {
+   
+        auto key = std::make_pair(proposal.year_id(), proposal.timeslot_id());
+        
+        if (proposals_by_timeslot.find(key) == proposals_by_timeslot.end()) {
+            
+            proposals_by_timeslot[key] = proposal;
+        }
+
+        else {
+           
+            collision = true; 
+        }
+    }
+
+    for(auto p : proposals_by_timeslot) {
+
+        std::cout << years[p.first.first].to_string() << std::endl;
+        std::cout << timeslots[p.first.second].to_string() << std::endl;
+        std::cout << p.second.to_string() << std::endl;
+        std::cout << "-------------------------------------" << std::endl << std::endl;
+    }
+
+    if(collision) {
+
+        std::cout << "ERROR: COLLISION FOUND!" << std::endl;
     }
 
     LOG(INFO) << s.DebugString();
