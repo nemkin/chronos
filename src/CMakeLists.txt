@@ -65,6 +65,7 @@ set(SERVER_SOURCES
 ${PROJECT_SOURCE_DIR}/server/main.cpp
 ${PROJECT_SOURCE_DIR}/server/database_manual.cpp
 ${PROJECT_SOURCE_DIR}/server/proposal.cpp
+${PROJECT_SOURCE_DIR}/server/timetable.cpp
 )
 
 set(CLIENT_SOURCES

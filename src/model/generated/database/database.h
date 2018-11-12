@@ -28,7 +28,7 @@ public:
     Database(
         std::string p_user,
         std::string p_pass,
-        std::string p_host = "10.240.2.125",
+        std::string p_host = "localhost",
         std::string p_database = "chronos"
     );
 
