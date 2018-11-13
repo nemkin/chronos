@@ -13,16 +13,6 @@
     },
     "classes": [
         {
-            "class": "timeslot",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": []
-        },
-        {
             "class": "year",
             "members": [
                 {
@@ -47,11 +37,36 @@
             "references": []
         },
         {
+            "class": "room",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "student_count",
+                    "type": "int"
+                }
+            ],
+            "references": [
+                {
+                    "class": "location"
+                },
+                {
+                    "class": "class_type"
+                }
+            ]
+        },
+        {
             "class": "course",
             "members": [
                 {
                     "name": "name",
                     "type": "text"
+                },
+                {
+                    "name": "student_count",
+                    "type": "int"
                 }
             ],
             "references": [
@@ -84,21 +99,14 @@
             "references": []
         },
         {
-            "class": "room",
+            "class": "timeslot",
             "members": [
                 {
                     "name": "name",
                     "type": "text"
                 }
             ],
-            "references": [
-                {
-                    "class": "location"
-                },
-                {
-                    "class": "class_type"
-                }
-            ]
+            "references": []
         },
         {
             "class": "class",

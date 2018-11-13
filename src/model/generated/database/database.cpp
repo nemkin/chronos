@@ -19,36 +19,6 @@ Database::Database(
 
 }
 
-std::vector<Timeslot> Database::get_timeslots() {
-
-    std::vector<Timeslot> ret;
-
-    try {
-
-        pqxx::nontransaction n(_db);
-
-        pqxx::result r(n.exec("SELECT * FROM timeslots;"));
-
-        for(auto i = r.begin(); i != r.end(); ++i) {
-
-            Timeslot p(
-                i[0].as<int>(), // id
-                i[1].as<std::string>(), // modified_timestamp
-                i[2].as<bool>(), // is_deleted
-                i[3].as<std::string>() // name
-            );
-
-            ret.push_back(p);
-        }
-
-    } catch (std::exception& e) {
-
-        std::cerr << e.what() << std::endl;
-    }
-
-    return ret;
-}
-
 std::vector<Year> Database::get_years() {
 
     std::vector<Year> ret;
@@ -110,6 +80,39 @@ std::vector<Department> Database::get_departments() {
     return ret;
 }
 
+std::vector<Room> Database::get_rooms() {
+
+    std::vector<Room> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM rooms;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            Room p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>(), // name
+                i[4].as<int>(), // student_count
+                i[5].as<int>(), // location_id
+                i[6].as<int>() // class_type_id
+            );
+
+            ret.push_back(p);
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
 std::vector<Course> Database::get_courses() {
 
     std::vector<Course> ret;
@@ -127,8 +130,9 @@ std::vector<Course> Database::get_courses() {
                 i[1].as<std::string>(), // modified_timestamp
                 i[2].as<bool>(), // is_deleted
                 i[3].as<std::string>(), // name
-                i[4].as<int>(), // year_id
-                i[5].as<int>() // department_id
+                i[4].as<int>(), // student_count
+                i[5].as<int>(), // year_id
+                i[6].as<int>() // department_id
             );
 
             ret.push_back(p);
@@ -202,25 +206,23 @@ std::vector<Location> Database::get_locations() {
     return ret;
 }
 
-std::vector<Room> Database::get_rooms() {
+std::vector<Timeslot> Database::get_timeslots() {
 
-    std::vector<Room> ret;
+    std::vector<Timeslot> ret;
 
     try {
 
         pqxx::nontransaction n(_db);
 
-        pqxx::result r(n.exec("SELECT * FROM rooms;"));
+        pqxx::result r(n.exec("SELECT * FROM timeslots;"));
 
         for(auto i = r.begin(); i != r.end(); ++i) {
 
-            Room p(
+            Timeslot p(
                 i[0].as<int>(), // id
                 i[1].as<std::string>(), // modified_timestamp
                 i[2].as<bool>(), // is_deleted
-                i[3].as<std::string>(), // name
-                i[4].as<int>(), // location_id
-                i[5].as<int>() // class_type_id
+                i[3].as<std::string>() // name
             );
 
             ret.push_back(p);
@@ -346,14 +348,6 @@ void Database::init() {
     std::vector<std::string> creates;
 
     creates.push_back(
-        "CREATE TABLE timeslots ( "
-            "id SERIAL PRIMARY KEY NOT NULL, "
-            "modified_timestamp TIMESTAMP NOT NULL, "
-            "is_deleted BOOLEAN NOT NULL, "
-            "name TEXT NOT NULL);"
-    );
-
-    creates.push_back(
         "CREATE TABLE years ( "
             "id SERIAL PRIMARY KEY NOT NULL, "
             "modified_timestamp TIMESTAMP NOT NULL, "
@@ -371,11 +365,23 @@ void Database::init() {
     );
 
     creates.push_back(
+        "CREATE TABLE rooms ( "
+            "id SERIAL PRIMARY KEY NOT NULL, "
+            "modified_timestamp TIMESTAMP NOT NULL, "
+            "is_deleted BOOLEAN NOT NULL, "
+            "name TEXT NOT NULL, "
+            "student_count INTEGER NOT NULL, "
+            "location_id INTEGER REFERENCES locations(id) NOT NULL, "
+            "class_type_id INTEGER REFERENCES class_types(id) NOT NULL);"
+    );
+
+    creates.push_back(
         "CREATE TABLE courses ( "
             "id SERIAL PRIMARY KEY NOT NULL, "
             "modified_timestamp TIMESTAMP NOT NULL, "
             "is_deleted BOOLEAN NOT NULL, "
             "name TEXT NOT NULL, "
+            "student_count INTEGER NOT NULL, "
             "year_id INTEGER REFERENCES years(id) NOT NULL, "
             "department_id INTEGER REFERENCES departments(id) NOT NULL);"
     );
@@ -397,13 +403,11 @@ void Database::init() {
     );
 
     creates.push_back(
-        "CREATE TABLE rooms ( "
+        "CREATE TABLE timeslots ( "
             "id SERIAL PRIMARY KEY NOT NULL, "
             "modified_timestamp TIMESTAMP NOT NULL, "
             "is_deleted BOOLEAN NOT NULL, "
-            "name TEXT NOT NULL, "
-            "location_id INTEGER REFERENCES locations(id) NOT NULL, "
-            "class_type_id INTEGER REFERENCES class_types(id) NOT NULL);"
+            "name TEXT NOT NULL);"
     );
 
     creates.push_back(
@@ -456,6 +460,171 @@ void Database::fill() {
 
     std::vector<std::string> inserts;
 
+    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,1, '1. felev');");
+    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,2, '2. felev');");
+    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,3, '3. felev');");
+    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,4, '4. felev');");
+    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,5, '5. felev');");
+    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,6, '6. felev');");
+    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,7, '7. felev');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,1, 'Automatizalasi es Alkalmazott Informatikai Tanszek', 'AUT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,2, 'Elektronikai Technologia Tanszek', 'ETT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,3, 'Elektronikus Eszkozok Tanszéke', 'EET');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,4, 'Halozati Rendszerek és Szolgaltatasok Tanszek', 'HIT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,5, 'Iranyitastechnika es Informatika Tanszek', 'IIT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,6, 'Merestechnika es Informacios Rendszerek Tanszek', 'MIT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,7, 'Szamitastudomanyi es Informacioelmeleti Tanszek', 'SZIT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,8, 'Szelessavu Hirkozles es Villamossagtan Tanszek', 'HVT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,9, 'Tavkozlesi es Mediainformatikai Tanszek', 'TMIT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,10, 'Villamos Energetika Tanszek', 'VET');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,11, 'Bolcsesz Tanszek', 'BTK');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,12, 'Analizis Tanszek', 'MAT');");
+    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,13, 'Fizika Tanszek', 'FIZ');");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,1, 'CHC14', 2, 1, 311);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,2, 'E1A', 3, 1, 341);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,3, 'E1B', 3, 1, 391);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,4, 'E1C', 3, 1, 323);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,5, 'E305c', 3, 2, 27);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,6, 'E306ab', 3, 2, 33);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,7, 'E306cd', 3, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,8, 'E401', 3, 2, 29);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,9, 'E402', 3, 2, 26);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,10, 'E403', 3, 2, 26);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,11, 'E404', 3, 2, 34);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,12, 'E405', 3, 2, 29);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,13, 'E406', 3, 2, 33);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,14, 'E407', 3, 2, 33);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,15, 'F29', 11, 1, 505);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,16, 'H406', 4, 1, 332);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,17, 'IB026', 5, 1, 354);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,18, 'IB027', 5, 1, 566);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,19, 'IB028', 5, 1, 531);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,20, 'IB134', 5, 2, 34);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,21, 'IB138', 5, 2, 32);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,22, 'IB139', 5, 2, 29);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,23, 'IB140', 5, 2, 32);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,24, 'IB141', 5, 2, 31);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,25, 'IB142', 5, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,26, 'IB144', 5, 2, 29);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,27, 'IB145', 5, 2, 31);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,28, 'IB146', 5, 2, 30);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,29, 'IB147', 5, 2, 32);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,30, 'IB310', 5, 2, 31);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,31, 'IB413', 5, 2, 25);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,32, 'IE007', 5, 1, 303);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,33, 'IE217-1', 5, 2, 25);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,34, 'IE218', 5, 2, 27);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,35, 'IE219', 5, 2, 29);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,36, 'IE220', 5, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,37, 'IE221', 5, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,38, 'IE223', 5, 2, 33);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,39, 'IE224', 5, 2, 26);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,40, 'IE226', 5, 2, 26);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,41, 'IE320', 5, 2, 34);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,42, 'IE321', 5, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,43, 'IL105', 5, 2, 27);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,44, 'IL407', 5, 2, 25);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,45, 'IL408', 5, 2, 25);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,46, 'K134', 6, 1, 378);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,47, 'K174', 6, 1, 528);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,48, 'KF51 (AUD.MAX)', 6, 1, 407);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,49, 'KF81', 6, 1, 476);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,50, 'KF87', 6, 1, 426);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,51, 'KF88', 6, 1, 463);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,52, 'QA240', 7, 2, 25);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,53, 'QAF14', 7, 2, 29);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,54, 'QB105', 7, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,55, 'QB-310', 7, 2, 33);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,56, 'QB311', 7, 2, 33);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,57, 'QB331', 7, 2, 29);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,58, 'QBF08', 7, 2, 25);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,59, 'QBF10', 7, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,60, 'QBF11', 7, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,61, 'QBF12', 7, 2, 30);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,62, 'QBF13', 7, 2, 30);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,63, 'QBP', 7, 2, 31);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,64, 'Q-I', 7, 1, 478);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,65, 'R4A', 8, 3, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,66, 'R4B', 8, 3, 29);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,67, 'R4C', 8, 3, 33);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,68, 'R4I', 8, 3, 32);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,69, 'R4J', 8, 3, 30);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,70, 'R4K', 8, 3, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,71, 'R4L', 8, 3, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,72, 'R4M', 8, 3, 30);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,73, 'R4N', 8, 3, 34);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,74, 'R4O', 8, 3, 32);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,75, 'R4P', 8, 3, 27);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,76, 'R504', 8, 2, 27);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,77, 'R505', 8, 2, 26);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,78, 'R506', 8, 2, 27);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,79, 'R507', 8, 2, 25);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,80, 'R508', 8, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,81, 'R511', 8, 2, 26);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,82, 'R515', 8, 2, 33);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,83, 'R516', 8, 2, 32);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,84, 'R517', 8, 2, 30);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,85, 'T604', 9, 2, 27);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,86, 'V1109', 10, 2, 28);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,87, 'V1501', 10, 2, 27);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,88, 'V1502', 10, 2, 25);");
+    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id,student_count) VALUES (current_timestamp,false,89, 'V1526', 10, 2, 34);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,1, 'Analizis 1', 309, 1, 12);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,2, 'A programozas alapjai 1', 571, 1, 3);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,3, 'Bevezetes a szamitaselmeletbe 1', 336, 1, 7);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,4, 'Bevezeto fizika', 532, 1, 13);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,5, 'Bevezeto matematika', 586, 1, 12);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,6, 'Digitalis technika', 423, 1, 6);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,7, 'Fizika 1', 406, 1, 13);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,8, 'Mernok leszek', 352, 1, 11);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,9, 'Analizis 2', 595, 2, 12);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,10, 'A programozas alapjai 2', 331, 2, 5);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,11, 'Bevezetes a szamitaselmeletbe 2', 460, 2, 7);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,12, 'Fizika 2', 367, 2, 13);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,13, 'Rendszermodellezes', 509, 2, 6);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,14, 'Szamitogep architekturak', 388, 2, 4);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,15, 'A programozas alapjai 3', 476, 3, 5);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,16, 'Adatbazisok', 424, 3, 9);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,17, 'Kodolastechnika', 589, 3, 4);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,18, 'Kommunikacios halozatok 1', 477, 3, 4);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,19, 'Rendszerelmelet', 538, 3, 8);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,20, 'Szoftvertechnologia', 479, 3, 5);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,21, 'Valoszinusegszamitas', 421, 3, 7);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,22, 'Algoritmuselmelet', 461, 4, 7);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,23, 'Kommunikacios halozatok 2', 467, 4, 9);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,24, 'Menedzsment es vallalkozasgazdasagtan', 356, 4, 11);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,25, 'Operacios rendszerek', 437, 4, 6);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,26, 'Szamitogepes grafika', 304, 4, 5);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,27, 'Szoftver projekt laboratorium', 336, 4, 5);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,28, 'Szoftvertechnikak', 526, 4, 1);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,29, 'IT eszkozok technologiaja', 459, 5, 3);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,30, 'Mesterseges intelligencia', 383, 5, 6);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,31, 'Mikro- es makrookonomia', 313, 5, 11);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,32, 'Mobil- es webes szoftverek', 310, 5, 1);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,33, 'Uzleti jog', 491, 5, 11);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,34, 'Informatikai rendszertervezes', 336, 5, 6);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,35, 'Ipari informatika', 358, 5, 5);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,36, 'Informacios rendszerek uzemeltetese', 371, 6, 9);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,37, 'IT biztonsag', 574, 6, 4);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,38, 'Alkalmazasfejlesztesi kornyezetek', 540, 6, 1);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,39, 'Intelligens elosztott rendszerek', 411, 6, 6);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,40, 'Rendszertervezes laboratorium 1', 343, 6, 6);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,41, 'Deklarativ programozas', 520, 7, 7);");
+    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,student_count,year_id,department_id) VALUES (current_timestamp,false,42, 'Rendszertervezes laboratorium 2', 565, 7, 6);");
+    inserts.push_back("INSERT INTO class_types (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,1, 'eloadas');");
+    inserts.push_back("INSERT INTO class_types (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,2, 'gyakorlat');");
+    inserts.push_back("INSERT INTO class_types (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,3, 'labor');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,1, 'A epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,2, 'CH epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,3, 'E epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,4, 'H epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,5, 'I epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,6, 'K epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,7, 'Q epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,8, 'R epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,9, 'T epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,10, 'V1 epulet');");
+    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,11, 'F epulet');");
     inserts.push_back("INSERT INTO timeslots (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,1, 'hetfo 8:15 - 10:00');");
     inserts.push_back("INSERT INTO timeslots (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,2, 'hetfo 10:15 - 12:00');");
     inserts.push_back("INSERT INTO timeslots (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,3, 'hetfo 12:15 - 14:00');");
@@ -481,171 +650,6 @@ void Database::fill() {
     inserts.push_back("INSERT INTO timeslots (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,23, 'pentek 12:15 - 14:00');");
     inserts.push_back("INSERT INTO timeslots (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,24, 'pentek 14:15 - 16:00');");
     inserts.push_back("INSERT INTO timeslots (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,25, 'pentek 16:15 - 18:00');");
-    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,1, '1. felev');");
-    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,2, '2. felev');");
-    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,3, '3. felev');");
-    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,4, '4. felev');");
-    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,5, '5. felev');");
-    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,6, '6. felev');");
-    inserts.push_back("INSERT INTO years (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,7, '7. felev');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,1, 'Automatizalasi es Alkalmazott Informatikai Tanszek', 'AUT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,2, 'Elektronikai Technologia Tanszek', 'ETT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,3, 'Elektronikus Eszkozok Tanszeke', 'EET');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,4, 'Halozati Rendszerek es Szolgaltatasok Tanszek', 'HIT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,5, 'Iranyitastechnika es Informatika Tanszek', 'IIT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,6, 'Merestechnika es Informacios Rendszerek Tanszek', 'MIT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,7, 'Szamitastudomanyi es Informacioelmeleti Tanszek', 'SZIT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,8, 'Szelessavu Hirkozles es Villamossagtan Tanszek', 'HVT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,9, 'Tavkozlesi es Mediainformatikai Tanszek', 'TMIT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,10, 'Villamos Energetika Tanszek', 'VET');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,11, 'Bolcsesz Tanszek', 'BTK');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,12, 'Analizis Tanszek', 'MAT');");
-    inserts.push_back("INSERT INTO departments (modified_timestamp,is_deleted,id,name,short_name) VALUES (current_timestamp,false,13, 'Fizika Tanszek', 'FIZ');");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,1, 'Analizis 1', 1, 12);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,2, 'A programozas alapjai 1', 1, 3);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,3, 'Bevezetes a szamitaselmeletbe 1', 1, 7);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,4, 'Bevezeto fizika', 1, 13);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,5, 'Bevezeto matematika', 1, 12);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,6, 'Digitalis technika', 1, 6);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,7, 'Fizika 1', 1, 13);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,8, 'Mernok leszek', 1, 11);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,9, 'Analizis 2', 2, 12);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,10, 'A programozas alapjai 2', 2, 5);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,11, 'Bevezetes a szamitaselmeletbe 2', 2, 7);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,12, 'Fizika 2', 2, 13);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,13, 'Rendszermodellezes', 2, 6);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,14, 'Szamitogep architekturak', 2, 4);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,15, 'A programozas alapjai 3', 3, 5);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,16, 'Adatbazisok', 3, 9);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,17, 'Kodolastechnika', 3, 4);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,18, 'Kommunikacios halozatok 1', 3, 4);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,19, 'Rendszerelmelet', 3, 8);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,20, 'Szoftvertechnologia', 3, 5);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,21, 'Valoszinusegszamitas', 3, 7);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,22, 'Algoritmuselmelet', 4, 7);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,23, 'Kommunikacios halozatok 2', 4, 9);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,24, 'Menedzsment es vallalkozasgazdasagtan', 4, 11);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,25, 'Operacios rendszerek', 4, 6);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,26, 'Szamitogepes grafika', 4, 5);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,27, 'Szoftver projekt laboratorium', 4, 5);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,28, 'Szoftvertechnikak', 4, 1);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,29, 'IT eszkozok technologiaja', 5, 3);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,30, 'Mesterseges intelligencia', 5, 6);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,31, 'Mikro- es makrookonomia', 5, 11);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,32, 'Mobil- es webes szoftverek', 5, 1);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,33, 'Uzleti jog', 5, 11);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,34, 'Informatikai rendszertervezes', 5, 6);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,35, 'Ipari informatika', 5, 5);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,36, 'Informacios rendszerek uzemeltetese', 6, 9);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,37, 'IT biztonsag', 6, 4);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,38, 'Alkalmazasfejlesztesi kornyezetek', 6, 1);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,39, 'Intelligens elosztott rendszerek', 6, 6);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,40, 'Rendszertervezes laboratorium 1', 6, 6);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,41, 'Deklarativ programozas', 7, 7);");
-    inserts.push_back("INSERT INTO courses (modified_timestamp,is_deleted,id,name,year_id,department_id) VALUES (current_timestamp,false,42, 'Rendszertervezes laboratorium 2', 7, 6);");
-    inserts.push_back("INSERT INTO class_types (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,1, 'eloadas');");
-    inserts.push_back("INSERT INTO class_types (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,2, 'gyakorlat');");
-    inserts.push_back("INSERT INTO class_types (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,3, 'labor');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,1, 'A epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,2, 'CH epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,3, 'E epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,4, 'H epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,5, 'I epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,6, 'K epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,7, 'Q epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,8, 'R epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,9, 'T epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,10, 'V1 epulet');");
-    inserts.push_back("INSERT INTO locations (modified_timestamp,is_deleted,id,name) VALUES (current_timestamp,false,11, 'F epulet');");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,1, 'CHC14', 2, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,2, 'E1A', 3, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,3, 'E1B', 3, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,4, 'E1C', 3, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,5, 'E305c', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,6, 'E306ab', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,7, 'E306cd', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,8, 'E401', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,9, 'E402', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,10, 'E403', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,11, 'E404', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,12, 'E405', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,13, 'E406', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,14, 'E407', 3, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,15, 'F29', 11, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,16, 'H406', 4, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,17, 'IB026', 5, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,18, 'IB027', 5, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,19, 'IB028', 5, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,20, 'IB134', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,21, 'IB138', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,22, 'IB139', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,23, 'IB140', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,24, 'IB141', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,25, 'IB142', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,26, 'IB144', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,27, 'IB145', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,28, 'IB146', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,29, 'IB147', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,30, 'IB310', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,31, 'IB413', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,32, 'IE007', 5, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,33, 'IE217-1', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,34, 'IE218', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,35, 'IE219', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,36, 'IE220', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,37, 'IE221', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,38, 'IE223', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,39, 'IE224', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,40, 'IE226', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,41, 'IE320', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,42, 'IE321', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,43, 'IL105', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,44, 'IL407', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,45, 'IL408', 5, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,46, 'K134', 6, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,47, 'K174', 6, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,48, 'KF51 (AUD.MAX)', 6, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,49, 'KF81', 6, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,50, 'KF87', 6, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,51, 'KF88', 6, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,52, 'QA240', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,53, 'QAF14', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,54, 'QB105', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,55, 'QB-310', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,56, 'QB311', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,57, 'QB331', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,58, 'QBF08', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,59, 'QBF10', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,60, 'QBF11', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,61, 'QBF12', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,62, 'QBF13', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,63, 'QBP', 7, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,64, 'Q-I', 7, 1);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,65, 'R4A', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,66, 'R4B', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,67, 'R4C', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,68, 'R4I', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,69, 'R4J', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,70, 'R4K', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,71, 'R4L', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,72, 'R4M', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,73, 'R4N', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,74, 'R4O', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,75, 'R4P', 8, 3);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,76, 'R504', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,77, 'R505', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,78, 'R506', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,79, 'R507', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,80, 'R508', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,81, 'R511', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,82, 'R515', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,83, 'R516', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,84, 'R517', 8, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,85, 'T604', 9, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,86, 'V1109', 10, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,87, 'V1501', 10, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,88, 'V1502', 10, 2);");
-    inserts.push_back("INSERT INTO rooms (modified_timestamp,is_deleted,id,name,location_id,class_type_id) VALUES (current_timestamp,false,89, 'V1526', 10, 2);");
     inserts.push_back("INSERT INTO classes (modified_timestamp,is_deleted,id,name,class_type_id,course_id) VALUES (current_timestamp,false,1, 'Analizis 1 eloadas', 1, 1);");
     inserts.push_back("INSERT INTO classes (modified_timestamp,is_deleted,id,name,class_type_id,course_id) VALUES (current_timestamp,false,2, 'Analizis 1 gyakorlat', 2, 1);");
     inserts.push_back("INSERT INTO classes (modified_timestamp,is_deleted,id,name,class_type_id,course_id) VALUES (current_timestamp,false,3, 'Analizis 1 labor', 3, 1);");
