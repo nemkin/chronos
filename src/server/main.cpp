@@ -206,14 +206,31 @@ int main(int argc, char *argv[]) {
     }
 
     std::map<int, chronos::Timetable> year_timetables;
+    std::map<int, chronos::Timetable> faculty_member_timetables;
+    std::map<int, chronos::Timetable> room_timetables;
 
     for(auto proposal : proposals) {
   
         year_timetables[proposal.year_id()].add(proposal);
+        faculty_member_timetables[proposal.faculty_member_id()].add(proposal);
+        room_timetables[proposal.room_id()].add(proposal);
     }
 
     for(auto t : year_timetables) {
 
+        std::cout << years[t.first-1].to_string() << std::endl;
+        std::cout << t.second.to_string() << std::endl << std::endl;
+    }
+
+    for(auto t : faculty_member_timetables) {
+
+        std::cout << faculty_members[t.first-1].to_string() << std::endl;
+        std::cout << t.second.to_string() << std::endl << std::endl;
+    }
+
+    for(auto t : room_timetables) {
+
+        std::cout << rooms[t.first-1].to_string() << std::endl;
         std::cout << t.second.to_string() << std::endl << std::endl;
     }
 
