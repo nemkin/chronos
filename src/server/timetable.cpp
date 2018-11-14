@@ -81,8 +81,8 @@ std::string Timetable::to_string() const {
         if(proposals.find(i+1) == proposals.end()) continue;
 
         timetable[i%6][i/6][1] = proposals.at(i+1).class_name();
-        timetable[i%6][i/6][2] = proposals.at(i+1).room_name();
-        timetable[i%6][i/6][3] = proposals.at(i+1).faculty_member_name();
+        timetable[i%6][i/6][2] = proposals.at(i+1).room_names_string();
+        timetable[i%6][i/6][3] = proposals.at(i+1).faculty_member_names_string();
         timetable[i%6][i/6][4] = proposals.at(i+1).year_name();
     }
 
