@@ -8,6 +8,8 @@ build
 *.pdf
 *.toc
 *.swp
+*.out
+*.thm
 
 # Python
 __pycache__
