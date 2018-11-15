@@ -182,28 +182,20 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Number of variables: " << x.size() << std::endl;
 
-    /*
-    ort::sat::DecisionBuilder* const db = s.MakePhase(x, ort::sat::Solver::CHOOSE_FIRST_UNBOUND, ort::sat::Solver::ASSIGN_MIN_VALUE);
-    
-    auto search_monitor = s.MakeSearchLog(10000000); 
-    std::vector<ort::sat::SearchMonitor*> monitors;
-    monitors.push_back(search_monitor);
-
-    s.NewSearch(db,monitors);
-    CHECK(s.NextSolution());
+    ort::sat::CpSolverResponse result = ort::sat::Solve(cp_model_builder);
 
     std::vector<chronos::Proposal> proposals;
 
     for(int i=0; i<classes.size(); ++i) {
    
-        auto timeslot_id = timeslot_of_class[i] -> Value();
+        auto timeslot_id = ort::sat::SolutionIntegerValue(result, timeslot_of_class[i]);
         auto year_id = d.get_year_by_id_for_class(classes[i].id());
         auto class_id = classes[i].id();
 
         std::vector<int> room_ids;
         std::vector<std::string> room_names;
         for(int j=0; j<room_of_class[i].size(); ++j) {
-            int id = room_of_class[i][j] -> Value();
+            int id = ort::sat::SolutionIntegerValue(result, room_of_class[i][j]);
             room_ids.push_back(id);
             room_names.push_back(rooms[id-1].name());
         }
@@ -211,7 +203,7 @@ int main(int argc, char *argv[]) {
         std::vector<int> faculty_member_ids;
         std::vector<std::string> faculty_member_names;
         for(int j=0; j<faculty_member_for_class[i].size(); ++j) {
-            int id = faculty_member_for_class[i][j] -> Value();
+            int id = ort::sat::SolutionIntegerValue(result, faculty_member_for_class[i][j]);
             faculty_member_ids.push_back(id);
             faculty_member_names.push_back(faculty_members[id-1].name());
         }
@@ -264,10 +256,6 @@ int main(int argc, char *argv[]) {
         std::cout << rooms[t.first-1].to_string() << std::endl;
         std::cout << t.second.to_string() << std::endl << std::endl;
     }
-
-    LOG(INFO) << s.DebugString();
-    s.EndSearch();
-    */
 
     return 0;
 }
