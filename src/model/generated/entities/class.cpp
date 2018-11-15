@@ -10,6 +10,7 @@ Class::Class(
     _modified_timestamp(""),
     _is_deleted(false),
     _name(""),
+    _count(0),
     _class_type_id(0),
     _course_id(0) {
 
@@ -20,6 +21,7 @@ Class::Class(
     std::string p_modified_timestamp,
     bool p_is_deleted,
     std::string p_name,
+    int p_count,
     int p_class_type_id,
     int p_course_id
 ) :
@@ -27,6 +29,7 @@ Class::Class(
     _modified_timestamp(p_modified_timestamp),
     _is_deleted(p_is_deleted),
     _name(p_name),
+    _count(p_count),
     _class_type_id(p_class_type_id),
     _course_id(p_course_id) {
 
@@ -52,6 +55,11 @@ std::string Class::name() const {
     return _name;
 }
 
+int Class::count() const {
+
+    return _count;
+}
+
 int Class::class_type_id() const {
 
     return _class_type_id;
@@ -71,6 +79,7 @@ std::string Class::to_string() const {
     ss << "modified_timestamp: " << _modified_timestamp << std::endl;
     ss << "is_deleted:         " << _is_deleted         << std::endl;
     ss << "name:               " << _name               << std::endl;
+    ss << "count:              " << _count              << std::endl;
     ss << "class_type_id:      " << _class_type_id      << std::endl;
     ss << "course_id:          " << _course_id          << std::endl;
 
