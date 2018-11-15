@@ -1,9 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <utility>
-#include <unistd.h>
 
-#include <ortools/constraint_solver/constraint_solver.h>
+#include <ortools/sat/cp_model.h>
 #include <ortools/base/logging.h>
 
 #include "server/database_manual.h"
@@ -31,131 +30,121 @@ int main(int argc, char *argv[]) {
     auto faculty_members = d.get_faculty_members();
     auto years = d.get_years();
 
-    ort::Solver s("chronos_solver");
+    ort::sat::CpModelBuilder cp_model_builder;
 
-    std::vector<ort::IntVar*> timeslot_of_class;
-    timeslot_of_class.resize(classes.size());
+    std::vector<ort::sat::IntVar> timeslot_of_class(classes.size());
+
     for(int i=0; i<classes.size(); ++i) {
-        timeslot_of_class[i] =
-            s.MakeIntVar(
-                1,
-                timeslots.size(),
-                classes[i].name()
-            );
+
+        timeslot_of_class[i] = cp_model_builder.NewIntVar(ort::Domain(1, timeslots.size()));
     } 
 
-    std::vector<std::vector<ort::IntVar*>> room_of_class;
-    room_of_class.resize(classes.size());
+    std::vector<std::vector<ort::sat::IntVar>> room_of_class(classes.size());
+
     for(int i=0; i<classes.size(); ++i) {
         for(int j=0; j<classes[i].count(); ++j) {
 
-            room_of_class[i].push_back(
-                s.MakeIntVar(
-                    d.get_rooms_by_id_to_hold_class(
-                        classes[i].id()
-                    ),
-                    classes[i].name()
-                )
-            );
+            auto vecint = d.get_rooms_by_id_to_hold_class(classes[i].id());
+            std::vector<int64> veclong(begin(vecint), end(vecint));
+
+            room_of_class[i].push_back(cp_model_builder.NewIntVar(ort::Domain::FromValues(absl::Span<int64>(veclong))));
         }
     }
 
-    std::vector<std::vector<ort::IntVar*>> faculty_member_for_class;
-    faculty_member_for_class.resize(classes.size());
+    std::vector<std::vector<ort::sat::IntVar>> faculty_member_for_class(classes.size());
+
     for(int i=0; i<classes.size(); ++i) {
         for(int j=0; j<classes[i].count(); ++j) {
-        
-            faculty_member_for_class[i].push_back(
-                s.MakeIntVar(
-                    d.get_faculty_members_by_id_licensed_to_teach_class(
-                        classes[i].id()
-                    ),
-                    classes[i].name()
-                )
-            );
+       
+            auto vecint = d.get_faculty_members_by_id_licensed_to_teach_class(classes[i].id());
+            std::vector<int64> veclong(begin(vecint), end(vecint));
+    
+            faculty_member_for_class[i].push_back(cp_model_builder.NewIntVar(ort::Domain::FromValues(absl::Span<int64>(veclong))));
         }
     }
 
-    std::vector<ort::IntVar*> timeslot_and_room_pair_is_unique;
+    std::vector<ort::sat::IntVar> timeslot_and_room_pair_is_unique;
+
     for(int i=0; i<classes.size(); ++i) {
 
         for(int j=0; j<room_of_class[i].size(); ++j) {
 
             timeslot_and_room_pair_is_unique.push_back(
-                s.MakeIntVar(
-                    1,
-                    (timeslots.size() + 1) * (rooms.size() + 1)
-                )
+
+                cp_model_builder.NewIntVar(ort::Domain(1, (timeslots.size() + 1) * (rooms.size() + 1)))
             );
 
+            std::vector<ort::sat::IntVar> vars;
+            vars.push_back(room_of_class[i][j]);
+            vars.push_back(timeslot_of_class[i]);
+            
+            std::vector<int64> coeffs;
+            coeffs.push_back(timeslots.size() + 1);
+            coeffs.push_back(1);
+            
+            cp_model_builder.AddEquality(
 
-            s.AddConstraint(
-                s.MakeEquality(
-                    timeslot_and_room_pair_is_unique[timeslot_and_room_pair_is_unique.size() - 1],
-                    s.MakeSum(
-                        s.MakeProd(
-                            room_of_class[i][j],
-                            timeslots.size() + 1
-                        ),
-                        timeslot_of_class[i]
-                    )
-                )
+                timeslot_and_room_pair_is_unique[timeslot_and_room_pair_is_unique.size() - 1],
+
+                ort::sat::LinearExpr::ScalProd(absl::Span<ort::sat::IntVar>(vars), absl::Span<int64>(coeffs))
             );
         }
     }
-    s.AddConstraint(s.MakeAllDifferent(timeslot_and_room_pair_is_unique));
 
-    std::vector<ort::IntVar*> timeslot_and_faculty_member_pair_is_unique;
+    cp_model_builder.AddAllDifferent(absl::Span<ort::sat::IntVar>(timeslot_and_room_pair_is_unique));
+
+    std::vector<ort::sat::IntVar> timeslot_and_faculty_member_pair_is_unique;
+
     for(int i=0; i<classes.size(); ++i) {
         for(int j=0; j<faculty_member_for_class[i].size(); ++j) {
 
             timeslot_and_faculty_member_pair_is_unique.push_back(
-                s.MakeIntVar(
-                    1,
-                    (timeslots.size() + 1) * (faculty_members.size() + 1)
-                )
+
+                cp_model_builder.NewIntVar(ort::Domain(1, (timeslots.size() + 1) * (faculty_members.size() + 1)))
             );
 
-            s.AddConstraint(
-                s.MakeEquality(
-                    timeslot_and_faculty_member_pair_is_unique[timeslot_and_faculty_member_pair_is_unique.size() - 1], 
-                    s.MakeSum(
-                        s.MakeProd(
-                            faculty_member_for_class[i][j],
-                            timeslots.size() + 1
-                        ),
-                        timeslot_of_class[i]
-                    )
-                )
+
+            std::vector<ort::sat::IntVar> vars;
+            vars.push_back(faculty_member_for_class[i][j]);
+            vars.push_back(timeslot_of_class[i]);
+
+            std::vector<int64> coeffs;
+            coeffs.push_back(timeslots.size() + 1);
+            coeffs.push_back(1);
+
+            cp_model_builder.AddEquality(
+            
+                timeslot_and_faculty_member_pair_is_unique[timeslot_and_faculty_member_pair_is_unique.size() - 1], 
+
+                ort::sat::LinearExpr::ScalProd(absl::Span<ort::sat::IntVar>(vars), absl::Span<int64>(coeffs))
             );
         }
     }
-    s.AddConstraint(s.MakeAllDifferent(timeslot_and_faculty_member_pair_is_unique));
 
-    std::vector<ort::IntVar*> timeslot_and_year_pair_is_unique;
-    timeslot_and_year_pair_is_unique.resize(classes.size());
+    cp_model_builder.AddAllDifferent(absl::Span<ort::sat::IntVar>(timeslot_and_faculty_member_pair_is_unique));
+
+    std::vector<ort::sat::IntVar> timeslot_and_year_pair_is_unique(classes.size());
+
     for(int i=0; i<classes.size(); ++i) {
 
         timeslot_and_year_pair_is_unique[i] =
-            s.MakeIntVar(
-                1,
-                (timeslots.size() + 1) * (years.size() + 1)
-            );
 
-        s.AddConstraint(
-            s.MakeEquality(
-                timeslot_and_year_pair_is_unique[i],
-                s.MakeSum(
-                    timeslot_of_class[i],
-                    (timeslots.size() + 1) *
-                    d.get_year_by_id_for_class(classes[i].id())
-                )
-            )
+            cp_model_builder.NewIntVar(ort::Domain(1, (timeslots.size() + 1) * (years.size() + 1)));
+
+        auto linear_expr = ort::sat::LinearExpr((timeslots.size() + 1) * d.get_year_by_id_for_class(classes[i].id()));
+        linear_expr.AddVar(timeslot_of_class[i]);
+
+        cp_model_builder.AddEquality(
+
+            timeslot_and_year_pair_is_unique[i],
+
+            linear_expr
         );
     }
-    s.AddConstraint(s.MakeAllDifferent(timeslot_and_year_pair_is_unique));
 
-    std::vector<ort::IntVar*> x;
+    cp_model_builder.AddAllDifferent(absl::Span<ort::sat::IntVar>(timeslot_and_year_pair_is_unique));
+
+    std::vector<ort::sat::IntVar> x;
     x.insert(
         x.end(),
         timeslot_of_class.begin(),
@@ -192,10 +181,12 @@ int main(int argc, char *argv[]) {
     );
 
     std::cout << "Number of variables: " << x.size() << std::endl;
-    ort::DecisionBuilder* const db = s.MakePhase(x, ort::Solver::CHOOSE_FIRST_UNBOUND, ort::Solver::ASSIGN_MIN_VALUE);
+
+    /*
+    ort::sat::DecisionBuilder* const db = s.MakePhase(x, ort::sat::Solver::CHOOSE_FIRST_UNBOUND, ort::sat::Solver::ASSIGN_MIN_VALUE);
     
     auto search_monitor = s.MakeSearchLog(10000000); 
-    std::vector<ort::SearchMonitor*> monitors;
+    std::vector<ort::sat::SearchMonitor*> monitors;
     monitors.push_back(search_monitor);
 
     s.NewSearch(db,monitors);
@@ -276,5 +267,7 @@ int main(int argc, char *argv[]) {
 
     LOG(INFO) << s.DebugString();
     s.EndSearch();
+    */
+
     return 0;
 }
