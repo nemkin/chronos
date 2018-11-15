@@ -4,6 +4,7 @@
 
 #include <ortools/sat/cp_model.h>
 #include <ortools/base/logging.h>
+#include <ortools/util/proto_tools.h>
 
 #include "server/database_manual.h"
 #include "server/timetable.h"
@@ -183,6 +184,8 @@ int main(int argc, char *argv[]) {
     std::cout << "Number of variables: " << x.size() << std::endl;
 
     ort::sat::CpSolverResponse result = ort::sat::Solve(cp_model_builder);
+
+    std::cout << ort::FullProtocolMessageAsString(result, 4) << std::endl;
 
     std::vector<chronos::Proposal> proposals;
 
