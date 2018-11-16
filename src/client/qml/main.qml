@@ -9,8 +9,73 @@ Window {
     width: 800
     height: 600
 
-    Text {
-        anchors.fill: parent
-        text: "YOHOHO"
+    Column {
+
+        Row {
+
+            Text { text: "User:" }
+
+            Rectangle {
+
+                border.color: "black"
+                width: 100
+                height: 30 
+
+                TextInput {
+                    anchors.fill: parent
+                }
+            }
+        }
+
+        Row {
+
+            Text { text: "Password:" }
+
+            Rectangle {
+
+                border.color: "black"
+                width: 100
+                height: 30 
+
+                TextInput {
+                    anchors.fill: parent
+                }
+            }
+        }
+
+        Row {
+
+            Text { text: "IP:" }
+
+            Rectangle {
+
+                border.color: "black"
+                width: 100
+                height: 30 
+
+                TextInput {
+                    anchors.fill: parent
+                }
+            }
+        }
+
+        Row {
+
+            Text { text: "Database:" }
+
+            Rectangle {
+
+                border.color: "black"
+                width: 100
+                height: 30 
+
+                TextInput {
+                    anchors.fill: parent
+                }
+            }
+        }
+   
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
     }
 }
