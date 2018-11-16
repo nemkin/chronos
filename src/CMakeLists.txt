@@ -1,41 +1,29 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 project(chronos)
 
-# set(PQXX /usr/include/pqxx)
-
 find_library(PQXX_LIB pqxx)
 find_library(PQ_LIB pq)
 
 find_package(ortools CONFIG REQUIRED)
 
-# find_package(Qt5Core)
-# find_package(Qt5Network)
-# find_package(Qt5Sql)
-# find_package(Qt5Widgets)
-# find_package(Qt5Gui)
-# find_package(Qt5SerialPort)
-# find_package(Qt5Multimedia)
-# find_package(Qt5MultimediaWidgets)
-# find_package(Qt5Test)
+find_package(Qt5Core)
+find_package(Qt5Gui)
 
-# set(QT_LIBRARIES
-#    Qt5::Core
-#    Qt5::Network
-#    Qt5::Sql
-#    Qt5::Widgets
-#    Qt5::Gui
-#    Qt5::SerialPort
-#    Qt5::Multimedia
-#    Qt5::MultimediaWidgets
-#    Qt5::Test
-#)   
+set(QT_LIBRARIES
+    Qt5::Core
+    Qt5::Gui
+)   
+
+message(${QT_LIBRARIES})
 
 # Find includes in corresponding build directories
-# set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 # Instruct CMake to run moc automatically when needed
-# set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOMOC ON)
+
 # Create code from a list of Qt designer ui files
-# set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC ON)
 
 if(NOT CMAKE_BUILD_TYPE)
  set(CMAKE_BUILD_TYPE Debug)
@@ -68,21 +56,19 @@ ${PROJECT_SOURCE_DIR}/server/proposal.cpp
 ${PROJECT_SOURCE_DIR}/server/timetable.cpp
 )
 
+set(RESOURCES
+${PROJECT_SOURCE_DIR}/client/resources.qrc
+)
+
 set(CLIENT_SOURCES
 ${PROJECT_SOURCE_DIR}/client/main.cpp
 )
-
-message(${PQXX_LIB})
-message(${PQ_LIB})
 
 add_executable(server ${MODEL_SOURCES} ${SERVER_SOURCES})
 target_link_libraries(server ${PQXX_LIB} ${PQ_LIB})
 target_link_libraries(server ortools::ortools)
 
-# target_link_libraries(server ${QT_LIBRARIES})
-
-add_executable(client ${MODEL_SOURCES} ${CLIENT_SOURCES})
+add_executable(client ${MODEL_SOURCES} ${CLIENT_SOURCES} ${RESOURCES})
 target_link_libraries(client ${PQXX_LIB} ${PQ_LIB})
-
-# target_link_libraries(client ${QT_LIBRARIES})
+target_link_libraries(client ${QT_LIBRARIES})
 

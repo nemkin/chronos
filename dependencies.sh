@@ -7,7 +7,7 @@ sudo apt install build-essential cmake
 # Refresh package list.
 # sudo apt update -qq
 # Qt dependencies.
-# sudo apt install qt511base qt511tools qt511multimedia libqt5sql5-psql libqt5serialport5-dev
+# sudo apt install qt511base
 
 # PostgreSQL for C++
 sudo apt install libpqxx-dev

@@ -1,10 +1,15 @@
 #include <iostream>
 #include <string>
 
+#include <QCoreApplication>
+#include <QtQml/QQmlApplicationEngine>
+
 #include "model/generated/database/database.h"
 
 int main(int argc, char *argv[]) {
     
+    QCoreApplication app(argc, argv);
+
     std::string user;
     std::string pass;
 
@@ -13,6 +18,7 @@ int main(int argc, char *argv[]) {
 
     std::cout<<"Pass: ";
     std::cin>>pass;
+
 
     chronos::Database d(user, pass);
     
@@ -25,5 +31,7 @@ int main(int argc, char *argv[]) {
         std::cout << dep.to_string();
     }
 
-    return 0;
+    QQmlApplicationEngine engine(QUrl("qrc:/main.qml"));
+
+    return app.exec();
 }
