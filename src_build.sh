@@ -1,12 +1,18 @@
-rm -rf build/src 2>/dev/null
-mkdir -p build/src 2>/dev/null
+rm -rf build 2>/dev/null
+mkdir -p build/server 2>/dev/null
+mkdir -p build/client 2>/dev/null
 mkdir bin 2>/dev/null
 
-cd build/src
-
+cd build/server
 cmake ../../src
 make
+cd ../..
 
-mv server ../../bin
-mv client ../../bin
+cd build/client
+qmake ../../src/client.pro
+make
+cd ../..
+
+mv build/server/server bin/server
+mv build/client/client bin/client
 

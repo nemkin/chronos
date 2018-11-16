@@ -92,7 +92,7 @@ std::string Proposal::room_names_string() const {
 
     std::stringstream ss;
 
-    for(int i=0; i<_room_names.size(); ++i) {
+    for(unsigned int i=0; i<_room_names.size(); ++i) {
         ss << _room_names[i] << ((i == _room_names.size() -1) ? "" : ", ");
     }
 
@@ -108,7 +108,7 @@ std::string Proposal::faculty_member_names_string() const {
 
     std::stringstream ss;
 
-    for(int i=0; i<_faculty_member_names.size(); ++i) {
+    for(unsigned int i=0; i<_faculty_member_names.size(); ++i) {
         ss << _faculty_member_names[i] << ((i == _faculty_member_names.size() -1) ? "" : ", ");
     }
 

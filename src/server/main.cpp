@@ -35,14 +35,14 @@ int main(int argc, char *argv[]) {
 
     std::vector<ort::sat::IntVar> timeslot_of_class(classes.size());
 
-    for(int i=0; i<classes.size(); ++i) {
+    for(unsigned int i=0; i<classes.size(); ++i) {
 
         timeslot_of_class[i] = cp_model_builder.NewIntVar(ort::Domain(1, timeslots.size()));
     } 
 
     std::vector<std::vector<ort::sat::IntVar>> room_of_class(classes.size());
 
-    for(int i=0; i<classes.size(); ++i) {
+    for(unsigned int i=0; i<classes.size(); ++i) {
         for(int j=0; j<classes[i].count(); ++j) {
 
             auto vecint = d.get_rooms_by_id_to_hold_class(classes[i].id());
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 
     std::vector<std::vector<ort::sat::IntVar>> faculty_member_for_class(classes.size());
 
-    for(int i=0; i<classes.size(); ++i) {
+    for(unsigned int i=0; i<classes.size(); ++i) {
         for(int j=0; j<classes[i].count(); ++j) {
        
             auto vecint = d.get_faculty_members_by_id_licensed_to_teach_class(classes[i].id());
@@ -66,9 +66,9 @@ int main(int argc, char *argv[]) {
 
     std::vector<ort::sat::IntVar> timeslot_and_room_pair_is_unique;
 
-    for(int i=0; i<classes.size(); ++i) {
+    for(unsigned int i=0; i<classes.size(); ++i) {
 
-        for(int j=0; j<room_of_class[i].size(); ++j) {
+        for(unsigned int j=0; j<room_of_class[i].size(); ++j) {
 
             timeslot_and_room_pair_is_unique.push_back(
 
@@ -96,8 +96,8 @@ int main(int argc, char *argv[]) {
 
     std::vector<ort::sat::IntVar> timeslot_and_faculty_member_pair_is_unique;
 
-    for(int i=0; i<classes.size(); ++i) {
-        for(int j=0; j<faculty_member_for_class[i].size(); ++j) {
+    for(unsigned int i=0; i<classes.size(); ++i) {
+        for(unsigned int j=0; j<faculty_member_for_class[i].size(); ++j) {
 
             timeslot_and_faculty_member_pair_is_unique.push_back(
 
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
 
     std::vector<ort::sat::IntVar> timeslot_and_year_pair_is_unique(classes.size());
 
-    for(int i=0; i<classes.size(); ++i) {
+    for(unsigned int i=0; i<classes.size(); ++i) {
 
         timeslot_and_year_pair_is_unique[i] =
 
@@ -151,14 +151,14 @@ int main(int argc, char *argv[]) {
         timeslot_of_class.begin(),
         timeslot_of_class.end()
     );
-    for(int j=0; j<room_of_class.size(); ++j) {
+    for(unsigned int j=0; j<room_of_class.size(); ++j) {
         x.insert(
             x.end(),
             room_of_class[j].begin(),
             room_of_class[j].end()
         );
     }
-    for(int j=0; j<faculty_member_for_class.size(); ++j) {
+    for(unsigned int j=0; j<faculty_member_for_class.size(); ++j) {
         x.insert(
             x.end(),
             faculty_member_for_class[j].begin(),
@@ -189,7 +189,7 @@ int main(int argc, char *argv[]) {
 
     std::vector<chronos::Proposal> proposals;
 
-    for(int i=0; i<classes.size(); ++i) {
+    for(unsigned int i=0; i<classes.size(); ++i) {
    
         auto timeslot_id = ort::sat::SolutionIntegerValue(result, timeslot_of_class[i]);
         auto year_id = d.get_year_by_id_for_class(classes[i].id());
@@ -197,7 +197,7 @@ int main(int argc, char *argv[]) {
 
         std::vector<int> room_ids;
         std::vector<std::string> room_names;
-        for(int j=0; j<room_of_class[i].size(); ++j) {
+        for(unsigned int j=0; j<room_of_class[i].size(); ++j) {
             int id = ort::sat::SolutionIntegerValue(result, room_of_class[i][j]);
             room_ids.push_back(id);
             room_names.push_back(rooms[id-1].name());
@@ -205,7 +205,7 @@ int main(int argc, char *argv[]) {
 
         std::vector<int> faculty_member_ids;
         std::vector<std::string> faculty_member_names;
-        for(int j=0; j<faculty_member_for_class[i].size(); ++j) {
+        for(unsigned int j=0; j<faculty_member_for_class[i].size(); ++j) {
             int id = ort::sat::SolutionIntegerValue(result, faculty_member_for_class[i][j]);
             faculty_member_ids.push_back(id);
             faculty_member_names.push_back(faculty_members[id-1].name());

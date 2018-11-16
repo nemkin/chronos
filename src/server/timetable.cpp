@@ -39,24 +39,24 @@ void Timetable::add(Proposal proposal) {
 
 std::string Timetable::pad_to_column_width(std::string str) const {
 
-    int _column_width = 22;
+    unsigned int _column_width = 22;
 
     if (_column_width <= str.length()) return str.substr(0,_column_width);
    
-    int space_needed = _column_width - str.length();
+    unsigned int space_needed = _column_width - str.length();
 
-    int pad_to_left = space_needed / 2; 
-    int pad_to_right = space_needed / 2 + space_needed % 2; 
+    unsigned int pad_to_left = space_needed / 2; 
+    unsigned int pad_to_right = space_needed / 2 + space_needed % 2; 
 
     std::string ret;
 
-    for(int i=0; i<pad_to_left; ++i) {
+    for(unsigned int i=0; i<pad_to_left; ++i) {
         ret += " ";
     }
 
     ret += str;
 
-    for(int i=0; i<pad_to_right; ++i) {
+    for(unsigned int i=0; i<pad_to_right; ++i) {
         ret += " ";
     }
 
