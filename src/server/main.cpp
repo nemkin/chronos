@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     std::string user = "nemkin";
     std::string pass = "nemkin";
 
-    chronos::DatabaseManual d(user, pass);
+    chronos::DatabaseManual d(user, pass, "10.240.2.125", "chronos");
     
     d.test(); 
     d.destroy(); 

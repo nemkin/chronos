@@ -36,8 +36,8 @@ def header(type_model, data_model, entities_directory_path):
     header += '    Database(\n'
     header += '        std::string p_user,\n'
     header += '        std::string p_pass,\n'
-    header += '        std::string p_host = "localhost",\n'
-    header += '        std::string p_database = "chronos"\n'
+    header += '        std::string p_host,\n'
+    header += '        std::string p_database\n'
     header += '    );\n'
     header += '\n' 
 

@@ -17,8 +17,8 @@ public:
     DatabaseManual(
         std::string p_user,
         std::string p_pass,
-        std::string p_host = "10.240.2.125",
-        std::string p_database = "chronos"
+        std::string p_host,
+        std::string p_database
     );
 
     std::vector<int> get_rooms_by_id_to_hold_class(int class_id);

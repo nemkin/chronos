@@ -28,9 +28,16 @@ public:
     Database(
         std::string p_user,
         std::string p_pass,
-        std::string p_host = "10.240.2.125",
-        std::string p_database = "chronos"
+        std::string p_host,
+        std::string p_database
     );
+
+//    static void create_connection(
+//        std::string p_user,
+//        std::string p_pass,
+//        std::string p_host,
+//        std::string p_database
+//    );
 
     std::vector<Timeslot> get_timeslots();
     std::vector<Location> get_locations();
