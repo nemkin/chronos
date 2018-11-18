@@ -16,11 +16,6 @@ public:
 
     Login(QObject *parent = nullptr);
 
-    std::string user() const;
-    std::string password() const;
-    std::string ip() const;
-    std::string database() const;
-
 public slots:
 
     void ok_pressed(
@@ -31,13 +26,6 @@ public slots:
     );
 
 private:
-
-    void connect();
-
-    std::string _user;
-    std::string _password;
-    std::string _ip;
-    std::string _database;
 
 }
 

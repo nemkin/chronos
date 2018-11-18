@@ -4,17 +4,21 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "model/generated/database/database.h"
+#include "model/manual/database_service.h"
 
 int main(int argc, char *argv[]) {
     
     QGuiApplication app(argc, argv);
 
-    chronos::Database d("nemkin", "nemkin", "10.240.2.125", "chronos");
+    chronos::DatabaseService::init("nemkin", "nemkin", "10.240.2.125", "chronos");
     
-    d.test(); 
+    chronos::DatabaseService::instance().test(); 
 
     QQmlApplicationEngine engine(QUrl("qrc:/qml/login.qml"));
 
-    return app.exec();
+    auto result = app.exec();
+
+    chronos::DatabaseService::destroy();
+
+    return result;
 }

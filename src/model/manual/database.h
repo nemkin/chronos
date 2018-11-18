@@ -5,16 +5,16 @@
 
 #include <string>
 
-#include "model/generated/database/database.h"
-#include "server/proposal.h"
+#include "model/generated/database/database_partial.h"
+#include "model/manual/proposal.h"
 
 namespace chronos {
 
-class DatabaseManual : public Database {
+class Database : public DatabasePartial {
 
 public:
 
-    DatabaseManual(
+    Database(
         std::string p_user,
         std::string p_pass,
         std::string p_host,

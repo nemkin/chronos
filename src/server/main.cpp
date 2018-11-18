@@ -6,8 +6,8 @@
 #include <ortools/base/logging.h>
 #include <ortools/util/proto_tools.h>
 
-#include "server/database_manual.h"
-#include "server/timetable.h"
+#include "model/manual/database_service.h"
+#include "model/manual/timetable.h"
 
 namespace ort = operations_research;
 
@@ -15,21 +15,23 @@ int main(int argc, char *argv[]) {
    
     //google::InitGoogleLogging(argv[0]);
  
-    std::string user = "nemkin";
-    std::string pass = "nemkin";
+    chronos::DatabaseService::init(
+        "nemkin",
+        "nemkin",
+        "10.240.2.125",
+        "chronos"
+    );
 
-    chronos::DatabaseManual d(user, pass, "10.240.2.125", "chronos");
-    
-    d.test(); 
-    d.destroy(); 
-    d.init(); 
-    d.fill();
+    chronos::DatabaseService::instance().test(); 
+    chronos::DatabaseService::instance().destroy(); 
+    chronos::DatabaseService::instance().init(); 
+    chronos::DatabaseService::instance().fill();
 
-    auto timeslots = d.get_timeslots();
-    auto classes = d.get_classes();
-    auto rooms = d.get_rooms();
-    auto faculty_members = d.get_faculty_members();
-    auto years = d.get_years();
+    auto timeslots = chronos::DatabaseService::instance().get_timeslots();
+    auto classes = chronos::DatabaseService::instance().get_classes();
+    auto rooms = chronos::DatabaseService::instance().get_rooms();
+    auto faculty_members = chronos::DatabaseService::instance().get_faculty_members();
+    auto years = chronos::DatabaseService::instance().get_years();
 
     ort::sat::CpModelBuilder cp_model_builder;
 
@@ -45,7 +47,7 @@ int main(int argc, char *argv[]) {
     for(unsigned int i=0; i<classes.size(); ++i) {
         for(int j=0; j<classes[i].count(); ++j) {
 
-            auto vecint = d.get_rooms_by_id_to_hold_class(classes[i].id());
+            auto vecint = chronos::DatabaseService::instance().get_rooms_by_id_to_hold_class(classes[i].id());
             std::vector<int64> veclong(begin(vecint), end(vecint));
 
             room_of_class[i].push_back(cp_model_builder.NewIntVar(ort::Domain::FromValues(absl::Span<int64>(veclong))));
@@ -57,7 +59,7 @@ int main(int argc, char *argv[]) {
     for(unsigned int i=0; i<classes.size(); ++i) {
         for(int j=0; j<classes[i].count(); ++j) {
        
-            auto vecint = d.get_faculty_members_by_id_licensed_to_teach_class(classes[i].id());
+            auto vecint = chronos::DatabaseService::instance().get_faculty_members_by_id_licensed_to_teach_class(classes[i].id());
             std::vector<int64> veclong(begin(vecint), end(vecint));
     
             faculty_member_for_class[i].push_back(cp_model_builder.NewIntVar(ort::Domain::FromValues(absl::Span<int64>(veclong))));
@@ -132,7 +134,7 @@ int main(int argc, char *argv[]) {
 
             cp_model_builder.NewIntVar(ort::Domain(1, (timeslots.size() + 1) * (years.size() + 1)));
 
-        auto linear_expr = ort::sat::LinearExpr((timeslots.size() + 1) * d.get_year_by_id_for_class(classes[i].id()));
+        auto linear_expr = ort::sat::LinearExpr((timeslots.size() + 1) * chronos::DatabaseService::instance().get_year_by_id_for_class(classes[i].id()));
         linear_expr.AddVar(timeslot_of_class[i]);
 
         cp_model_builder.AddEquality(
@@ -192,7 +194,7 @@ int main(int argc, char *argv[]) {
     for(unsigned int i=0; i<classes.size(); ++i) {
    
         auto timeslot_id = ort::sat::SolutionIntegerValue(result, timeslot_of_class[i]);
-        auto year_id = d.get_year_by_id_for_class(classes[i].id());
+        auto year_id = chronos::DatabaseService::instance().get_year_by_id_for_class(classes[i].id());
         auto class_id = classes[i].id();
 
         std::vector<int> room_ids;
@@ -259,6 +261,8 @@ int main(int argc, char *argv[]) {
         std::cout << rooms[t.first-1].to_string() << std::endl;
         std::cout << t.second.to_string() << std::endl << std::endl;
     }
+
+    chronos::DatabaseService::destroy();
 
     return 0;
 }

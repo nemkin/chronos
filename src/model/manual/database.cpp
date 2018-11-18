@@ -1,16 +1,16 @@
-#include "database_manual.h"
+#include "database.h"
 
 #include <iostream>
 
 using namespace chronos;
 
-DatabaseManual::DatabaseManual(
+Database::Database(
     std::string p_user,
     std::string p_password,
     std::string p_host,
     std::string p_database
 ):
-    Database(
+    DatabasePartial(
         p_user,
         p_password,
         p_host,
@@ -18,7 +18,7 @@ DatabaseManual::DatabaseManual(
 
 }
 
-std::vector<int> DatabaseManual::get_rooms_by_id_to_hold_class(int class_id) {
+std::vector<int> Database::get_rooms_by_id_to_hold_class(int class_id) {
 
     std::vector<int> ret;
 
@@ -47,7 +47,7 @@ std::vector<int> DatabaseManual::get_rooms_by_id_to_hold_class(int class_id) {
     return ret;
 }
 
-std::vector<int> DatabaseManual::get_faculty_members_by_id_licensed_to_teach_class(int class_id) {
+std::vector<int> Database::get_faculty_members_by_id_licensed_to_teach_class(int class_id) {
 
     std::vector<int> ret;
 
@@ -79,7 +79,7 @@ std::vector<int> DatabaseManual::get_faculty_members_by_id_licensed_to_teach_cla
     return ret;
 }
 
-int DatabaseManual::get_year_by_id_for_class(int class_id) {
+int Database::get_year_by_id_for_class(int class_id) {
 
     try {
         

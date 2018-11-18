@@ -29,11 +29,11 @@ def header(type_model, data_model, entities_directory_path):
     header += '\n'
     header += 'namespace chronos {\n' 
     header += '\n'
-    header += 'class Database {\n'
+    header += 'class DatabasePartial {\n'
     header += '\n'
     header += 'public:\n'
     header += '\n'
-    header += '    Database(\n'
+    header += '    DatabasePartial(\n'
     header += '        std::string p_user,\n'
     header += '        std::string p_pass,\n'
     header += '        std::string p_host,\n'
@@ -74,13 +74,13 @@ def source(type_model, data_model, data_sql):
 
     source = ''
 
-    source += '#include "database.h"\n'
+    source += '#include "database_partial.h"\n'
     source += '\n'
     source += '#include <iostream>\n'
     source += '\n'
     source += 'using namespace chronos;\n'
     source += '\n'
-    source += 'Database::Database(\n'
+    source += 'DatabasePartial::DatabasePartial(\n'
     source += '    std::string p_user,\n'
     source += '    std::string p_password,\n'
     source += '    std::string p_host,\n'
@@ -101,7 +101,7 @@ def source(type_model, data_model, data_sql):
         source += \
             'std::vector<' +\
             utils.cpp_class_name(class_model) +\
-            '> Database::get_' +\
+            '> DatabasePartial::get_' +\
             utils.plural(class_model['class']) +\
             '() {\n'
 
@@ -158,7 +158,7 @@ def source(type_model, data_model, data_sql):
         source += '}\n'
         source += '\n'
 
-    source += 'void Database::test() {\n'
+    source += 'void DatabasePartial::test() {\n'
     source += '\n'
     source += '    if(_db.is_open()) {\n'
     source += '\n'
@@ -170,7 +170,7 @@ def source(type_model, data_model, data_sql):
     source += '    }\n'
     source += '}\n'
     source += '\n'
-    source += 'void Database::init() {\n'
+    source += 'void DatabasePartial::init() {\n'
     source += '\n'
     source += '    std::vector<std::string> creates;\n'
     source += '\n'
@@ -211,7 +211,7 @@ def source(type_model, data_model, data_sql):
     source += '    }\n'
     source += '}\n'
     source += '\n'
-    source += 'void Database::fill() {\n'
+    source += 'void DatabasePartial::fill() {\n'
     source += '\n'
     source += '    std::vector<std::string> inserts;\n'
     source += '\n'
@@ -238,7 +238,7 @@ def source(type_model, data_model, data_sql):
     source += '}\n'
     source += '\n'
 
-    source += 'void Database::destroy() {\n'
+    source += 'void DatabasePartial::destroy() {\n'
     source += '\n'
     source += '    try {\n'
     source += '\n'
@@ -257,11 +257,11 @@ def source(type_model, data_model, data_sql):
 
 def generate(path, type_model, data_model, data_sql, entities_directory_path):
 
-    with open(os.path.join(path, 'database.h'), 'w+') as file:
+    with open(os.path.join(path, 'database_partial.h'), 'w+') as file:
     
         file.write(header(type_model, data_model, entities_directory_path))
     
-    with open(os.path.join(path, 'database.cpp'), 'w+') as file:
+    with open(os.path.join(path, 'database_partial.cpp'), 'w+') as file:
     
         file.write(source(type_model, data_model, data_sql))
 

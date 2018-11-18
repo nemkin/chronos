@@ -6,7 +6,7 @@
 #include <string>
 #include <map>
 
-#include "server/proposal.h"
+#include "model/manual/proposal.h"
 
 namespace chronos {
 

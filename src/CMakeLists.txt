@@ -20,9 +20,6 @@ message(${MODEL_SOURCES})
 
 set(SOURCES
 ${PROJECT_SOURCE_DIR}/server/main.cpp
-${PROJECT_SOURCE_DIR}/server/database_manual.cpp
-${PROJECT_SOURCE_DIR}/server/proposal.cpp
-${PROJECT_SOURCE_DIR}/server/timetable.cpp
 )
 
 add_executable(server ${MODEL_SOURCES} ${SOURCES})

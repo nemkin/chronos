@@ -1,10 +1,10 @@
-#include "database.h"
+#include "database_partial.h"
 
 #include <iostream>
 
 using namespace chronos;
 
-Database::Database(
+DatabasePartial::DatabasePartial(
     std::string p_user,
     std::string p_password,
     std::string p_host,
@@ -19,7 +19,7 @@ Database::Database(
 
 }
 
-std::vector<Timeslot> Database::get_timeslots() {
+std::vector<Timeslot> DatabasePartial::get_timeslots() {
 
     std::vector<Timeslot> ret;
 
@@ -49,7 +49,7 @@ std::vector<Timeslot> Database::get_timeslots() {
     return ret;
 }
 
-std::vector<Location> Database::get_locations() {
+std::vector<Location> DatabasePartial::get_locations() {
 
     std::vector<Location> ret;
 
@@ -79,7 +79,7 @@ std::vector<Location> Database::get_locations() {
     return ret;
 }
 
-std::vector<ClassType> Database::get_class_types() {
+std::vector<ClassType> DatabasePartial::get_class_types() {
 
     std::vector<ClassType> ret;
 
@@ -109,7 +109,7 @@ std::vector<ClassType> Database::get_class_types() {
     return ret;
 }
 
-std::vector<Year> Database::get_years() {
+std::vector<Year> DatabasePartial::get_years() {
 
     std::vector<Year> ret;
 
@@ -139,7 +139,7 @@ std::vector<Year> Database::get_years() {
     return ret;
 }
 
-std::vector<Department> Database::get_departments() {
+std::vector<Department> DatabasePartial::get_departments() {
 
     std::vector<Department> ret;
 
@@ -170,7 +170,7 @@ std::vector<Department> Database::get_departments() {
     return ret;
 }
 
-std::vector<Course> Database::get_courses() {
+std::vector<Course> DatabasePartial::get_courses() {
 
     std::vector<Course> ret;
 
@@ -202,7 +202,7 @@ std::vector<Course> Database::get_courses() {
     return ret;
 }
 
-std::vector<Room> Database::get_rooms() {
+std::vector<Room> DatabasePartial::get_rooms() {
 
     std::vector<Room> ret;
 
@@ -234,7 +234,7 @@ std::vector<Room> Database::get_rooms() {
     return ret;
 }
 
-std::vector<Class> Database::get_classes() {
+std::vector<Class> DatabasePartial::get_classes() {
 
     std::vector<Class> ret;
 
@@ -267,7 +267,7 @@ std::vector<Class> Database::get_classes() {
     return ret;
 }
 
-std::vector<FacultyMember> Database::get_faculty_members() {
+std::vector<FacultyMember> DatabasePartial::get_faculty_members() {
 
     std::vector<FacultyMember> ret;
 
@@ -298,7 +298,7 @@ std::vector<FacultyMember> Database::get_faculty_members() {
     return ret;
 }
 
-std::vector<License> Database::get_licenses() {
+std::vector<License> DatabasePartial::get_licenses() {
 
     std::vector<License> ret;
 
@@ -330,7 +330,7 @@ std::vector<License> Database::get_licenses() {
     return ret;
 }
 
-void Database::test() {
+void DatabasePartial::test() {
 
     if(_db.is_open()) {
 
@@ -342,7 +342,7 @@ void Database::test() {
     }
 }
 
-void Database::init() {
+void DatabasePartial::init() {
 
     std::vector<std::string> creates;
 
@@ -454,7 +454,7 @@ void Database::init() {
     }
 }
 
-void Database::fill() {
+void DatabasePartial::fill() {
 
     std::vector<std::string> inserts;
 
@@ -2001,7 +2001,7 @@ void Database::fill() {
     }
 }
 
-void Database::destroy() {
+void DatabasePartial::destroy() {
 
     try {
 

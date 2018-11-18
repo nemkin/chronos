@@ -1,5 +1,5 @@
 set(MODEL_SOURCES
-${CMAKE_CURRENT_SOURCE_DIR}/generated/database/database.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/generated/database/database_partial.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/generated/entities/class.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/generated/entities/class_type.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/generated/entities/course.cpp
@@ -10,6 +10,10 @@ ${CMAKE_CURRENT_SOURCE_DIR}/generated/entities/location.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/generated/entities/room.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/generated/entities/timeslot.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/generated/entities/year.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/manual/database.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/manual/database_service.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/manual/proposal.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/manual/timetable.cpp
 PARENT_SCOPE
 )
 

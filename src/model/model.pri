@@ -1,5 +1,5 @@
 HEADERS += \
-    $$PWD/generated/database/database.h \
+    $$PWD/generated/database/database_partial.h \
     $$PWD/generated/entities/class.h \
     $$PWD/generated/entities/class_type.h \
     $$PWD/generated/entities/course.h \
@@ -10,10 +10,12 @@ HEADERS += \
     $$PWD/generated/entities/room.h \
     $$PWD/generated/entities/timeslot.h \
     $$PWD/generated/entities/year.h \
+    $$PWD/manual/database.h \
+    $$PWD/manual/database_service.h \
 
 
 SOURCES += \
-    $$PWD/generated/database/database.cpp \
+    $$PWD/generated/database/database_partial.cpp \
     $$PWD/generated/entities/class.cpp \
     $$PWD/generated/entities/class_type.cpp \
     $$PWD/generated/entities/course.cpp \
@@ -24,5 +26,7 @@ SOURCES += \
     $$PWD/generated/entities/room.cpp \
     $$PWD/generated/entities/timeslot.cpp \
     $$PWD/generated/entities/year.cpp \
+    $$PWD/manual/database.cpp \
+    $$PWD/manual/database_service.cpp \
 
 
