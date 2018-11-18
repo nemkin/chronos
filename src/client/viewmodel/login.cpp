@@ -23,6 +23,14 @@ bool Login::ok_pressed(
         database.toStdString()
     );
 
-    return DatabaseService::instance().test();
+
+    if (DatabaseService::is_initialized()) {
+
+        return DatabaseService::instance().test();
+
+    } else {
+
+        return false;
+    }
 }
 

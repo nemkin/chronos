@@ -21,6 +21,7 @@ public:
     );
 
     static void destroy();
+    static bool is_initialized();
 
     static Database& instance();
 

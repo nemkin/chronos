@@ -14,7 +14,7 @@ void DatabaseService::init(
     std::string p_database
 ) {
 
-    if(DatabaseService::_instance != nullptr) {
+    if(is_initialized()) {
     
         delete DatabaseService::_instance;
     }
@@ -31,24 +31,28 @@ void DatabaseService::init(
     } catch (std::exception& e) {
 
         std::cout << e.what() << std::endl;
-        DatabaseService::_instance = nullptr;
+        destroy();
     }
 }
 
 void DatabaseService::destroy() {
 
-    if(DatabaseService::_instance != nullptr) {
+    if(is_initialized()) {
     
         delete DatabaseService::_instance;
+        DatabaseService::_instance = nullptr;
     }
-    
-    DatabaseService::_instance = nullptr;
 }
 
 
+bool DatabaseService::is_initialized() {
+    
+    return DatabaseService::_instance != nullptr;
+}
+
 Database& DatabaseService::instance() {
 
-    if (DatabaseService::_instance != nullptr) {
+    if (is_initialized()) {
     
         return *DatabaseService::_instance;
     }
