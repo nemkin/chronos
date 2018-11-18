@@ -43,7 +43,7 @@ public:
     std::vector<FacultyMember> get_faculty_members();
     std::vector<License> get_licenses();
 
-    void test();
+    bool test();
     void init();
     void fill();
     void destroy();

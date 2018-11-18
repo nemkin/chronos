@@ -3,18 +3,20 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "model/manual/database_service.h"
+#include "client/viewmodel/login.h"
 
 int main(int argc, char *argv[]) {
     
     QGuiApplication app(argc, argv);
 
-    chronos::DatabaseService::init("nemkin", "nemkin", "10.240.2.125", "chronos");
-    
-    chronos::DatabaseService::instance().test(); 
-
     QQmlApplicationEngine engine(QUrl("qrc:/qml/login.qml"));
+
+    chronos::Login login;
+
+    engine.rootContext()->setContextProperty("LoginViewModel", &login);
 
     auto result = app.exec();
 

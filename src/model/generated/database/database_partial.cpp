@@ -330,7 +330,7 @@ std::vector<License> DatabasePartial::get_licenses() {
     return ret;
 }
 
-void DatabasePartial::test() {
+bool DatabasePartial::test() {
 
     if(_db.is_open()) {
 
@@ -340,6 +340,8 @@ void DatabasePartial::test() {
 
         std::cout << "Connection failed." << std::endl;
     }
+
+    return _db.is_open();
 }
 
 void DatabasePartial::init() {

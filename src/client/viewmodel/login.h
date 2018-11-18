@@ -8,6 +8,8 @@
 #include <QObject>
 #include <QString>
 
+namespace chronos {
+
 class Login : public QObject {
 
     Q_OBJECT
@@ -18,7 +20,7 @@ public:
 
 public slots:
 
-    void ok_pressed(
+    bool ok_pressed(
         QString user,
         QString password,
         QString ip,
@@ -26,6 +28,8 @@ public slots:
     );
 
 private:
+
+};
 
 }
 

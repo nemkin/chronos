@@ -5,7 +5,12 @@ QT += core qml quick
 
 include(model/model.pri)
 
-SOURCES += client/main.cpp
+HEADERS += \
+    client/viewmodel/login.h
+
+SOURCES += \
+    client/main.cpp \
+    client/viewmodel/login.cpp
 
 RESOURCES += client/resources.qrc
 

@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Window 2.0
+import QtQuick.Controls 2.0
 
 Window {
 
@@ -64,6 +65,8 @@ Window {
 
         Column {
 
+            id: column
+
             anchors.centerIn: parent
             spacing: 10
 
@@ -75,7 +78,7 @@ Window {
 
                     text: "User:"
 
-                    width: 50
+                    width: 70
                     height: 30
 
                     horizontalAlignment: Text.AlignRight
@@ -110,7 +113,7 @@ Window {
 
                     text: "Password:"
 
-                    width: 50
+                    width: 70
                     height: 30
 
                     horizontalAlignment: Text.AlignRight
@@ -145,7 +148,7 @@ Window {
                 
                     text: "IP:"
 
-                    width: 50
+                    width: 70
                     height: 30
 
                     horizontalAlignment: Text.AlignRight
@@ -180,7 +183,7 @@ Window {
                     
                     text: "Database:"
 
-                    width: 50
+                    width: 70
                     height: 30
 
                     horizontalAlignment: Text.AlignRight
@@ -205,6 +208,29 @@ Window {
                     }
                 }
             }
-        }   
+        }
+
+        Item {
+
+            height: 30
+            width: 290
+
+            anchors.top: column.bottom
+            anchors.topMargin: 40
+
+            anchors.right: column.right
+
+            Button {
+
+                text: "Connect"
+                onClicked: LoginViewModel.ok_pressed(user.text, password.text, ip.text, database.text);
+
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+
+            }
+        }
+       
     }
 }

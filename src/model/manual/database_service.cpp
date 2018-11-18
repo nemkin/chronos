@@ -1,5 +1,6 @@
 #include "database_service.h"
 
+#include <iostream>
 #include <stdexcept>
 
 using namespace chronos;
@@ -18,12 +19,20 @@ void DatabaseService::init(
         delete DatabaseService::_instance;
     }
 
-    DatabaseService::_instance = new Database(
-        p_user,
-        p_password,
-        p_host,
-        p_database
-    );
+    try {
+
+        DatabaseService::_instance = new Database(
+            p_user,
+            p_password,
+            p_host,
+            p_database
+        );
+
+    } catch (std::exception& e) {
+
+        std::cout << e.what() << std::endl;
+        DatabaseService::_instance = nullptr;
+    }
 }
 
 void DatabaseService::destroy() {
