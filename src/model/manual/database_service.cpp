@@ -6,6 +6,7 @@
 using namespace chronos;
 
 Database* DatabaseService::_instance = nullptr;
+std::string DatabaseService::_last_error = "";
 
 void DatabaseService::init(
     std::string p_user,
@@ -14,10 +15,7 @@ void DatabaseService::init(
     std::string p_database
 ) {
 
-    if(is_initialized()) {
-    
-        delete DatabaseService::_instance;
-    }
+    destroy();
 
     try {
 
@@ -30,7 +28,8 @@ void DatabaseService::init(
 
     } catch (std::exception& e) {
 
-        std::cout << e.what() << std::endl;
+        DatabaseService::_last_error = e.what();
+        std::cerr << _last_error << std::endl;
         destroy();
     }
 }
@@ -58,5 +57,10 @@ Database& DatabaseService::instance() {
     }
 
     throw std::runtime_error("Trying to use database instance but it is not initialized!");
+}
+
+std::string DatabaseService::last_error() {
+
+    return DatabaseService::_last_error;
 }
 

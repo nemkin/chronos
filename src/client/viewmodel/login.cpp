@@ -34,3 +34,8 @@ bool Login::ok_pressed(
     }
 }
 
+QString Login::last_error() {
+
+    return QString::fromStdString(DatabaseService::last_error());
+}
+

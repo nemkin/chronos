@@ -1,22 +1,13 @@
 import QtQuick 2.7
-import QtQuick.Window 2.0
 import QtQuick.Controls 2.0
+import QtGraphicalEffects 1.0
 
-Window {
+Item {
 
-    visible: true
-    title: "Chronos"
+    id: root
+    signal success()
 
-    width: 800
-    height: 600
-
-    Component.onCompleted: {
-
-        x = Screen.width / 2 - width / 2;
-        y = Screen.height / 2 - height / 2;
-    }
-
-    Item {
+    Rectangle {
 
         id: left_side
 
@@ -26,8 +17,9 @@ Window {
 
         width: parent.width/2
 
-
         Text {
+
+            id: left_side_text
 
             text: "CHRONOS"
             font.pixelSize: 40
@@ -39,16 +31,18 @@ Window {
     Rectangle {
 
         id: middle
-        
+       
+        property real margin_size: 0.1
+ 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        anchors.left: left_side.right
 
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        anchors.topMargin: parent.height * 0.1
-        anchors.bottomMargin: parent.height * 0.1
+        anchors.topMargin: parent.height * margin_size
+        anchors.bottomMargin: parent.height * margin_size
 
         border.color: "grey"
+        color: "grey"
 
         width: 2
     }
@@ -57,11 +51,27 @@ Window {
 
         id: right_side
 
-        anchors.right: parent.right
+        anchors.left: middle.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        
-        width: parent.width/2
+        width: parent.width/2 - middle.width
+
+        Text {
+
+            id: status_message
+
+            width: 290
+
+            wrapMode: Text.Wrap
+
+            anchors.bottom: column.top
+            anchors.bottomMargin: 10
+
+            anchors.horizontalCenter: column.horizontalCenter
+
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignBottom
+        }
 
         Column {
 
@@ -95,6 +105,7 @@ Window {
 
                         id: user
                         focus: true
+                        text: "nemkin"
 
                         anchors.fill: parent
                         padding: 5
@@ -129,9 +140,11 @@ Window {
                     TextInput {
 
                         id: password
+                        text: "nemkin"
 
                         anchors.fill: parent
                         padding: 5
+                        echoMode: TextInput.Password
 
                         verticalAlignment: TextInput.AlignVCenter
                         KeyNavigation.tab: ip
@@ -164,6 +177,7 @@ Window {
                     TextInput {
 
                         id: ip
+                        text: "10.240.2.125"
 
                         anchors.fill: parent
                         padding: 5
@@ -199,6 +213,7 @@ Window {
                     TextInput {
 
                         id: database
+                        text: "chronos"
 
                         anchors.fill: parent
                         padding: 5
@@ -235,7 +250,20 @@ Window {
                     id:button
 
                     text: "Connect"
-                    onClicked: LoginViewModel.ok_pressed(user.text, password.text, ip.text, database.text);
+                    onClicked: {
+
+                        if (LoginViewModel.ok_pressed(user.text, password.text, ip.text, database.text)) {
+
+                            status_message.text = "Successful connection!"
+                            status_message.color = "green"
+                            login_animation.running = true
+
+                        } else {
+
+                            status_message.text = LoginViewModel.last_error();                            
+                            status_message.color = "red"
+                        }
+                    }
 
                     anchors.right: parent.right
                     anchors.top: parent.top
@@ -245,4 +273,96 @@ Window {
             }
         }
     }
+
+    SequentialAnimation {
+           
+        id: login_animation
+        running: false
+        onStopped: root.success() 
+
+        property real speed: 0.8
+
+        ParallelAnimation {
+ 
+            NumberAnimation {
+                
+                target: middle
+                property: "opacity"
+                to: 0.5
+                duration: 700*login_animation.speed + 100
+            } 
+
+            NumberAnimation {
+                
+                target: middle
+                property: "margin_size"
+                to: 0.03
+                duration: 700*login_animation.speed + 100
+            }
+        }
+
+        ParallelAnimation {
+           
+            NumberAnimation {
+
+                target: right_side
+                property: "opacity"
+                to: 0.0
+                duration: 300*login_animation.speed
+            } 
+
+            NumberAnimation {
+                
+                target: middle
+                property: "opacity"
+                to: 0.0
+                duration: 300*login_animation.speed
+            } 
+  
+            NumberAnimation {
+                
+                target: middle
+                property: "margin_size"
+                to: 0.0
+                duration: 500*login_animation.speed
+            }
+
+            NumberAnimation {
+                
+                target: left_side
+                property: "width"
+                to: parent.width
+                duration: 1500
+            } 
+
+        }
+
+        PauseAnimation {
+
+            duration: 250
+        }
+
+        ColorAnimation {
+
+            target: left_side_text
+            property: "color"
+            to: "grey"
+            duration: 500
+        }
+
+        ColorAnimation {
+
+            target: left_side_text
+            property: "color"
+            to: "black"
+            duration: 600
+        }
+
+        PauseAnimation {
+
+            duration: 700
+        }
+
+    }
 }
+

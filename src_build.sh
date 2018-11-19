@@ -1,4 +1,4 @@
-rm -rf bin 2>/dev/null
+#rm -rf bin 2>/dev/null
 rm -rf build 2>/dev/null
 #mkdir -p build/server 2>/dev/null
 mkdir -p build/client 2>/dev/null

@@ -24,10 +24,12 @@ public:
     static bool is_initialized();
 
     static Database& instance();
+    static std::string last_error();
 
 private:
 
     static Database* _instance;
+    static std::string _last_error;
 };
 
 }

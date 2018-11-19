@@ -27,6 +27,8 @@ public slots:
         QString database
     );
 
+    QString last_error();
+
 private:
 
 };

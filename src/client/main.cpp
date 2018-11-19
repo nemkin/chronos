@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     
     QGuiApplication app(argc, argv);
 
-    QQmlApplicationEngine engine(QUrl("qrc:/qml/login.qml"));
+    QQmlApplicationEngine engine(QUrl("qrc:/qml/MainWindow.qml"));
 
     chronos::Login login;
 
