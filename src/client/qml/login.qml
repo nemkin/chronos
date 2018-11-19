@@ -220,17 +220,29 @@ Window {
 
             anchors.right: column.right
 
-            Button {
+            Rectangle {
 
-                text: "Connect"
-                onClicked: LoginViewModel.ok_pressed(user.text, password.text, ip.text, database.text);
+                color: "grey"
 
                 anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
 
+                width: button.width
+
+                Button {
+                    
+                    id:button
+
+                    text: "Connect"
+                    onClicked: LoginViewModel.ok_pressed(user.text, password.text, ip.text, database.text);
+
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+
+                }
             }
         }
-       
     }
 }

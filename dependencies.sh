@@ -1,18 +1,24 @@
 #!/bin/bash
 
+# C++.
 sudo apt install build-essential cmake
 
-# Needed for Qt5 on travis build server.
-# sudo add-apt-repository --yes ppa:beineri/opt-qt-5.11.1-bionic
-# Refresh package list.
-# sudo apt update -qq
-# Qt dependencies.
-# sudo apt install qt511base
+# PostgreSQL.
+sudo apt install postgresql-server-dev-all postgresql-client libpqxx-dev
 
-# PostgreSQL for C++
-sudo apt install libpqxx-dev
+# Qt.
+sudo apt install qt5-default qtdeclarative5-dev qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-controls2
 
-# Latex dependencies.
-# sudo apt install texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra dvipng
+# Latex.
+sudo apt install texlive-full
 
-# TODO: or-tools: https://github.com/google/or-tools.git
+# Or-tools.
+git clone https://github.com/google/or-tools.git
+cd or-tools
+cmake -H. -Bbuild -G "Unix Makefiles"
+cmake --build build
+cmake --build build --target test
+sudo cmake --build build --target install
+cd ..
+rm -rf or-tools
+
