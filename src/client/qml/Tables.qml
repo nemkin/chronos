@@ -5,6 +5,8 @@ Item {
 
     Rectangle {
 
+        id: root
+
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
@@ -42,10 +44,15 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: parent.right
-
+            anchors.rightMargin: 20
+            
             boundsBehavior: Flickable.StopAtBounds
 
-            ScrollBar.vertical: ScrollBar {}
+            ScrollBar.vertical: ScrollBar {
+                
+                anchors.left: parent.right
+                width: 20
+            }
         }
     }
 }
