@@ -3,7 +3,6 @@ import QtQuick.Controls 2.0
 
 Item {
 
-
     Rectangle {
 
         anchors.top: parent.top
@@ -14,6 +13,8 @@ Item {
         color: "grey"
 
         Column {
+
+            id: column
 
             anchors.fill: parent
 
@@ -31,6 +32,20 @@ Item {
                     border.color: "white"
                 }
             }
+        }
+       
+        ClassView {
+
+            id: class_view
+
+            anchors.left: column.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+
+            boundsBehavior: Flickable.StopAtBounds
+
+            ScrollBar.vertical: ScrollBar {}
         }
     }
 }

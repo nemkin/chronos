@@ -330,15 +330,326 @@ std::vector<License> DatabasePartial::get_licenses() {
     return ret;
 }
 
+std::map<int, Timeslot> DatabasePartial::get_timeslots_map() {
+
+    std::map<int, Timeslot> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM timeslots;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            Timeslot p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>() // name
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, Location> DatabasePartial::get_locations_map() {
+
+    std::map<int, Location> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM locations;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            Location p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>() // name
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, ClassType> DatabasePartial::get_class_types_map() {
+
+    std::map<int, ClassType> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM class_types;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            ClassType p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>() // name
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, Year> DatabasePartial::get_years_map() {
+
+    std::map<int, Year> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM years;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            Year p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>() // name
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, Department> DatabasePartial::get_departments_map() {
+
+    std::map<int, Department> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM departments;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            Department p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>(), // name
+                i[4].as<std::string>() // short_name
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, Course> DatabasePartial::get_courses_map() {
+
+    std::map<int, Course> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM courses;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            Course p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>(), // name
+                i[4].as<int>(), // year_id
+                i[5].as<int>() // department_id
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, Room> DatabasePartial::get_rooms_map() {
+
+    std::map<int, Room> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM rooms;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            Room p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>(), // name
+                i[4].as<int>(), // location_id
+                i[5].as<int>() // class_type_id
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, Class> DatabasePartial::get_classes_map() {
+
+    std::map<int, Class> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM classes;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            Class p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>(), // name
+                i[4].as<int>(), // count
+                i[5].as<int>(), // class_type_id
+                i[6].as<int>() // course_id
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, FacultyMember> DatabasePartial::get_faculty_members_map() {
+
+    std::map<int, FacultyMember> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM faculty_members;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            FacultyMember p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<std::string>(), // name
+                i[4].as<int>() // department_id
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
+std::map<int, License> DatabasePartial::get_licenses_map() {
+
+    std::map<int, License> ret;
+
+    try {
+
+        pqxx::nontransaction n(_db);
+
+        pqxx::result r(n.exec("SELECT * FROM licenses;"));
+
+        for(auto i = r.begin(); i != r.end(); ++i) {
+
+            License p(
+                i[0].as<int>(), // id
+                i[1].as<std::string>(), // modified_timestamp
+                i[2].as<bool>(), // is_deleted
+                i[3].as<int>(), // course_id
+                i[4].as<int>(), // class_type_id
+                i[5].as<int>() // faculty_member_id
+            );
+
+            ret[p.id()] = p;
+        }
+
+    } catch (std::exception& e) {
+
+        std::cerr << e.what() << std::endl;
+    }
+
+    return ret;
+}
+
 bool DatabasePartial::test() {
 
     if(_db.is_open()) {
 
-        std::cout << "Connection successful!" << std::endl;
+        std::cerr << "Connection successful!" << std::endl;
 
     } else {
 
-        std::cout << "Connection failed." << std::endl;
+        std::cerr << "Connection failed." << std::endl;
     }
 
     return _db.is_open();

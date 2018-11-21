@@ -24,9 +24,10 @@ bool Login::ok_pressed(
     );
 
 
-    if (DatabaseService::is_initialized()) {
-
-        return DatabaseService::instance().test();
+    if (DatabaseService::is_initialized() && DatabaseService::instance().test()) {
+       
+        emit logged_in(); 
+        return true;
 
     } else {
 

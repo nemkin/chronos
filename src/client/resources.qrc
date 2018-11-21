@@ -3,5 +3,6 @@
         <file>qml/MainWindow.qml</file>
         <file>qml/Login.qml</file>
         <file>qml/Tables.qml</file>
+        <file>qml/ClassView.qml</file>
     </qresource>
 </RCC>

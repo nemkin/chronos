@@ -251,7 +251,7 @@ Item {
                     text: "Connect"
                     onClicked: {
 
-                        if (LoginViewModel.ok_pressed(user.text, password.text, ip.text, database.text)) {
+                        if (login_view_model.ok_pressed(user.text, password.text, ip.text, database.text)) {
 
                             status_message.text = "Successful connection!"
                             status_message.color = "green"
@@ -259,7 +259,7 @@ Item {
 
                         } else {
 
-                            status_message.text = LoginViewModel.last_error();                            
+                            status_message.text = login_view_model.last_error();                            
                             status_message.color = "red"
                         }
                     }

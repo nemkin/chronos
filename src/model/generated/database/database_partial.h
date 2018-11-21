@@ -4,6 +4,7 @@
 #define __DATABASE__H__
 
 #include <string>
+#include <map>
 #include <vector>
 
 #include <pqxx/pqxx>
@@ -42,6 +43,16 @@ public:
     std::vector<Class> get_classes();
     std::vector<FacultyMember> get_faculty_members();
     std::vector<License> get_licenses();
+    std::map<int, Timeslot> get_timeslots_map();
+    std::map<int, Location> get_locations_map();
+    std::map<int, ClassType> get_class_types_map();
+    std::map<int, Year> get_years_map();
+    std::map<int, Department> get_departments_map();
+    std::map<int, Course> get_courses_map();
+    std::map<int, Room> get_rooms_map();
+    std::map<int, Class> get_classes_map();
+    std::map<int, FacultyMember> get_faculty_members_map();
+    std::map<int, License> get_licenses_map();
 
     bool test();
     void init();

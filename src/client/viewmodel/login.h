@@ -18,6 +18,10 @@ public:
 
     Login(QObject *parent = nullptr);
 
+signals:
+
+    void logged_in();
+
 public slots:
 
     bool ok_pressed(

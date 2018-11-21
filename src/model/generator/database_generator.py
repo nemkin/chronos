@@ -11,6 +11,7 @@ def header(type_model, data_model, entities_directory_path):
     header += '#define __DATABASE__H__\n'    
     header += '\n'
     header += '#include <string>\n'
+    header += '#include <map>\n'
     header += '#include <vector>\n'
     header += '\n'
     header += '#include <pqxx/pqxx>\n'
@@ -50,8 +51,19 @@ def header(type_model, data_model, entities_directory_path):
             utils.plural(class_model['class']) +\
             '();\n'
 
+    for class_model in data_model['classes']:
+
+        header += \
+            '    std::map<' +\
+            type_model['id']['cpp'] +\
+            ', ' +\
+            utils.cpp_class_name(class_model) +\
+            '> get_' +\
+            utils.plural(class_model['class']) +\
+            '_map();\n'
+
     header += '\n'
-    header += '    void test();\n'
+    header += '    bool test();\n'
     header += '    void init();\n'
     header += '    void fill();\n'
     header += '    void destroy();\n'
@@ -158,16 +170,85 @@ def source(type_model, data_model, data_sql):
         source += '}\n'
         source += '\n'
 
-    source += 'void DatabasePartial::test() {\n'
+    for class_model in data_model['classes']:
+
+        source += \
+            'std::map<' +\
+            type_model['id']['cpp'] +\
+            ', ' +\
+            utils.cpp_class_name(class_model) +\
+            '> DatabasePartial::get_' +\
+            utils.plural(class_model['class']) +\
+            '_map() {\n'
+
+        source += '\n'
+
+        source += \
+            '    std::map<' +\
+            type_model['id']['cpp'] +\
+            ', ' +\
+            utils.cpp_class_name(class_model) +\
+            '> ret;\n'
+
+        source += '\n'
+        source += '    try {\n'
+        source += '\n'
+        source += '        pqxx::nontransaction n(_db);\n'
+        source += '\n'
+
+        source += \
+            '        pqxx::result r(n.exec("SELECT * FROM ' +\
+            utils.plural(class_model['class']) +\
+            ';"));\n'
+        
+        source += '\n'
+        source += '        for(auto i = r.begin(); i != r.end(); ++i) {\n'
+        source += '\n'
+        source += \
+            '            ' +\
+            utils.cpp_class_name(class_model) +\
+            ' p(\n' 
+
+        for i, member in enumerate(utils.cpp_class_members(type_model, data_model, class_model)):
+
+            source += \
+                '                i[' +\
+                str(i) +\
+                '].as<' +\
+                type_model[member['type']]['cpp'] +\
+                '>()' +\
+                (',' if i != len(utils.cpp_class_members(type_model, data_model, class_model))-1 else '') +\
+                ' // ' +\
+                member['name'] +\
+                '\n'
+
+        source += '            );\n'
+        source += '\n'
+        source += '            ret[p.id()] = p;\n'
+        source += '        }\n'
+        source += '\n'
+        source += '    } catch (std::exception& e) {\n'
+        source += '\n'
+        source += '        std::cerr << e.what() << std::endl;\n'
+        source += '    }\n'
+        source += '\n'
+        source += '    return ret;\n'
+        source += '}\n'
+        source += '\n'
+
+    source += 'bool DatabasePartial::test() {\n'
     source += '\n'
     source += '    if(_db.is_open()) {\n'
     source += '\n'
-    source += '        std::cout << "Connection successful!" << std::endl;\n'
+    source += '        std::cerr << "Connection successful!" << std::endl;\n'
     source += '\n'
     source += '    } else {\n'
     source += '\n'
-    source += '        std::cout << "Connection failed." << std::endl;\n'
+    source += '        std::cerr << "Connection failed." << std::endl;\n'
     source += '    }\n'
+    source += '\n'
+    source += '    return _db.is_open();'
+    source += '\n'
     source += '}\n'
     source += '\n'
     source += 'void DatabasePartial::init() {\n'

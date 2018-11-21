@@ -16,10 +16,17 @@ int main(int argc, char *argv[]) {
     QQmlApplicationEngine engine(QUrl("qrc:/qml/MainWindow.qml"));
 
     chronos::Login login;
-    chronos::Tables tables;
+    chronos::Tables tables(engine.rootContext());
 
-    engine.rootContext()->setContextProperty("LoginViewModel", &login);
-    engine.rootContext()->setContextProperty("TablesViewModel", &tables);
+    QObject::connect(
+        &login,
+        &chronos::Login::logged_in,
+        &tables,
+        &chronos::Tables::logged_in
+    );
+
+    engine.rootContext()->setContextProperty("login_view_model", &login);
+    engine.rootContext()->setContextProperty("tables_view_model", &tables);
 
     auto result = app.exec();
 
