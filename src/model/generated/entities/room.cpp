@@ -10,6 +10,7 @@ Room::Room(
     _modified_timestamp(""),
     _is_deleted(false),
     _name(""),
+    _size_type(""),
     _location_id(0),
     _class_type_id(0) {
 
@@ -20,6 +21,7 @@ Room::Room(
     std::string p_modified_timestamp,
     bool p_is_deleted,
     std::string p_name,
+    std::string p_size_type,
     int p_location_id,
     int p_class_type_id
 ) :
@@ -27,6 +29,7 @@ Room::Room(
     _modified_timestamp(p_modified_timestamp),
     _is_deleted(p_is_deleted),
     _name(p_name),
+    _size_type(p_size_type),
     _location_id(p_location_id),
     _class_type_id(p_class_type_id) {
 
@@ -52,6 +55,11 @@ std::string Room::name() const {
     return _name;
 }
 
+std::string Room::size_type() const {
+
+    return _size_type;
+}
+
 int Room::location_id() const {
 
     return _location_id;
@@ -71,6 +79,7 @@ std::string Room::to_string() const {
     ss << "modified_timestamp: " << _modified_timestamp << std::endl;
     ss << "is_deleted:         " << _is_deleted         << std::endl;
     ss << "name:               " << _name               << std::endl;
+    ss << "size_type:          " << _size_type          << std::endl;
     ss << "location_id:        " << _location_id        << std::endl;
     ss << "class_type_id:      " << _class_type_id      << std::endl;
 

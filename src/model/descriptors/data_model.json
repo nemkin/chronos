@@ -53,6 +53,27 @@
             "references": []
         },
         {
+            "class": "room",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "size_type",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "location"
+                },
+                {
+                    "class": "class_type"
+                }
+            ]
+        },
+        {
             "class": "department",
             "members": [
                 {
@@ -80,23 +101,6 @@
                 },
                 {
                     "class": "department"
-                }
-            ]
-        },
-        {
-            "class": "room",
-            "members": [
-                {
-                    "name": "name",
-                    "type": "text"
-                }
-            ],
-            "references": [
-                {
-                    "class": "location"
-                },
-                {
-                    "class": "class_type"
                 }
             ]
         },

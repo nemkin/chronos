@@ -185,7 +185,20 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Number of variables: " << x.size() << std::endl;
 
-    ort::sat::CpSolverResponse result = ort::sat::Solve(cp_model_builder);
+    ort::sat:: Model model;
+
+    int num_solutions = 0;
+    model.Add(ort::sat::NewFeasibleSolutionObserver([&](const ort::sat::CpSolverResponse& r) {
+
+        ++ num_solutions;
+        LOG(INFO) << num_solutions;
+        LOG(INFO) << ort::FullProtocolMessageAsString(r, 4);
+    }));
+
+    ort::sat::SatParameters parameters;
+    parameters.set_num_search_workers(3);
+    model.Add(ort::sat::NewSatParameters(parameters));
+    ort::sat::CpSolverResponse result = ort::sat::SolveWithModel(cp_model_builder, &model);
 
     std::cout << ort::FullProtocolMessageAsString(result, 4) << std::endl;
 
