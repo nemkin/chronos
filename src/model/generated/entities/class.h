@@ -18,7 +18,6 @@ public:
         std::string p_modified_timestamp,
         bool p_is_deleted,
         std::string p_name,
-        int p_count,
         int p_class_type_id,
         int p_course_id
     );
@@ -27,7 +26,6 @@ public:
     std::string modified_timestamp() const;
     bool is_deleted() const;
     std::string name() const;
-    int count() const;
     int class_type_id() const;
     int course_id() const;
     std::string to_string() const;
@@ -38,7 +36,6 @@ private:
     std::string _modified_timestamp;
     bool _is_deleted;
     std::string _name;
-    int _count;
     int _class_type_id;
     int _course_id;
 

@@ -13,7 +13,12 @@ namespace ort = operations_research;
 
 int main(int argc, char *argv[]) {
    
-    //google::InitGoogleLogging(argv[0]);
+    // google::InitGoogleLogging(argv[0]);
+
+    unsigned int variable_count = 0;
+    unsigned int non_seminars_parallel = 2;
+
+    // Database init
  
     chronos::DatabaseService::init(
         "nemkin",
@@ -27,178 +32,355 @@ int main(int argc, char *argv[]) {
     chronos::DatabaseService::instance().init(); 
     chronos::DatabaseService::instance().fill();
 
-    auto timeslots = chronos::DatabaseService::instance().get_timeslots();
-    auto classes = chronos::DatabaseService::instance().get_classes();
-    auto rooms = chronos::DatabaseService::instance().get_rooms();
-    auto faculty_members = chronos::DatabaseService::instance().get_faculty_members();
-    auto years = chronos::DatabaseService::instance().get_years();
+    auto timeslots = 
+        chronos::DatabaseService::instance()
+            .get_timeslots();
+    auto classes_proto =
+        chronos::DatabaseService::instance()
+            .get_classes();
+
+    std::vector<chronos::Class> classes;
+
+    for(int i=0; i<10; ++i) {
+        classes.push_back(classes_proto[i]);
+    }
+
+    auto rooms =
+        chronos::DatabaseService::instance()
+            .get_rooms();
+    auto faculty_members =
+        chronos::DatabaseService::instance()
+            .get_faculty_members();
+    auto years =
+        chronos::DatabaseService::instance()
+            .get_years();
 
     ort::sat::CpModelBuilder cp_model_builder;
 
-    std::vector<ort::sat::IntVar> timeslot_of_class(classes.size());
+
+    // TIMESLOT VARS
+    
+    std::vector<ort::sat::IntVar> timeslot_of_class(
+        classes.size()
+    );
 
     for(unsigned int i=0; i<classes.size(); ++i) {
 
-        timeslot_of_class[i] = cp_model_builder.NewIntVar(ort::Domain(1, timeslots.size()));
+        timeslot_of_class[i] =
+            cp_model_builder.NewIntVar(
+                ort::Domain(
+                    1,
+                    timeslots.size()
+                )
+            );
+        ++variable_count;
     } 
 
-    std::vector<std::vector<ort::sat::IntVar>> room_of_class(classes.size());
+
+    // ROOM VARS
+
+    std::vector<ort::sat::IntVar> room_of_class(
+        classes.size()
+    );
 
     for(unsigned int i=0; i<classes.size(); ++i) {
-        for(int j=0; j<classes[i].count(); ++j) {
 
-            auto vecint = chronos::DatabaseService::instance().get_rooms_by_id_to_hold_class(classes[i].id());
-            std::vector<int64> veclong(begin(vecint), end(vecint));
+        auto vecint =
+            chronos::DatabaseService::instance()
+                .get_rooms_by_id_to_hold_class(
+                    classes[i].id()
+                );
+        std::vector<int64> veclong(
+            begin(vecint),
+            end(vecint)
+        );
 
-            room_of_class[i].push_back(cp_model_builder.NewIntVar(ort::Domain::FromValues(absl::Span<int64>(veclong))));
-        }
+        room_of_class[i] = 
+            cp_model_builder.NewIntVar(
+                ort::Domain::FromValues(
+                    absl::Span<int64>(veclong)
+                    )
+                );
+        ++variable_count;
     }
 
-    std::vector<std::vector<ort::sat::IntVar>> faculty_member_for_class(classes.size());
+
+    // FACULTY_MEMBER_VARS
+
+    std::vector<ort::sat::IntVar> faculty_member_for_class(
+        classes.size()
+    );
 
     for(unsigned int i=0; i<classes.size(); ++i) {
-        for(int j=0; j<classes[i].count(); ++j) {
        
-            auto vecint = chronos::DatabaseService::instance().get_faculty_members_by_id_licensed_to_teach_class(classes[i].id());
-            std::vector<int64> veclong(begin(vecint), end(vecint));
+       auto vecint =
+           chronos::DatabaseService::instance()
+               .get_faculty_members_by_id_licensed_to_teach_class(
+                   classes[i].id()
+               );
+       std::vector<int64> veclong(
+           begin(vecint),
+           end(vecint)
+       );
     
-            faculty_member_for_class[i].push_back(cp_model_builder.NewIntVar(ort::Domain::FromValues(absl::Span<int64>(veclong))));
-        }
+       faculty_member_for_class[i] =
+           cp_model_builder.NewIntVar(
+               ort::Domain::FromValues(
+                   absl::Span<int64>(veclong)
+               )
+           );
+       ++variable_count;
     }
+
+
+    // Unique constraint for TIMESLOT X ROOM
 
     std::vector<ort::sat::IntVar> timeslot_and_room_pair_is_unique;
 
     for(unsigned int i=0; i<classes.size(); ++i) {
 
-        for(unsigned int j=0; j<room_of_class[i].size(); ++j) {
+        timeslot_and_room_pair_is_unique.push_back(
+            cp_model_builder.NewIntVar(
+                ort::Domain(
+                    1,
+                    (timeslots.size() + 1) *
+                    (rooms.size() + 1)
+                )
+            )
+        );
+        ++variable_count;
 
-            timeslot_and_room_pair_is_unique.push_back(
+        std::vector<ort::sat::IntVar> vars;
+        vars.push_back(room_of_class[i]);
+        vars.push_back(timeslot_of_class[i]);
+        
+        std::vector<int64> coeffs;
+        coeffs.push_back(timeslots.size() + 1);
+        coeffs.push_back(1);
+        
+        cp_model_builder.AddEquality(
 
-                cp_model_builder.NewIntVar(ort::Domain(1, (timeslots.size() + 1) * (rooms.size() + 1)))
-            );
+            timeslot_and_room_pair_is_unique.back(),
 
-            std::vector<ort::sat::IntVar> vars;
-            vars.push_back(room_of_class[i][j]);
-            vars.push_back(timeslot_of_class[i]);
-            
-            std::vector<int64> coeffs;
-            coeffs.push_back(timeslots.size() + 1);
-            coeffs.push_back(1);
-            
-            cp_model_builder.AddEquality(
-
-                timeslot_and_room_pair_is_unique[timeslot_and_room_pair_is_unique.size() - 1],
-
-                ort::sat::LinearExpr::ScalProd(absl::Span<ort::sat::IntVar>(vars), absl::Span<int64>(coeffs))
-            );
-        }
+            ort::sat::LinearExpr::ScalProd(
+                absl::Span<ort::sat::IntVar>(vars),
+                absl::Span<int64>(coeffs)
+            )
+        );
     }
 
-    cp_model_builder.AddAllDifferent(absl::Span<ort::sat::IntVar>(timeslot_and_room_pair_is_unique));
+    cp_model_builder.AddAllDifferent(
+        absl::Span<ort::sat::IntVar>(
+            timeslot_and_room_pair_is_unique
+        )
+    );
+
+
+    // Unique constraint for TIMESLOT X FACULTY_MEMBER
 
     std::vector<ort::sat::IntVar> timeslot_and_faculty_member_pair_is_unique;
 
     for(unsigned int i=0; i<classes.size(); ++i) {
-        for(unsigned int j=0; j<faculty_member_for_class[i].size(); ++j) {
 
-            timeslot_and_faculty_member_pair_is_unique.push_back(
+        timeslot_and_faculty_member_pair_is_unique.push_back(
+            cp_model_builder.NewIntVar(
+                ort::Domain(
+                    1,
+                    (timeslots.size() + 1) *
+                    (faculty_members.size() + 1)
+                )
+            )
+        );
+        ++variable_count;
 
-                cp_model_builder.NewIntVar(ort::Domain(1, (timeslots.size() + 1) * (faculty_members.size() + 1)))
+        std::vector<ort::sat::IntVar> vars;
+        vars.push_back(faculty_member_for_class[i]);
+        vars.push_back(timeslot_of_class[i]);
+
+        std::vector<int64> coeffs;
+        coeffs.push_back(timeslots.size() + 1);
+        coeffs.push_back(1);
+
+        cp_model_builder.AddEquality(
+        
+            timeslot_and_faculty_member_pair_is_unique.back(), 
+
+            ort::sat::LinearExpr::ScalProd(
+                absl::Span<ort::sat::IntVar>(vars),
+                absl::Span<int64>(coeffs)
+            )
+        );
+    }
+    
+    cp_model_builder.AddAllDifferent(
+        absl::Span<ort::sat::IntVar>(
+            timeslot_and_faculty_member_pair_is_unique
+        )
+    );
+
+
+    // Unique constraint for TIMESLOT X YEAR
+
+    std::vector<ort::sat::IntVar> timeslot_and_year_pair_is_unique;
+
+    for(unsigned int i=0; i<classes.size(); ++i) {
+
+        if(classes[i].class_type_id() == 1) {
+
+            for(unsigned int j=0; j<non_seminars_parallel; ++j) {
+ 
+                timeslot_and_year_pair_is_unique.push_back(
+                    cp_model_builder.NewIntVar(
+                        ort::Domain(
+                            1,
+                            (timeslots.size() + 1) *
+                            (years.size() + 1) *
+                            non_seminars_parallel
+                        )
+                    )
+                );
+                ++variable_count;
+
+                std::vector<ort::sat::IntVar> vars;
+                vars.push_back(
+                    timeslot_of_class[i]
+                );
+
+                std::vector<int64> coeffs;
+                coeffs.push_back(
+                    non_seminars_parallel *
+                    (classes.size() + 1)
+                );
+            
+                std::vector<int64> consts;
+                consts.push_back(
+                    j *
+                    (classes.size() + 1)
+                );
+                consts.push_back(
+                    chronos::DatabaseService::instance()
+                        .get_year_by_id_for_class(
+                            classes[i].id()
+                        )
+                    );
+
+                auto expr = 
+                    ort::sat::LinearExpr::ScalProd(
+                        absl::Span<ort::sat::IntVar>(vars),
+                        absl::Span<int64>(coeffs)
+                    );
+                for(auto constant : consts) {
+                    expr.AddConstant(constant);
+                }
+
+                cp_model_builder.AddEquality(
+                    timeslot_and_year_pair_is_unique.back(),
+                    expr
+                );
+           
+            }
+
+        } else {
+          
+            auto uniqueness = 
+                cp_model_builder
+                    .NewIntVar(
+                        ort::Domain(
+                            0,
+                            non_seminars_parallel-1
+                        )
+                    );
+            ++variable_count;
+ 
+            timeslot_and_year_pair_is_unique.push_back(
+                cp_model_builder.NewIntVar(
+                    ort::Domain(
+                        1,
+                        (timeslots.size() + 1) *
+                        (years.size() + 1) *
+                        non_seminars_parallel
+                    )
+                )
             );
-
+            ++variable_count;
 
             std::vector<ort::sat::IntVar> vars;
-            vars.push_back(faculty_member_for_class[i][j]);
-            vars.push_back(timeslot_of_class[i]);
+            vars.push_back(
+                timeslot_of_class[i]
+            );
+            vars.push_back(
+                uniqueness
+            );
 
             std::vector<int64> coeffs;
-            coeffs.push_back(timeslots.size() + 1);
-            coeffs.push_back(1);
+            coeffs.push_back(
+                non_seminars_parallel *
+                (classes.size() + 1)
+            );
+            coeffs.push_back(
+                classes.size() + 1
+            );
+           
+            std::vector<int64> consts;
+            consts.push_back(
+                chronos::DatabaseService::instance()
+                    .get_year_by_id_for_class(
+                        classes[i].id()
+                    )
+                );
+
+            auto expr =
+                ort::sat::LinearExpr::ScalProd(
+                    absl::Span<ort::sat::IntVar>(vars),
+                    absl::Span<int64>(coeffs)
+                );
+            for(auto constant : consts) {
+                expr.AddConstant(constant);
+            }
 
             cp_model_builder.AddEquality(
-            
-                timeslot_and_faculty_member_pair_is_unique[timeslot_and_faculty_member_pair_is_unique.size() - 1], 
-
-                ort::sat::LinearExpr::ScalProd(absl::Span<ort::sat::IntVar>(vars), absl::Span<int64>(coeffs))
+                timeslot_and_year_pair_is_unique.back(),
+                expr
             );
         }
     }
 
-    cp_model_builder.AddAllDifferent(absl::Span<ort::sat::IntVar>(timeslot_and_faculty_member_pair_is_unique));
-
-    std::vector<ort::sat::IntVar> timeslot_and_year_pair_is_unique(classes.size());
-
-    for(unsigned int i=0; i<classes.size(); ++i) {
-
-        timeslot_and_year_pair_is_unique[i] =
-
-            cp_model_builder.NewIntVar(ort::Domain(1, (timeslots.size() + 1) * (years.size() + 1)));
-
-        auto linear_expr = ort::sat::LinearExpr((timeslots.size() + 1) * chronos::DatabaseService::instance().get_year_by_id_for_class(classes[i].id()));
-        linear_expr.AddVar(timeslot_of_class[i]);
-
-        cp_model_builder.AddEquality(
-
-            timeslot_and_year_pair_is_unique[i],
-
-            linear_expr
-        );
-    }
-
-    cp_model_builder.AddAllDifferent(absl::Span<ort::sat::IntVar>(timeslot_and_year_pair_is_unique));
-
-    std::vector<ort::sat::IntVar> x;
-    x.insert(
-        x.end(),
-        timeslot_of_class.begin(),
-        timeslot_of_class.end()
-    );
-    for(unsigned int j=0; j<room_of_class.size(); ++j) {
-        x.insert(
-            x.end(),
-            room_of_class[j].begin(),
-            room_of_class[j].end()
-        );
-    }
-    for(unsigned int j=0; j<faculty_member_for_class.size(); ++j) {
-        x.insert(
-            x.end(),
-            faculty_member_for_class[j].begin(),
-            faculty_member_for_class[j].end()
-        );
-    }
-    x.insert(
-        x.end(),
-        timeslot_and_room_pair_is_unique.begin(),
-        timeslot_and_room_pair_is_unique.end()
-    );
-    x.insert(
-        x.end(),
-        timeslot_and_faculty_member_pair_is_unique.begin(),
-        timeslot_and_faculty_member_pair_is_unique.end()
-    );
-    x.insert(
-        x.end(),
-        timeslot_and_year_pair_is_unique.begin(),
-        timeslot_and_year_pair_is_unique.end()
+    cp_model_builder.AddAllDifferent(
+        absl::Span<ort::sat::IntVar>(
+            timeslot_and_year_pair_is_unique
+        )
     );
 
-    std::cout << "Number of variables: " << x.size() << std::endl;
+    std::cout << "Number of variables: " << variable_count << std::endl;
 
     ort::sat:: Model model;
 
     int num_solutions = 0;
-    model.Add(ort::sat::NewFeasibleSolutionObserver([&](const ort::sat::CpSolverResponse& r) {
+    model.Add(
+        ort::sat::NewFeasibleSolutionObserver(
+            [&](const ort::sat::CpSolverResponse& r) {
 
-        ++ num_solutions;
-        LOG(INFO) << num_solutions;
-        LOG(INFO) << ort::FullProtocolMessageAsString(r, 4);
-    }));
+                ++ num_solutions;
+                LOG(INFO) << num_solutions;
+                LOG(INFO) << ort::FullProtocolMessageAsString(r, 4);
+            }
+        )
+    );
 
     ort::sat::SatParameters parameters;
     parameters.set_num_search_workers(3);
-    model.Add(ort::sat::NewSatParameters(parameters));
-    ort::sat::CpSolverResponse result = ort::sat::SolveWithModel(cp_model_builder, &model);
+
+    model.Add(
+        ort::sat::NewSatParameters(
+            parameters
+        )
+    );
+
+    ort::sat::CpSolverResponse result =
+        ort::sat::SolveWithModel(
+            cp_model_builder,
+            &model
+        );
 
     std::cout << ort::FullProtocolMessageAsString(result, 4) << std::endl;
 
@@ -206,37 +388,50 @@ int main(int argc, char *argv[]) {
 
     for(unsigned int i=0; i<classes.size(); ++i) {
    
-        auto timeslot_id = ort::sat::SolutionIntegerValue(result, timeslot_of_class[i]);
-        auto year_id = chronos::DatabaseService::instance().get_year_by_id_for_class(classes[i].id());
-        auto class_id = classes[i].id();
+        auto timeslot_id = 
+            ort::sat::SolutionIntegerValue(
+                result,
+                timeslot_of_class[i]
+            );
 
-        std::vector<int> room_ids;
-        std::vector<std::string> room_names;
-        for(unsigned int j=0; j<room_of_class[i].size(); ++j) {
-            int id = ort::sat::SolutionIntegerValue(result, room_of_class[i][j]);
-            room_ids.push_back(id);
-            room_names.push_back(rooms[id-1].name());
-        }
+        auto year_id = 
+            chronos::DatabaseService::instance()
+                .get_year_by_id_for_class(
+                    classes[i].id()
+                );
 
-        std::vector<int> faculty_member_ids;
-        std::vector<std::string> faculty_member_names;
-        for(unsigned int j=0; j<faculty_member_for_class[i].size(); ++j) {
-            int id = ort::sat::SolutionIntegerValue(result, faculty_member_for_class[i][j]);
-            faculty_member_ids.push_back(id);
-            faculty_member_names.push_back(faculty_members[id-1].name());
-        }
+        auto class_id = 
+            classes[i]
+                .id();
+
+        auto room_id =
+            ort::sat::SolutionIntegerValue(
+                result,
+                room_of_class[i]
+            );
+
+        auto faculty_member_id =
+            ort::sat::SolutionIntegerValue(
+                result,
+                faculty_member_for_class[i]
+            );
+
+        auto class_type_id =
+            classes[i]
+                .class_type_id();
 
         chronos::Proposal p(
             timeslot_id,
             year_id,
             class_id,
-            room_ids,
-            faculty_member_ids,
+            room_id,
+            faculty_member_id,
+            class_type_id,
             timeslots[timeslot_id-1].name(),
             years[year_id-1].name(),
             classes[class_id-1].name(),
-            room_names,
-            faculty_member_names
+            rooms[room_id-1].name(),
+            faculty_members[faculty_member_id-1].name()
         );
 
         proposals.push_back(p);
@@ -249,12 +444,8 @@ int main(int argc, char *argv[]) {
     for(auto proposal : proposals) {
   
         year_timetables[proposal.year_id()].add(proposal);
-
-        for(auto faculty_member_id : proposal.faculty_member_ids())
-            faculty_member_timetables[faculty_member_id].add(proposal);
-        for(auto room_id : proposal.room_ids()) {
-            room_timetables[room_id].add(proposal);
-        }
+        faculty_member_timetables[proposal.faculty_member_id()].add(proposal);
+        room_timetables[proposal.room_id()].add(proposal);
     }
 
     for(auto t : year_timetables) {

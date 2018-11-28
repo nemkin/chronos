@@ -5,6 +5,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 #include "model/manual/proposal.h"
 
@@ -28,10 +29,11 @@ public:
 
 private:
 
-    static const int _column_width = 22;
+    static const unsigned int _non_seminars_parallel = 5;
+    static const unsigned int _column_width = 22;
 
     int _id;
-    std::map<int, Proposal> proposals;
+    std::map<int, std::vector<Proposal>> proposals;
 
 };
 
