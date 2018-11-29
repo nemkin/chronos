@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     // google::InitGoogleLogging(argv[0]);
 
     unsigned int variable_count = 0;
-    unsigned int non_seminars_parallel = 2;
+    unsigned int non_seminars_parallel = 5;
 
     // Database init
  
@@ -35,16 +35,9 @@ int main(int argc, char *argv[]) {
     auto timeslots = 
         chronos::DatabaseService::instance()
             .get_timeslots();
-    auto classes_proto =
+    auto classes =
         chronos::DatabaseService::instance()
             .get_classes();
-
-    std::vector<chronos::Class> classes;
-
-    for(int i=0; i<10; ++i) {
-        classes.push_back(classes_proto[i]);
-    }
-
     auto rooms =
         chronos::DatabaseService::instance()
             .get_rooms();
@@ -249,13 +242,13 @@ int main(int argc, char *argv[]) {
                 std::vector<int64> coeffs;
                 coeffs.push_back(
                     non_seminars_parallel *
-                    (classes.size() + 1)
+                    (years.size() + 1)
                 );
             
                 std::vector<int64> consts;
                 consts.push_back(
                     j *
-                    (classes.size() + 1)
+                    (years.size() + 1)
                 );
                 consts.push_back(
                     chronos::DatabaseService::instance()
@@ -315,10 +308,10 @@ int main(int argc, char *argv[]) {
             std::vector<int64> coeffs;
             coeffs.push_back(
                 non_seminars_parallel *
-                (classes.size() + 1)
+                (years.size() + 1)
             );
             coeffs.push_back(
-                classes.size() + 1
+                years.size() + 1
             );
            
             std::vector<int64> consts;
