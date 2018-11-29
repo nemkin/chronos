@@ -22,6 +22,9 @@ public:
     );
 
     int id() const;
+    unsigned int parallel();
+    void set_parallel(unsigned int p_parallel);
+
     bool timeslot_already_filled(Proposal proposal) const;
     void add(Proposal proposal); 
     std::string pad_to_column_width(std::string str) const;
@@ -29,10 +32,10 @@ public:
 
 private:
 
-    static const unsigned int _non_seminars_parallel = 5;
     static const unsigned int _column_width = 22;
 
     int _id;
+    unsigned int _parallel;
     std::map<int, std::vector<Proposal>> proposals;
 
 };

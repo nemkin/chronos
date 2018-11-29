@@ -6,14 +6,17 @@
 
 using namespace chronos;
 
-Timetable::Timetable() {
+Timetable::Timetable(
+) :
+    _parallel(1) {
 
 }
 
 Timetable::Timetable(
     int p_id
 ) : 
-    _id(p_id) {
+    _id(p_id),
+    _parallel(1) {
     
 }
 
@@ -22,22 +25,38 @@ int Timetable::id() const {
     return _id;
 }
 
+unsigned int Timetable::parallel() {
+
+    return _parallel;
+}
+
+void Timetable::set_parallel(unsigned int p_parallel) {
+
+    _parallel = p_parallel;
+}
+
 bool Timetable::timeslot_already_filled(Proposal proposal) const {
 
-    if(proposals.find(proposal.timeslot_id()) == proposals.end()) {
+    if(proposals.find(proposal.timeslot_id()) == proposals.end() ||
+       proposals.at(proposal.timeslot_id()).size() == 0) {
 
         return false;
     }
 
-    unsigned int parallel = proposals.at(proposal.timeslot_id()).size();
+    unsigned int current_parallel = proposals.at(proposal.timeslot_id()).size();
+
+    if (proposals.at(proposal.timeslot_id())[0].class_type_id() == 1) {
+        
+        current_parallel *= _parallel;
+    }
 
     if(proposal.class_type_id() == 1) {
         
-        return 1 <= parallel;
+        return 1 <= current_parallel;
 
     } else {
 
-        return _non_seminars_parallel <= parallel;
+        return _parallel <= current_parallel;
     }
 }
 
@@ -48,16 +67,7 @@ void Timetable::add(Proposal proposal) {
         throw std::runtime_error("Conflicting proposal: \n" + proposal.to_string());
     }
 
-    if(proposal.class_type_id() == 1) {
-    
-        for(unsigned int i=0; i<_non_seminars_parallel; ++i) {
-            proposals[proposal.timeslot_id()].push_back(proposal);
-        }
-
-    } else {
-
-        proposals[proposal.timeslot_id()].push_back(proposal);
-    }
+    proposals[proposal.timeslot_id()].push_back(proposal);
 }
 
 std::string Timetable::pad_to_column_width(std::string str) const {
@@ -94,7 +104,7 @@ std::string Timetable::to_string() const {
     for(unsigned int i=0; i<6; ++i) {
         timetable[i].resize(5);
         for(unsigned int j=0; j<5; ++j) {
-            timetable[i][j].resize(5 * _non_seminars_parallel);
+            timetable[i][j].resize(5 * _parallel);
         }
     }
 
@@ -120,7 +130,7 @@ std::string Timetable::to_string() const {
 
     for(unsigned int i=0; i<6; ++i) {
 
-        for(unsigned int k=0; k<5*_non_seminars_parallel; ++k) {
+        for(unsigned int k=0; k<5*_parallel; ++k) {
 
         ss << "| ";
 

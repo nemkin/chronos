@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     // google::InitGoogleLogging(argv[0]);
 
     unsigned int variable_count = 0;
-    unsigned int non_seminars_parallel = 5;
+    unsigned int parallel = 5;
 
     // Database init
  
@@ -220,7 +220,7 @@ int main(int argc, char *argv[]) {
 
         if(classes[i].class_type_id() == 1) {
 
-            for(unsigned int j=0; j<non_seminars_parallel; ++j) {
+            for(unsigned int j=1; j<=parallel; ++j) {
  
                 timeslot_and_year_pair_is_unique.push_back(
                     cp_model_builder.NewIntVar(
@@ -228,7 +228,7 @@ int main(int argc, char *argv[]) {
                             1,
                             (timeslots.size() + 1) *
                             (years.size() + 1) *
-                            non_seminars_parallel
+                            (parallel + 1)
                         )
                     )
                 );
@@ -241,7 +241,7 @@ int main(int argc, char *argv[]) {
 
                 std::vector<int64> coeffs;
                 coeffs.push_back(
-                    non_seminars_parallel *
+                    (parallel + 1) *
                     (years.size() + 1)
                 );
             
@@ -279,8 +279,8 @@ int main(int argc, char *argv[]) {
                 cp_model_builder
                     .NewIntVar(
                         ort::Domain(
-                            0,
-                            non_seminars_parallel-1
+                            1,
+                            parallel
                         )
                     );
             ++variable_count;
@@ -291,7 +291,7 @@ int main(int argc, char *argv[]) {
                         1,
                         (timeslots.size() + 1) *
                         (years.size() + 1) *
-                        non_seminars_parallel
+                        (parallel + 1)
                     )
                 )
             );
@@ -307,7 +307,7 @@ int main(int argc, char *argv[]) {
 
             std::vector<int64> coeffs;
             coeffs.push_back(
-                non_seminars_parallel *
+                (parallel + 1) *
                 (years.size() + 1)
             );
             coeffs.push_back(
@@ -430,6 +430,7 @@ int main(int argc, char *argv[]) {
         proposals.push_back(p);
     }
 
+    // TODO: Add parallel variable to timetable constructor.
     std::map<int, chronos::Timetable> year_timetables;
     std::map<int, chronos::Timetable> faculty_member_timetables;
     std::map<int, chronos::Timetable> room_timetables;
@@ -437,6 +438,7 @@ int main(int argc, char *argv[]) {
     for(auto proposal : proposals) {
   
         year_timetables[proposal.year_id()].add(proposal);
+        year_timetables[proposal.year_id()].set_parallel(parallel);
         faculty_member_timetables[proposal.faculty_member_id()].add(proposal);
         room_timetables[proposal.room_id()].add(proposal);
     }
