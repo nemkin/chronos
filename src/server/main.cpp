@@ -38,6 +38,9 @@ int main(int argc, char *argv[]) {
     auto classes =
         chronos::DatabaseService::instance()
             .get_classes();
+    auto courses =
+        chronos::DatabaseService::instance()
+            .get_courses();
     auto rooms =
         chronos::DatabaseService::instance()
             .get_rooms();
@@ -251,10 +254,13 @@ int main(int argc, char *argv[]) {
                     (years.size() + 1)
                 );
                 consts.push_back(
-                    chronos::DatabaseService::instance()
-                        .get_year_by_id_for_class(
-                            classes[i].id()
-                        )
+
+                    courses[classes[i].course_id()-1].year_id()
+                
+                    //chronos::DatabaseService::instance()
+                    //    .get_year_by_id_for_class(
+                    //        classes[i].id()
+                    //    )
                     );
 
                 auto expr = 
@@ -316,10 +322,13 @@ int main(int argc, char *argv[]) {
            
             std::vector<int64> consts;
             consts.push_back(
-                chronos::DatabaseService::instance()
-                    .get_year_by_id_for_class(
-                        classes[i].id()
-                    )
+
+                courses[classes[i].course_id()-1].year_id()
+
+                //chronos::DatabaseService::instance()
+                //    .get_year_by_id_for_class(
+                //        classes[i].id()
+                //    )
                 );
 
             auto expr =
@@ -344,6 +353,62 @@ int main(int argc, char *argv[]) {
         )
     );
 
+    // Minimizing distance between timeslots for every year
+
+    std::map<int, std::vector<chronos::Class>> classes_per_year;
+
+    for(unsigned int i=0; i<classes.size(); ++i) {
+
+        classes_per_year[courses[classes[i].course_id()-1].year_id()].push_back(classes[i]);
+    }
+
+    ort::sat::LinearExpr sum_of_timeslot_pair_differences;
+
+    for(auto& pair : classes_per_year) {
+
+        std::cout << years[pair.first-1].to_string() << std::endl;
+
+        for(auto& class_a : pair.second) {
+
+            std::cout << class_a.to_string() << std::endl;
+    
+            for(auto& class_b : pair.second) {
+
+                std::vector<ort::sat::IntVar> vars;
+                vars.push_back(timeslot_of_class[class_a.id()-1]);
+                vars.push_back(timeslot_of_class[class_b.id()-1]);
+
+                std::vector<int64> coeffs_p;
+                coeffs_p.push_back(1);
+                coeffs_p.push_back(-1);
+
+                std::vector<int64> coeffs_n;
+                coeffs_n.push_back(-1);
+                coeffs_n.push_back(1);
+
+                ort::sat::LinearExpr p_expr = ort::sat::LinearExpr::ScalProd(vars, coeffs_p);
+                ort::sat::LinearExpr n_expr = ort::sat::LinearExpr::ScalProd(vars, coeffs_n);
+
+                auto p_var = cp_model_builder.NewIntVar(ort::Domain(-1*timeslots.back().id(),+1*timeslots.back().id()));
+                ++variable_count;
+                auto n_var = cp_model_builder.NewIntVar(ort::Domain(-1*timeslots.back().id(),+1*timeslots.back().id()));
+                ++variable_count;
+                auto abs_var = cp_model_builder.NewIntVar(ort::Domain(0,timeslots.back().id()));
+                ++variable_count;
+
+                cp_model_builder.AddEquality(p_var, p_expr);
+                cp_model_builder.AddEquality(n_var, n_expr);
+
+                cp_model_builder.AddMaxEquality(abs_var, absl::Span<ort::sat::IntVar>{p_var, n_var});
+
+                sum_of_timeslot_pair_differences.AddVar(abs_var);
+
+            }
+        }
+    }
+
+    cp_model_builder.Minimize(sum_of_timeslot_pair_differences);
+
     std::cout << "Number of variables: " << variable_count << std::endl;
 
     ort::sat:: Model model;
@@ -355,7 +420,8 @@ int main(int argc, char *argv[]) {
 
                 ++ num_solutions;
                 LOG(INFO) << num_solutions;
-                LOG(INFO) << ort::FullProtocolMessageAsString(r, 4);
+                LOG(INFO) << ort::sat::CpSolverResponseStats(r);
+                //LOG(INFO) << ort::FullProtocolMessageAsString(r, 4);
             }
         )
     );
@@ -387,11 +453,12 @@ int main(int argc, char *argv[]) {
                 timeslot_of_class[i]
             );
 
-        auto year_id = 
-            chronos::DatabaseService::instance()
-                .get_year_by_id_for_class(
-                    classes[i].id()
-                );
+        auto year_id = courses[classes[i].course_id()-1].year_id();
+
+            //chronos::DatabaseService::instance()
+            //    .get_year_by_id_for_class(
+            //        classes[i].id()
+            //    );
 
         auto class_id = 
             classes[i]
@@ -430,7 +497,6 @@ int main(int argc, char *argv[]) {
         proposals.push_back(p);
     }
 
-    // TODO: Add parallel variable to timetable constructor.
     std::map<int, chronos::Timetable> year_timetables;
     std::map<int, chronos::Timetable> faculty_member_timetables;
     std::map<int, chronos::Timetable> room_timetables;
