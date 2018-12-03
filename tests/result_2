@@ -1,0 +1,1467 @@
+viki@mozdony:~$ ./server_2_thread
+Connection successful!
+year
+id:                 1
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               1. felev
+class
+id:                 1
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Analizis 1 eloadas
+class_type_id:      1
+course_id:          1
+class
+id:                 2
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Analizis 1 gyakorlat
+class_type_id:      2
+course_id:          1
+class
+id:                 3
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Analizis 1 labor
+class_type_id:      3
+course_id:          1
+class
+id:                 4
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 1 eloadas
+class_type_id:      1
+course_id:          2
+class
+id:                 5
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 1 gyakorlat
+class_type_id:      2
+course_id:          2
+class
+id:                 6
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 1 labor
+class_type_id:      3
+course_id:          2
+class
+id:                 7
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezetes a szamitaselmeletbe 1 eloadas
+class_type_id:      1
+course_id:          3
+class
+id:                 8
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezetes a szamitaselmeletbe 1 gyakorlat
+class_type_id:      2
+course_id:          3
+class
+id:                 9
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezetes a szamitaselmeletbe 1 labor
+class_type_id:      3
+course_id:          3
+class
+id:                 10
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezeto fizika eloadas
+class_type_id:      1
+course_id:          4
+class
+id:                 11
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezeto fizika gyakorlat
+class_type_id:      2
+course_id:          4
+class
+id:                 12
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezeto fizika labor
+class_type_id:      3
+course_id:          4
+class
+id:                 13
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezeto matematika eloadas
+class_type_id:      1
+course_id:          5
+class
+id:                 14
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezeto matematika gyakorlat
+class_type_id:      2
+course_id:          5
+class
+id:                 15
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezeto matematika labor
+class_type_id:      3
+course_id:          5
+class
+id:                 16
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Digitalis technika eloadas
+class_type_id:      1
+course_id:          6
+class
+id:                 17
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Digitalis technika gyakorlat
+class_type_id:      2
+course_id:          6
+class
+id:                 18
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Digitalis technika labor
+class_type_id:      3
+course_id:          6
+class
+id:                 19
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Fizika 1 eloadas
+class_type_id:      1
+course_id:          7
+class
+id:                 20
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Fizika 1 gyakorlat
+class_type_id:      2
+course_id:          7
+class
+id:                 21
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Fizika 1 labor
+class_type_id:      3
+course_id:          7
+class
+id:                 22
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mernok leszek eloadas
+class_type_id:      1
+course_id:          8
+class
+id:                 23
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mernok leszek gyakorlat
+class_type_id:      2
+course_id:          8
+class
+id:                 24
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mernok leszek labor
+class_type_id:      3
+course_id:          8
+year
+id:                 2
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               2. felev
+class
+id:                 25
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Analizis 2 eloadas
+class_type_id:      1
+course_id:          9
+class
+id:                 26
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Analizis 2 gyakorlat
+class_type_id:      2
+course_id:          9
+class
+id:                 27
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Analizis 2 labor
+class_type_id:      3
+course_id:          9
+class
+id:                 28
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 2 eloadas
+class_type_id:      1
+course_id:          10
+class
+id:                 29
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 2 gyakorlat
+class_type_id:      2
+course_id:          10
+class
+id:                 30
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 2 labor
+class_type_id:      3
+course_id:          10
+class
+id:                 31
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezetes a szamitaselmeletbe 2 eloadas
+class_type_id:      1
+course_id:          11
+class
+id:                 32
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezetes a szamitaselmeletbe 2 gyakorlat
+class_type_id:      2
+course_id:          11
+class
+id:                 33
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Bevezetes a szamitaselmeletbe 2 labor
+class_type_id:      3
+course_id:          11
+class
+id:                 34
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Fizika 2 eloadas
+class_type_id:      1
+course_id:          12
+class
+id:                 35
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Fizika 2 gyakorlat
+class_type_id:      2
+course_id:          12
+class
+id:                 36
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Fizika 2 labor
+class_type_id:      3
+course_id:          12
+class
+id:                 37
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszermodellezes eloadas
+class_type_id:      1
+course_id:          13
+class
+id:                 38
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszermodellezes gyakorlat
+class_type_id:      2
+course_id:          13
+class
+id:                 39
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszermodellezes labor
+class_type_id:      3
+course_id:          13
+class
+id:                 40
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szamitogep architekturak eloadas
+class_type_id:      1
+course_id:          14
+class
+id:                 41
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szamitogep architekturak gyakorlat
+class_type_id:      2
+course_id:          14
+class
+id:                 42
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szamitogep architekturak labor
+class_type_id:      3
+course_id:          14
+year
+id:                 3
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               3. felev
+class
+id:                 43
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 3 eloadas
+class_type_id:      1
+course_id:          15
+class
+id:                 44
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 3 gyakorlat
+class_type_id:      2
+course_id:          15
+class
+id:                 45
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               A programozas alapjai 3 labor
+class_type_id:      3
+course_id:          15
+class
+id:                 46
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Adatbazisok eloadas
+class_type_id:      1
+course_id:          16
+class
+id:                 47
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Adatbazisok gyakorlat
+class_type_id:      2
+course_id:          16
+class
+id:                 48
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Adatbazisok labor
+class_type_id:      3
+course_id:          16
+class
+id:                 49
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kodolastechnika eloadas
+class_type_id:      1
+course_id:          17
+class
+id:                 50
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kodolastechnika gyakorlat
+class_type_id:      2
+course_id:          17
+class
+id:                 51
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kodolastechnika labor
+class_type_id:      3
+course_id:          17
+class
+id:                 52
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kommunikacios halozatok 1 eloadas
+class_type_id:      1
+course_id:          18
+class
+id:                 53
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kommunikacios halozatok 1 gyakorlat
+class_type_id:      2
+course_id:          18
+class
+id:                 54
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kommunikacios halozatok 1 labor
+class_type_id:      3
+course_id:          18
+class
+id:                 55
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszerelmelet eloadas
+class_type_id:      1
+course_id:          19
+class
+id:                 56
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszerelmelet gyakorlat
+class_type_id:      2
+course_id:          19
+class
+id:                 57
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszerelmelet labor
+class_type_id:      3
+course_id:          19
+class
+id:                 58
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftvertechnologia eloadas
+class_type_id:      1
+course_id:          20
+class
+id:                 59
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftvertechnologia gyakorlat
+class_type_id:      2
+course_id:          20
+class
+id:                 60
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftvertechnologia labor
+class_type_id:      3
+course_id:          20
+class
+id:                 61
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Valoszinusegszamitas eloadas
+class_type_id:      1
+course_id:          21
+class
+id:                 62
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Valoszinusegszamitas gyakorlat
+class_type_id:      2
+course_id:          21
+class
+id:                 63
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Valoszinusegszamitas labor
+class_type_id:      3
+course_id:          21
+year
+id:                 4
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               4. felev
+class
+id:                 64
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Algoritmuselmelet eloadas
+class_type_id:      1
+course_id:          22
+class
+id:                 65
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Algoritmuselmelet gyakorlat
+class_type_id:      2
+course_id:          22
+class
+id:                 66
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Algoritmuselmelet labor
+class_type_id:      3
+course_id:          22
+class
+id:                 67
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kommunikacios halozatok 2 eloadas
+class_type_id:      1
+course_id:          23
+class
+id:                 68
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kommunikacios halozatok 2 gyakorlat
+class_type_id:      2
+course_id:          23
+class
+id:                 69
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Kommunikacios halozatok 2 labor
+class_type_id:      3
+course_id:          23
+class
+id:                 70
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Menedzsment es vallalkozasgazdasagtan eloadas
+class_type_id:      1
+course_id:          24
+class
+id:                 71
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Menedzsment es vallalkozasgazdasagtan gyakorlat
+class_type_id:      2
+course_id:          24
+class
+id:                 72
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Menedzsment es vallalkozasgazdasagtan labor
+class_type_id:      3
+course_id:          24
+class
+id:                 73
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Operacios rendszerek eloadas
+class_type_id:      1
+course_id:          25
+class
+id:                 74
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Operacios rendszerek gyakorlat
+class_type_id:      2
+course_id:          25
+class
+id:                 75
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Operacios rendszerek labor
+class_type_id:      3
+course_id:          25
+class
+id:                 76
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szamitogepes grafika eloadas
+class_type_id:      1
+course_id:          26
+class
+id:                 77
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szamitogepes grafika gyakorlat
+class_type_id:      2
+course_id:          26
+class
+id:                 78
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szamitogepes grafika labor
+class_type_id:      3
+course_id:          26
+class
+id:                 79
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftver projekt laboratorium eloadas
+class_type_id:      1
+course_id:          27
+class
+id:                 80
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftver projekt laboratorium gyakorlat
+class_type_id:      2
+course_id:          27
+class
+id:                 81
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftver projekt laboratorium labor
+class_type_id:      3
+course_id:          27
+class
+id:                 82
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftvertechnikak eloadas
+class_type_id:      1
+course_id:          28
+class
+id:                 83
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftvertechnikak gyakorlat
+class_type_id:      2
+course_id:          28
+class
+id:                 84
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Szoftvertechnikak labor
+class_type_id:      3
+course_id:          28
+year
+id:                 5
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               5. felev
+class
+id:                 85
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               IT eszkozok technologiaja eloadas
+class_type_id:      1
+course_id:          29
+class
+id:                 86
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               IT eszkozok technologiaja gyakorlat
+class_type_id:      2
+course_id:          29
+class
+id:                 87
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               IT eszkozok technologiaja labor
+class_type_id:      3
+course_id:          29
+class
+id:                 88
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mesterseges intelligencia eloadas
+class_type_id:      1
+course_id:          30
+class
+id:                 89
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mesterseges intelligencia gyakorlat
+class_type_id:      2
+course_id:          30
+class
+id:                 90
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mesterseges intelligencia labor
+class_type_id:      3
+course_id:          30
+class
+id:                 91
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mikro- es makrookonomia eloadas
+class_type_id:      1
+course_id:          31
+class
+id:                 92
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mikro- es makrookonomia gyakorlat
+class_type_id:      2
+course_id:          31
+class
+id:                 93
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mikro- es makrookonomia labor
+class_type_id:      3
+course_id:          31
+class
+id:                 94
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mobil- es webes szoftverek eloadas
+class_type_id:      1
+course_id:          32
+class
+id:                 95
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mobil- es webes szoftverek gyakorlat
+class_type_id:      2
+course_id:          32
+class
+id:                 96
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Mobil- es webes szoftverek labor
+class_type_id:      3
+course_id:          32
+class
+id:                 97
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Uzleti jog eloadas
+class_type_id:      1
+course_id:          33
+class
+id:                 98
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Uzleti jog gyakorlat
+class_type_id:      2
+course_id:          33
+class
+id:                 99
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Uzleti jog labor
+class_type_id:      3
+course_id:          33
+class
+id:                 100
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Informatikai rendszertervezes eloadas
+class_type_id:      1
+course_id:          34
+class
+id:                 101
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Informatikai rendszertervezes gyakorlat
+class_type_id:      2
+course_id:          34
+class
+id:                 102
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Informatikai rendszertervezes labor
+class_type_id:      3
+course_id:          34
+class
+id:                 103
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Ipari informatika eloadas
+class_type_id:      1
+course_id:          35
+class
+id:                 104
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Ipari informatika gyakorlat
+class_type_id:      2
+course_id:          35
+class
+id:                 105
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Ipari informatika labor
+class_type_id:      3
+course_id:          35
+year
+id:                 6
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               6. felev
+class
+id:                 106
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Informacios rendszerek uzemeltetese eloadas
+class_type_id:      1
+course_id:          36
+class
+id:                 107
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Informacios rendszerek uzemeltetese gyakorlat
+class_type_id:      2
+course_id:          36
+class
+id:                 108
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Informacios rendszerek uzemeltetese labor
+class_type_id:      3
+course_id:          36
+class
+id:                 109
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               IT biztonsag eloadas
+class_type_id:      1
+course_id:          37
+class
+id:                 110
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               IT biztonsag gyakorlat
+class_type_id:      2
+course_id:          37
+class
+id:                 111
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               IT biztonsag labor
+class_type_id:      3
+course_id:          37
+class
+id:                 112
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Alkalmazasfejlesztesi kornyezetek eloadas
+class_type_id:      1
+course_id:          38
+class
+id:                 113
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Alkalmazasfejlesztesi kornyezetek gyakorlat
+class_type_id:      2
+course_id:          38
+class
+id:                 114
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Alkalmazasfejlesztesi kornyezetek labor
+class_type_id:      3
+course_id:          38
+class
+id:                 115
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Intelligens elosztott rendszerek eloadas
+class_type_id:      1
+course_id:          39
+class
+id:                 116
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Intelligens elosztott rendszerek gyakorlat
+class_type_id:      2
+course_id:          39
+class
+id:                 117
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Intelligens elosztott rendszerek labor
+class_type_id:      3
+course_id:          39
+class
+id:                 118
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszertervezes laboratorium 1 eloadas
+class_type_id:      1
+course_id:          40
+class
+id:                 119
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszertervezes laboratorium 1 gyakorlat
+class_type_id:      2
+course_id:          40
+class
+id:                 120
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszertervezes laboratorium 1 labor
+class_type_id:      3
+course_id:          40
+year
+id:                 7
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               7. felev
+class
+id:                 121
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Deklarativ programozas eloadas
+class_type_id:      1
+course_id:          41
+class
+id:                 122
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Deklarativ programozas gyakorlat
+class_type_id:      2
+course_id:          41
+class
+id:                 123
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Deklarativ programozas labor
+class_type_id:      3
+course_id:          41
+class
+id:                 124
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszertervezes laboratorium 2 eloadas
+class_type_id:      1
+course_id:          42
+class
+id:                 125
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszertervezes laboratorium 2 gyakorlat
+class_type_id:      2
+course_id:          42
+class
+id:                 126
+modified_timestamp: 2018-11-30 14:13:45.514846
+is_deleted:         0
+name:               Rendszertervezes laboratorium 2 labor
+class_type_id:      3
+course_id:          42
+Number of variables: 8460
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I1130 14:18:50.372848 72149 main.cpp:422] 1
+I1130 14:18:50.373574 72149 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 9304.000000
+best_bound: 12.000000
+booleans: 8091
+conflicts: 99687
+branches: 1913096
+propagations: 7603750
+integer_propagations: 108166759
+walltime: 304.315862
+usertime: 304.315862
+deterministic_time: 107.610329
+I1130 14:20:34.772663 72148 main.cpp:422] 2
+I1130 14:20:34.772862 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 9076.000000
+best_bound: 12.000000
+booleans: 2538
+conflicts: 299920
+branches: 464211
+propagations: 2118051
+integer_propagations: 29503032
+walltime: 408.717145
+usertime: 408.717145
+deterministic_time: 100.436046
+I1130 14:21:33.494681 72148 main.cpp:422] 3
+I1130 14:21:33.495054 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8382.000000
+best_bound: 12.000000
+booleans: 2943
+conflicts: 302054
+branches: 502776
+propagations: 2260879
+integer_propagations: 35455090
+walltime: 467.432206
+usertime: 467.432206
+deterministic_time: 118.961790
+I1130 14:25:23.135720 72148 main.cpp:422] 4
+I1130 14:25:23.136335 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8358.000000
+best_bound: 12.000000
+booleans: 3269
+conflicts: 316337
+branches: 624777
+propagations: 3020478
+integer_propagations: 67786182
+walltime: 697.070573
+usertime: 697.070573
+deterministic_time: 178.749076
+I1130 14:25:24.193542 72148 main.cpp:422] 5
+I1130 14:25:24.194144 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8340.000000
+best_bound: 12.000000
+booleans: 3271
+conflicts: 316340
+branches: 625680
+propagations: 3023851
+integer_propagations: 67845149
+walltime: 698.128371
+usertime: 698.128371
+deterministic_time: 179.050769
+I1130 14:25:25.238647 72148 main.cpp:422] 6
+I1130 14:25:25.239241 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8324.000000
+best_bound: 12.000000
+booleans: 3275
+conflicts: 316343
+branches: 626406
+propagations: 3027219
+integer_propagations: 67899322
+walltime: 699.173133
+usertime: 699.173133
+deterministic_time: 179.349881
+I1130 14:25:26.233093 72148 main.cpp:422] 7
+I1130 14:25:26.233686 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8322.000000
+best_bound: 12.000000
+booleans: 3281
+conflicts: 316357
+branches: 627036
+propagations: 3030592
+integer_propagations: 67951399
+walltime: 700.168199
+usertime: 700.168199
+deterministic_time: 179.644830
+I1130 14:25:27.140314 72148 main.cpp:422] 8
+I1130 14:25:27.140981 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8250.000000
+best_bound: 12.000000
+booleans: 3281
+conflicts: 316361
+branches: 627588
+propagations: 3033461
+integer_propagations: 68005279
+walltime: 701.075281
+usertime: 701.075281
+deterministic_time: 179.926689
+I1130 14:25:28.035086 72148 main.cpp:422] 9
+I1130 14:25:28.035786 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8232.000000
+best_bound: 12.000000
+booleans: 3281
+conflicts: 316361
+branches: 628112
+propagations: 3036218
+integer_propagations: 68064564
+walltime: 701.969446
+usertime: 701.969446
+deterministic_time: 180.210787
+I1130 14:25:33.859133 72148 main.cpp:422] 10
+I1130 14:25:33.859750 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8210.000000
+best_bound: 12.000000
+booleans: 3283
+conflicts: 316591
+branches: 630539
+propagations: 3053689
+integer_propagations: 68555610
+walltime: 707.793832
+usertime: 707.793832
+deterministic_time: 181.967438
+I1130 14:25:34.736834 72148 main.cpp:422] 11
+I1130 14:25:34.737412 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8208.000000
+best_bound: 12.000000
+booleans: 3283
+conflicts: 316592
+branches: 631056
+propagations: 3056468
+integer_propagations: 68609937
+walltime: 708.673529
+usertime: 708.673528
+deterministic_time: 182.250755
+I1130 14:25:35.622735 72148 main.cpp:422] 12
+I1130 14:25:35.623397 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8204.000000
+best_bound: 12.000000
+booleans: 3284
+conflicts: 316593
+branches: 631587
+propagations: 3059222
+integer_propagations: 68663866
+walltime: 709.558434
+usertime: 709.558434
+deterministic_time: 182.528136
+I1130 14:25:36.502614 72148 main.cpp:422] 13
+I1130 14:25:36.503266 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8188.000000
+best_bound: 12.000000
+booleans: 3285
+conflicts: 316594
+branches: 632113
+propagations: 3061995
+integer_propagations: 68718434
+walltime: 710.436869
+usertime: 710.436868
+deterministic_time: 182.805587
+I1130 14:25:37.426770 72148 main.cpp:422] 14
+I1130 14:25:37.427434 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8156.000000
+best_bound: 12.000000
+booleans: 3285
+conflicts: 316600
+branches: 632659
+propagations: 3065026
+integer_propagations: 68779370
+walltime: 711.361306
+usertime: 711.361306
+deterministic_time: 183.087960
+I1130 14:25:39.365523 72148 main.cpp:422] 15
+I1130 14:25:39.366012 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8092.000000
+best_bound: 12.000000
+booleans: 3287
+conflicts: 316631
+branches: 634100
+propagations: 3071333
+integer_propagations: 68913934
+walltime: 713.301340
+usertime: 713.301339
+deterministic_time: 183.657946
+I1130 14:26:00.770994 72148 main.cpp:422] 16
+I1130 14:26:00.771400 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8068.000000
+best_bound: 12.000000
+booleans: 3307
+conflicts: 317592
+branches: 644320
+propagations: 3145381
+integer_propagations: 71051316
+walltime: 734.708977
+usertime: 734.708977
+deterministic_time: 189.780298
+I1130 14:26:03.350399 72148 main.cpp:422] 17
+I1130 14:26:03.350739 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8058.000000
+best_bound: 12.000000
+booleans: 3308
+conflicts: 317668
+branches: 645798
+propagations: 3155564
+integer_propagations: 71350414
+walltime: 737.287750
+usertime: 737.287750
+deterministic_time: 190.464861
+I1130 14:26:04.217052 72148 main.cpp:422] 18
+I1130 14:26:04.217455 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8048.000000
+best_bound: 12.000000
+booleans: 3309
+conflicts: 317674
+branches: 646343
+propagations: 3158467
+integer_propagations: 71406121
+walltime: 738.154403
+usertime: 738.154403
+deterministic_time: 190.744931
+I1130 14:26:05.867278 72148 main.cpp:422] 19
+I1130 14:26:05.867702 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8028.000000
+best_bound: 12.000000
+booleans: 3314
+conflicts: 317741
+branches: 647293
+propagations: 3165983
+integer_propagations: 71648080
+walltime: 739.803924
+usertime: 739.803924
+deterministic_time: 191.137955
+I1130 14:26:06.668778 72148 main.cpp:422] 20
+I1130 14:26:06.669085 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 8008.000000
+best_bound: 12.000000
+booleans: 3317
+conflicts: 317742
+branches: 647894
+propagations: 3168700
+integer_propagations: 71702373
+walltime: 740.604913
+usertime: 740.604913
+deterministic_time: 191.422434
+I1130 14:26:07.482087 72148 main.cpp:422] 21
+I1130 14:26:07.482725 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7976.000000
+best_bound: 12.000000
+booleans: 3318
+conflicts: 317745
+branches: 648632
+propagations: 3171649
+integer_propagations: 71760276
+walltime: 741.405480
+usertime: 741.405480
+deterministic_time: 191.705234
+I1130 14:26:08.757756 72148 main.cpp:422] 22
+I1130 14:26:08.758237 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7972.000000
+best_bound: 12.000000
+booleans: 3318
+conflicts: 317925
+branches: 649442
+propagations: 3176882
+integer_propagations: 71912346
+walltime: 742.694986
+usertime: 742.694986
+deterministic_time: 192.049242
+I1130 14:26:10.003741 72148 main.cpp:422] 23
+I1130 14:26:10.004056 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7958.000000
+best_bound: 12.000000
+booleans: 3318
+conflicts: 317986
+branches: 650461
+propagations: 3182522
+integer_propagations: 72051717
+walltime: 743.941596
+usertime: 743.941596
+deterministic_time: 192.405066
+I1130 14:26:10.752470 72148 main.cpp:422] 24
+I1130 14:26:10.752847 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7952.000000
+best_bound: 12.000000
+booleans: 3318
+conflicts: 317987
+branches: 650965
+propagations: 3185354
+integer_propagations: 72109377
+walltime: 744.688914
+usertime: 744.688914
+deterministic_time: 192.683124
+I1130 14:28:47.297209 72148 main.cpp:422] 25
+I1130 14:28:47.297648 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7918.000000
+best_bound: 12.000000
+booleans: 3600
+conflicts: 328570
+branches: 718149
+propagations: 3823634
+integer_propagations: 93694812
+walltime: 901.235212
+usertime: 901.235212
+deterministic_time: 243.363663
+I1130 14:28:48.231645 72148 main.cpp:422] 26
+I1130 14:28:48.232062 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7890.000000
+best_bound: 12.000000
+booleans: 3612
+conflicts: 328571
+branches: 718867
+propagations: 3827362
+integer_propagations: 93740187
+walltime: 902.169809
+usertime: 902.169809
+deterministic_time: 243.652462
+I1130 14:28:53.303481 72148 main.cpp:422] 27
+I1130 14:28:53.303861 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7880.000000
+best_bound: 12.000000
+booleans: 3627
+conflicts: 329007
+branches: 721480
+propagations: 3845453
+integer_propagations: 94018208
+walltime: 907.242422
+usertime: 907.242422
+deterministic_time: 245.214054
+I1130 14:41:24.734001 72148 main.cpp:422] 28
+I1130 14:41:24.734283 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7874.000000
+best_bound: 12.000000
+booleans: 4258
+conflicts: 382231
+branches: 1055015
+propagations: 7183104
+integer_propagations: 180563664
+walltime: 1658.674338
+usertime: 1658.674338
+deterministic_time: 488.759317
+I1130 14:44:17.954524 72148 main.cpp:422] 29
+I1130 14:44:17.954959 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7854.000000
+best_bound: 12.000000
+booleans: 4322
+conflicts: 398077
+branches: 1131348
+propagations: 8044450
+integer_propagations: 203565019
+walltime: 1831.887184
+usertime: 1831.887184
+deterministic_time: 549.274189
+I1130 14:45:01.210556 72148 main.cpp:422] 30
+I1130 14:45:01.211056 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7808.000000
+best_bound: 12.000000
+booleans: 4331
+conflicts: 402745
+branches: 1145066
+propagations: 8380876
+integer_propagations: 212674321
+walltime: 1875.145223
+usertime: 1875.145223
+deterministic_time: 559.552764
+I1130 14:45:07.627173 72148 main.cpp:422] 31
+I1130 14:45:07.627532 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7802.000000
+best_bound: 12.000000
+booleans: 4335
+conflicts: 403908
+branches: 1148827
+propagations: 8413735
+integer_propagations: 213329926
+walltime: 1881.563607
+usertime: 1881.563607
+deterministic_time: 560.972739
+I1130 14:45:23.925966 72148 main.cpp:422] 32
+I1130 14:45:23.926478 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7784.000000
+best_bound: 12.000000
+booleans: 4339
+conflicts: 406271
+branches: 1154369
+propagations: 8508287
+integer_propagations: 216303471
+walltime: 1897.860866
+usertime: 1897.860866
+deterministic_time: 563.926286
+I1130 14:45:25.426931 72148 main.cpp:422] 33
+I1130 14:45:25.427415 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7778.000000
+best_bound: 12.000000
+booleans: 4340
+conflicts: 406624
+branches: 1155493
+propagations: 8516743
+integer_propagations: 216411133
+walltime: 1899.362782
+usertime: 1899.362782
+deterministic_time: 564.296792
+I1130 14:47:59.508550 72148 main.cpp:422] 34
+I1130 14:47:59.509035 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7762.000000
+best_bound: 12.000000
+booleans: 4346
+conflicts: 419370
+branches: 1214835
+propagations: 9272471
+integer_propagations: 235763917
+walltime: 2053.445505
+usertime: 2053.445505
+deterministic_time: 611.907023
+I1130 14:48:02.979670 72148 main.cpp:422] 35
+I1130 14:48:02.980221 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7594.000000
+best_bound: 12.000000
+booleans: 4354
+conflicts: 419771
+branches: 1217219
+propagations: 9287463
+integer_propagations: 235979021
+walltime: 2056.916360
+usertime: 2056.916360
+deterministic_time: 612.750849
+I1130 14:49:35.323454 72148 main.cpp:422] 36
+I1130 14:49:35.324003 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7440.000000
+best_bound: 12.000000
+booleans: 4368
+conflicts: 427191
+branches: 1264531
+propagations: 9758836
+integer_propagations: 245566594
+walltime: 2149.257050
+usertime: 2149.257050
+deterministic_time: 642.985918
+I1130 14:50:25.481178 72148 main.cpp:422] 37
+I1130 14:50:25.481586 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7416.000000
+best_bound: 12.000000
+booleans: 4374
+conflicts: 429979
+branches: 1288754
+propagations: 10002391
+integer_propagations: 250648917
+walltime: 2199.417906
+usertime: 2199.417906
+deterministic_time: 660.904060
+I1130 14:50:26.500494 72148 main.cpp:422] 38
+I1130 14:50:26.500876 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7406.000000
+best_bound: 12.000000
+booleans: 4386
+conflicts: 429981
+branches: 1289630
+propagations: 10006731
+integer_propagations: 250693205
+walltime: 2200.436976
+usertime: 2200.436976
+deterministic_time: 661.206713
+I1130 14:50:27.391290 72148 main.cpp:422] 39
+I1130 14:50:27.391700 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 7378.000000
+best_bound: 12.000000
+booleans: 4391
+conflicts: 429981
+branches: 1290242
+propagations: 10010510
+integer_propagations: 250740226
+walltime: 2201.328122
+usertime: 2201.328122
+deterministic_time: 661.498963
+I1130 14:50:29.127903 72148 main.cpp:422] 40
+I1130 14:50:29.128285 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 6954.000000
+best_bound: 12.000000
+booleans: 4393
+conflicts: 430294
+branches: 1291814
+propagations: 10019300
+integer_propagations: 250831831
+walltime: 2203.065130
+usertime: 2203.065130
+deterministic_time: 661.953002
+I1130 14:50:30.187006 72148 main.cpp:422] 41
+I1130 14:50:30.187417 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 6930.000000
+best_bound: 12.000000
+booleans: 4394
+conflicts: 430298
+branches: 1292814
+propagations: 10023612
+integer_propagations: 250885817
+walltime: 2204.123431
+usertime: 2204.123431
+deterministic_time: 662.254145
+I1130 14:50:31.135735 72148 main.cpp:422] 42
+I1130 14:50:31.136152 72148 main.cpp:423] CpSolverResponse:
+status: FEASIBLE
+objective: 6902.000000
+best_bound: 12.000000
+booleans: 4400
+conflicts: 430299
+branches: 1293369
+propagations: 10027464
+integer_propagations: 250936085
+walltime: 2205.072179
+usertime: 2205.072179
+deterministic_time: 662.541921
