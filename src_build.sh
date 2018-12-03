@@ -5,7 +5,7 @@ mkdir -p build/client 2>/dev/null
 mkdir bin 2>/dev/null
 
 cd build/server
-cmake ../../src
+/home/viki/cmake/bin/cmake ../../src
 make
 cd ../..
 

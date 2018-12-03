@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     chronos::DatabaseService::init(
         "nemkin",
         "nemkin",
-        "10.240.2.125",
+        "127.0.0.1",
         "chronos"
     );
 
@@ -427,7 +427,8 @@ int main(int argc, char *argv[]) {
     );
 
     ort::sat::SatParameters parameters;
-    parameters.set_num_search_workers(3);
+    parameters.set_num_search_workers(30);
+    parameters.set_max_time_in_seconds(60);
 
     model.Add(
         ort::sat::NewSatParameters(
