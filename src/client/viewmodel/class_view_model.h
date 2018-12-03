@@ -9,8 +9,6 @@
 #include <QAbstractListModel>
 
 #include "model/generated/entities/class.h"
-#include "model/generated/entities/class_type.h"
-#include "model/generated/entities/course.h"
 
 namespace chronos {
 
@@ -26,9 +24,7 @@ public:
 
 private:
 
-    std::vector<Class>     _classes;
-    std::map<int, ClassType> _class_types;
-    std::map<int, Course>    _courses;
+    std::vector<Class> _classes;
 
 };
 

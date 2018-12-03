@@ -10,7 +10,7 @@
 #include "client/viewmodel/tables.h"
 
 int main(int argc, char *argv[]) {
-    
+  
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine(QUrl("qrc:/qml/MainWindow.qml"));

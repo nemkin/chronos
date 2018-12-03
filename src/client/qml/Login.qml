@@ -279,7 +279,7 @@ Item {
         running: false
         onStopped: root.success() 
 
-        property real speed: 0.8
+        property real speed: 0.1
 
         ParallelAnimation {
  
@@ -338,7 +338,7 @@ Item {
 
         PauseAnimation {
 
-            duration: 250
+            duration: 250*login_animation.speed
         }
 
         ColorAnimation {
@@ -346,7 +346,7 @@ Item {
             target: left_side_text
             property: "color"
             to: "grey"
-            duration: 500
+            duration: 500*login_animation.speed
         }
 
         ColorAnimation {
@@ -354,14 +354,14 @@ Item {
             target: left_side_text
             property: "color"
             to: "black"
-            duration: 600
+            duration: 600*login_animation.speed
         }
 
         PauseAnimation {
 
-            duration: 700
+            duration: 700*login_animation.speed
         }
-
+        
     }
 }
 

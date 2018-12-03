@@ -5,14 +5,14 @@ Item {
 
     Rectangle {
 
-        id: root
+        id: rectangle
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
         width: 200
 
-        color: "grey"
+        color: "white"
 
         Column {
 
@@ -26,7 +26,7 @@ Item {
                 anchors.right: parent.right
 
                 height: 30
-                text: "Awesomeness ++"
+                text: "Classes"
 
                 background: Rectangle {
 
@@ -34,25 +34,51 @@ Item {
                     border.color: "white"
                 }
             }
+
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Courses"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
         }
+
+     }
+    
+     Rectangle {
+        id: separator
+        width: 4
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: rectangle.right
+        color: "#222222"
+    }
+ 
+     Rectangle {
+ 
+        anchors.left: separator.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
        
+        color: "#555555"
+ 
         ClassView {
 
             id: class_view
 
-            anchors.left: column.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            anchors.rightMargin: 20
-            
-            boundsBehavior: Flickable.StopAtBounds
+            anchors.fill: parent         
 
-            ScrollBar.vertical: ScrollBar {
-                
-                anchors.left: parent.right
-                width: 20
-            }
+            
         }
     }
 }
