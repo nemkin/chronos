@@ -1,15 +1,224 @@
 \chapter{Realisation}
-A tervezés részletes leírása, a döntési lehetõségek értékelése és a választott megoldások indoklása
 
+In the following chapter I talk about the development process of the system.
 
+\section{Language, framework, toolkit}
 
+There are many programming languages, frameworks and libraries that I considered when choosing my toolkit.
 
-Programming language: C++, Java, C#, Python?
+I wanted the server to be able to run on Linux because it is open source and free, so there is no need to buy a license for the operating system of choice. I expect our university to have Linux servers that they can use to run the server or a virtual machine can be created anywhere that runs Linux, without the need to run a UI.
 
-Framework: Qt? C# .NET?
+I chose C++ and Qt as a platform. I decided not to use Microsoft technologies, .NET and C\# because even though they are opening to Linux, I believed C++ and Qt was a better, more supported option. I did not want to go with Java because C++ is much faster and more suited for algorithmically complex tasks. The solver could have used a declarative language like Prolog or Erlang, but I wanted to store the information in a database which is not very convenient in these languages. Qt is a suitable choice for the client since it supports multiple platforms seamlessly, so it can run on Windows and Linux as wanted.
 
-Solver: Prolog? Erlang?
+I choose PostgreSQL as a database driver. I needed something that works seamlessly on Linux and can run separately from the server. This way the database can be installed on a computer with good network connections and large storage capabilities, independently of the server and the client. The database has to be online continuously so the client can upload new data to it while the server needs to be run only once.
 
-Database: PostgreSQL because it is separate. SQLite. MySQL.
+Several libraries can be used for constraint programming. I chose Google's OR-tools because it is completely open source and it has multiple algorithms implemented in it, like linear programming plus many graph algorithms which makes it a versatile tool for operations research.
 
+\section{Data model}
 
+I suspected that the data model would be suspect to several changes as I develop the solver. In retrospect, this was true.
+
+I wanted to create a framework where I could quickly change my data model depending on my needs and iterate over the different versions. I needed the data to be persistent, to have matching database tables and queries in SQL for manipulation.
+
+I created a json format to describe my types.
+
+\begin{lstlisting}
+{
+    "id": {
+        "cpp": "int", 
+        "sql": "SERIAL PRIMARY KEY",
+        "default_value": "0"
+    },
+    "reference": {
+        "cpp": "int",
+        "sql": "INTEGER",
+        "default_value": "0"
+    },
+    "int": {
+        "cpp": "int",
+        "sql": "INTEGER",
+        "default_value": "0"
+    },
+    "double": {
+        "cpp": "double",
+        "sql": "DOUBLE PRECISION",
+        "default_value": "0.0"
+    },
+    "text": {
+        "cpp": "std::string",
+        "sql": "TEXT",
+        "default_value": "\"\""
+    },
+    "bool": {
+        "cpp": "bool",
+        "sql": "BOOLEAN",
+        "default_value": "false"
+    },
+    "timestamp": {
+        "cpp": "std::string",
+        "sql": "TIMESTAMP",
+        "default_value": "\"\"" 
+    }
+}
+\end{lstlisting}
+
+This format describes the C++ and SQL equivalent for every type in my system.
+
+Then, using these types I created another json format to describe my data model.
+
+\begin{lstlisting}
+{
+    "default": {
+        "members": [
+            {
+                "name": "modified_timestamp",
+                "type": "timestamp"
+            },
+            {
+                "name": "is_deleted",
+                "type": "bool"
+            }
+        ]
+    },
+    "classes": [
+        {
+            "class": "timeslot",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "location",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "class_type",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "year",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "room",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "size_type",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "location"
+                },
+                {
+                    "class": "class_type"
+                }
+            ]
+        },
+        {
+            "class": "department",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                },
+                {
+                    "name": "short_name",
+                    "type": "text"
+                }
+            ],
+            "references": []
+        },
+        {
+            "class": "course",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "year"
+                },
+                {
+                    "class": "department"
+                }
+            ]
+        },
+        {
+            "class": "class",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "class_type"
+                },
+                {
+                    "class": "course"
+                }
+            ]
+        },
+        {
+            "class": "faculty_member",
+            "members": [
+                {
+                    "name": "name",
+                    "type": "text"
+                }
+            ],
+            "references": [
+                {
+                    "class": "department"
+                }
+            ]
+        },
+        {
+            "class": "license",
+            "members": [],
+            "references": [
+                {
+                    "class": "course"
+                },
+                {
+                    "class": "class_type"
+                },
+                {
+                    "class": "faculty_member"
+                }
+            ]
+        }
+    ]
+}
+\end{lstlisting}
