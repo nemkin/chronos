@@ -1,48 +1,45 @@
 \chapter{Theory}
-Operations research
 
-Operations research uses applied mathematics to give optimal solutions to complex decision-making problems maximising profitability, performance and yield or minimising loss, risk and cost of real-world objectives.  Operations research focuses on practical applications.
+\section{Operations research}
 
-It originates from British military efforts during World War II where it was described as "a scientific method of providing executive departments with a quantitative basis for decisions regarding the operations under their control" and has grown to help a variety of industries. 
+Operations research uses applied mathematics to give optimal solutions to complex decision-making problems maximising profitability, performance and yield or minimising loss, risk and cost of real-world objectives.
 
-Things operational research addresses:
+It originates from British military efforts during World War II, where it was described as ''a scientific method of providing executive departments with a quantitative basis for decisions regarding the operations under their control'', and it has grown to help a variety of industries. 
 
-- Critical path analysis or project planning: identifying those processes in a complex project which affect the overall duration of the project
-- Floorplanning: designing the layout of equipment in a factory or components on a computer chip to reduce manufacturing time (therefore reducing cost)
-- Network optimization: for instance, setup of telecommunications or power system networks to maintain quality of service during outages
-- Allocation problems
-- Facility location
-- Assignment Problems
-- Bayesian search theory: looking for a target
-- Optimal search
-- Routing, such as determining the routes of buses so that as few buses are needed as possible
-- Supply chain management: managing the flow of raw materials and products based on uncertain demand for the finished products
-- Project production activities: managing the flow of work activities in a capital project in response to system variability through operations research tools for variability reduction and buffer allocation using a combination of allocation of capacity, inventory and time
-- Efficient messaging and customer response tactics
-- Automation: automating or integrating robotic systems in human-driven operations processes
-- Globalization: globalizing operations processes in order to take advantage of cheaper materials, labor, land or other productivity inputs
-- Transportation: managing freight transportation and delivery systems (Examples: LTL shipping, intermodal freight transport, travelling salesman problem)
-- Scheduling: Personnel staffing Manufacturing steps
-Project tasks
-Network data traffic: these are known as queueing models or queueing systems.
-Sports events and their television coverage
-Blending of raw materials in oil refineries
-Determining optimal prices, in many retail and B2B settings, within the disciplines of pricing science
-Cutting stock problem: Cutting small items out of bigger ones.
+Operations research focuses on practical real-world applications, for example:
 
-Timetable planning is one of these problems.
+\begin{itemize}
+\item Critical path analysis: identifying processes that affect the overall duration of the project.
+\item Floorplanning: designing factory settings to reduce the cost of manufacturing or computer chip layouts to reduce energy cost.
+\item Public transportation: determining the routes and schedules of buses so that as few buses are needed as possible.
+\item Supply chain management: managing the flow of raw materials and products based on uncertain demand for the finished products.
+\end{itemize}
+
+Timetable planning is a problem that can be solved using methods from operations research.
 
 Source: https://en.wikipedia.org/wiki/Operations\_research
 
-Constraint Programming/Constraint Satisfaction Problems
+\section{Constraint Satisfaction Problems}
+
+Source: https://en.wikipedia.org/wiki/Constraint\_satisfaction\_problem
 
 One of the techniques in operations research is Constraint Programming.
 
-In computer science, constraint programming is a programming paradigm wherein relations between variables are stated in the form of constraints. Constraints differ from the common primitives of imperative programming languages in that they do not specify a step or sequence of steps to execute, but rather the properties of a solution to be found. This makes constraint programming a form of declarative programming. The constraints used in constraint programming are of various kinds: those used in constraint satisfaction problems (e.g. "A or B is true"), linear inequalities (e.g. "x <= 5"), and others. Constraints are usually embedded within a programming language or provided via separate software libraries.
+Formally, we define Constraint Satisfaction Problems as follows:
 
-Mathematically describe the problem using variables and equations (constraints) that must be true for all acceptable solutions. Then create an expression which shall be minimized to continue.
+A CSP is a triplet $\{X,D,C\}$, where:
 
-This approach was ideal because with variables and equations I can describe any constraint using mathematics which would be harder if I modelled the problem in a specific way (for example colouring of a bipartite graph). This way when new feature requests arise and new requests come in from various teachers or students I can always account for these. I just have to come up with new equations and variables and fiddle with maths to do so.
+\begin{center}
+\begin{tabular}{ll}
+$X=\{x_1, ..., x_n\}$ & is a set of variables.\\
+$D=\{d_1, ..., d_n\}$ & is a set of domains, so that $\forall{}i$, $1\leq{}i\leq{}n$, $x_i \in{} d_i$.\\
+$C=\{c_1, ... c_m\}$  & is a set of constraints on the variables in $X$.\\
+\end{tabular}
+\end{center}
 
-This is why I choose COP to solve this problem.
+The constraints used in constraint programming are of various kinds: those used in constraint satisfaction problems (e.g. "A or B is true"), linear inequalities (e.g. "x <= 5"), and others. Constraints are usually embedded within a programming language or provided via separate software libraries.
+
+Constraints differ from the common primitives of imperative programming languages in that they do not specify a step or a sequence of steps to execute, but rather the properties of the solution to be found. This makes constraint programming a form of declarative programming. Using this approach we can mathematically describe the problem with variables and equations. Unlike other approaches, for example using the method of colouring a bipartite graph for timetable creation this method provides flexibility with the type of features we can build into the system. With constraints we can express a wide range of requirements and we can be sure if new requests come in we will be able to include them in the system.
+
+This is why constraint programming is a good choice for solving this problem.
 

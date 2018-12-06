@@ -1,0 +1,63 @@
+\chapter{Requirement specification}
+
+I have met with Erzsébet Győri, the timetable creator of our faculty and we discussed how she currently creates the timetables and what specific requirements and requests arise during the process and what my system shall be capable of.
+
+Below is a summary of these.
+
+\begin{itemize}
+
+\item The user shall be able to record the buildings and rooms in the system.
+\item The user shall be able to record the departments, their faculty members and which classes and course types they can teach.
+\item The user shall be able to record the years of the students.
+\item The user shall be able to record the classes for every year and the courses from the given classes.
+\item Every practice session shall be able to be scheduled independently.
+\item For every timeslot, the maximum amount of classes shall not have more capacity than the entire year of students.
+\item During breaks students shall be able to comfortably walk from the current room to the next in the available time. Commutes from building K to building I and back shall be reduced or eliminated.
+\item For practice sessions of a given class, all of them shall be either before or preferably after the seminar for the given week.  
+\item Some practice sessions have an assigned teacher, and some don't (for student demonstrators). When the teacher is assigned the class shall not conflict with another class of the same teacher.
+\item Some faculties have a low number of student demonstrators so they can't handle a large number of parallel practice sessions.  
+\item Every department and faculty member shall be able to specify when they are available to teach and be given a schedule accordingly.
+\item For all courses, the departments shall be able to specify when they can be scheduled.
+\item Every faculty member shall be able to specify the locations (buildings) they would prefer to teach in.
+\item Some classes have multiple seminars and designated practice sessions depending on the chosen seminar. These practice sessions shall be scheduled depending on their corresponding seminars.
+\item We have rooms with capacities, described as XL (400 students), L (200 students), M (100 students), S (35 students), and XS (20 students) and special laboratory rooms. Each course shall have a suitable sized room assigned to it.
+\begin{itemize}
+    \item XL rooms are suitable for holding large seminars for the first few years of students.
+    \item L rooms are fitting for specialisation seminars for students in a higher year.
+    \item M rooms are good for smaller seminars, consultations or electives.
+    \item S rooms are for practice sessions.
+    \item XS rooms are suitable for a smaller number of students, like IMSC groups.
+    \item Laboratory rooms are either owned and assigned by the departments or made available by the HSZK (in building R).
+\end{itemize}
+\item Some rooms are only available for a given period (Q-I, for example - is shared with GTK). The software shall be able to take room availabilities into account.
+\item The software shall be able to integrate with the Neptun system. It shall be able to download the list of courses for a given semester, schedule them and output the result in a suitable format for Neptun.
+\item Laboratory courses have a preferred order during the week. This is so they don't have to switch back and forth between the equipment.  
+\item Teacher's schedules shall not have more than a specified number of hours of class for any given day.
+\item Exam periods shall be scheduled as well.  
+\item For the first year students are arranged in groups. Each student group has an assigned timetable so they take their practice sessions and laboratory classes together.
+\item The schedule shall not have hole-hours for first-year students.
+\item Student groups have a lunch break from 12 pm to 1 pm.
+\item IMSC student groups shall be taken into account. They are separated and they, have their own timetable.
+\item There shall be separate software for the data entry (client) and the solver (server).
+\item The client shall be able to run on low resources on older Windows versions as well as Windows 10.
+\item The server shall run on Linux and make use of multiple available processors.
+\item The generated schedules shall have no conflicts for the years of students, the faculty members and the rooms.
+\end{itemize}
+
+The requirements above are complex and expansive. For the current semester I decided to focus on the following subset of these:
+
+\begin{itemize}
+\item The user shall be able to record the buildings and rooms in the system.
+\item The user shall be able to record the departments, their faculty members and which classes and course types they can teach.
+\item The user shall be able to record the years of the students.
+\item The user shall be able to record the classes for every year and the courses from the given classes.
+\item The user shall be able to record different types of classes with corresponding types of rooms (for example seminar rooms, practice session rooms and laboratory rooms).
+\item Every practice session shall be able to be scheduled independently.
+\item For every timeslot, there should be a specific amount of parallel courses.
+\item There shall be separate software for the data entry (client) and the solver (server).
+\item The client shall be able to run on low resources on older Windows versions as well as Windows 10.
+\item The server shall run on Linux and make use of multiple available processors.
+\item The generated schedules shall have no conflicts for the years of students, the faculty members and the rooms.
+\end{itemize}
+
+The most important requirement being the last one: generate schedules with no conflicts for all parties. This requirement will be the focus of my thesis.
