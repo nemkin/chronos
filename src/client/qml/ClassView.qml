@@ -36,6 +36,7 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.leftMargin: 10
+                anchors.right: delete_button.left
     
                 TextInput {
                
@@ -73,6 +74,17 @@ Item {
                     verticalAlignment: TextInput.AlignVCenter
                 }
            }
+           
+            Button {
+
+                id: delete_button
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                width: 80
+                
+                text: "X"
+            }
        }
     }
 

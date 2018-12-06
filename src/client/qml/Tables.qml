@@ -26,7 +26,82 @@ Item {
                 anchors.right: parent.right
 
                 height: 30
-                text: "Classes"
+                text: "Timeslots"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Locations"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Class Types"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Years"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Rooms"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Departments"
 
                 background: Rectangle {
 
@@ -50,6 +125,51 @@ Item {
                 }
             }
 
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Classes"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Faculty Members"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
+            Button {
+                
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 30
+                text: "Licenses"
+
+                background: Rectangle {
+
+                    color: parent.down ? "#d0d0d0" : "#e0e0e0"
+                    border.color: "white"
+                }
+            }
+
         }
 
      }
@@ -62,11 +182,50 @@ Item {
         anchors.left: rectangle.right
         color: "#222222"
     }
+
+    Rectangle {
+
+        id: top_buttons
+        anchors.left: separator.right
+        anchors.top: parent.top
+        anchors.right: parent.right
+        
+        height: 30
+
+        color: "white"
+        
+        Row {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            Text {
+                text: "Classes"
+                verticalAlignment: Text.AlignVCenter
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+            }
+        }
+
+        Row {
+
+            anchors.right: parent.right 
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+
+            Button {
+                text: "Add"
+                width: 100
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+            }
+
+        }
+    }
  
      Rectangle {
  
         anchors.left: separator.right
-        anchors.top: parent.top
+        anchors.top: top_buttons.bottom
         anchors.bottom: parent.bottom
         anchors.right: parent.right
        
