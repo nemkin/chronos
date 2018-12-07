@@ -6,7 +6,7 @@ Operations research \cite{ORWiki} uses applied mathematics to give optimal solut
 
 It originates from British military efforts during World War II, where it was described as ''a scientific method of providing executive departments with a quantitative basis for decisions regarding the operations under their control'', and it has grown to help a variety of industries. 
 
-Operations research focuses on practical real-world applications, for example:
+Operations research focuses on practical real-world applications, for example \cite{ORWiki}:
 
 \begin{itemize}
 \item Critical path analysis: identifying processes that affect the overall duration of the project.
@@ -19,9 +19,9 @@ Timetable planning is a problem that can be solved using methods from operations
 
 \section{Constraint Satisfaction Problems}
 
-One of the techniques in operations research is Constraint Programming \cite{CSPWiki}.
+One of the techniques in operations research is Constraint Programming.
 
-Formally, we define Constraint Satisfaction Problems as follows:
+Formally, we define Constraint Satisfaction Problems as follows \cite{CSPWiki}:
 
 A CSP is a triplet $\{X,D,C\}$, where:
 
@@ -35,7 +35,7 @@ $C=\{c_1, ... c_m\}$  & is a set of constraints on the variables in $X$.\\
 
 The constraints used in constraint programming are of various kinds: those used in constraint satisfaction problems (e.g. "A or B is true"), linear inequalities (e.g. "x <= 5"), and others. Constraints are usually embedded within a programming language or provided via separate software libraries.
 
-Constraints differ from the common primitives of imperative programming languages in that they do not specify a step or a sequence of steps to execute, but rather the properties of the solution to be found. This makes constraint programming a form of declarative programming. Using this approach we can mathematically describe the problem with variables and equations. Unlike other approaches, for example using the method of colouring a bipartite graph for timetable creation this method provides flexibility with the type of features we can build into the system. With constraints we can express a wide range of requirements and we can be sure if new requests come in we will be able to include them in the system.
+Constraints differ from the common primitives of imperative programming languages in that they do not specify a step or a sequence of steps to execute, but rather the properties of the solution to be found. This makes constraint programming a form of declarative programming. Using this approach we can mathematically describe the problem with variables and equations. Unlike other approaches, for example using the method of colouring a bipartite graph for timetable creation this method provides flexibility with the type of features we can build into the system. With constraints we can express a wide range of requirements and we can be sure if new requests come in we will be able to include them in the system. \cite{CPWiki}
 
 This is why constraint programming is a good choice for solving this problem.
 

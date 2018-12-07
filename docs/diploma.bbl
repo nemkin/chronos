@@ -10,6 +10,11 @@ Google Inc.
 \newblock Or-tools on github.
 \newblock \url{https://github.com/google/or-tools}.
 
+\bibitem{CPWiki}
+Wikimedia~Foundation Inc.
+\newblock Constraint programming.
+\newblock \url{https://en.wikipedia.org/wiki/Constraint_programming}.
+
 \bibitem{CSPWiki}
 Wikimedia~Foundation Inc.
 \newblock Constraint satisfaction problem.
