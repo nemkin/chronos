@@ -1,0 +1,33 @@
+\begin{thebibliography}{1}
+
+\bibitem{ORTD}
+Google Inc.
+\newblock Or-tools documentation.
+\newblock \url{https://developers.google.com/optimization/}.
+
+\bibitem{ORTS}
+Google Inc.
+\newblock Or-tools on github.
+\newblock \url{https://github.com/google/or-tools}.
+
+\bibitem{CSPWiki}
+Wikimedia~Foundation Inc.
+\newblock Constraint satisfaction problem.
+\newblock \url{https://en.wikipedia.org/wiki/Constraint_satisfaction_problem}.
+
+\bibitem{ORWiki}
+Wikimedia~Foundation Inc.
+\newblock Operations research.
+\newblock \url{https://en.wikipedia.org/wiki/Operations_research}.
+
+\bibitem{Timetabler}
+October~ReSolutions Ltd.
+\newblock Timetabler.
+\newblock \url{https://www.timetabler.com/}.
+
+\bibitem{UniTime}
+Purdue~University Tomáš~Müller.
+\newblock Unitime.
+\newblock \url{https://www.unitime.org/}.
+
+\end{thebibliography}
