@@ -317,13 +317,13 @@ If the kth year's timetalbe with value $H_k = h$ contains a hole-hour there is a
 
 \paragraph{Proof}
 
-Let's move the chronologically first class, $min\limits{f}T_f$ in the timetable to the hole-hour. Then let's look at the changes in the $H_k$ value after this move. The $Y_i$, $Y_j$ pairs where $i\neq{}f$ and $j\neqf$ did not change, so their contribution to the sum did not change either.
+Let's move the chronologically first class, $min_{f}T_f$ in the timetable to the hole-hour. Then let's look at the changes in the $H_k$ value after this move. The $Y_i$, $Y_j$ pairs where $i\neq{}f$ and $j\neq{}f$ did not change, so their contribution to the sum did not change either.
 
 The only pairs that changed are the ones where one of them was $T_f$.
 
 Since $T_f$ was the first class, the value of $T_f$ could only increase when moved to the hole-hour.
 
-Let $T_s$ denote the chronologically second class in the timetable. If we increase $T_f$'s value until $T_f = T_s$ the sum of every (T_f, T_x) pair's distances decreased, since $T_s\leq{}T_x$.
+Let $T_s$ denote the chronologically second class in the timetable. If we increase $T_f$'s value until $T_f = T_s$ the sum of every ($T_f$, $T_x$) pair's distances decreased, since $T_s\leq{}T_x$.
 
 Then, let's denote the chornologically thrid class as $T_t$. If we increase  $T_f$'s value until $T_f = T_t$ there are two cases. The first case is with $T_s$. Since $T_f$ is getting further away from $T_s$, their distance is increasing. However, if we pair $T_s$ up with the chronologically last class, $T_l$, the sum of their distances from $T_f$ stays constant. The other case is with every other $T_x$, where the distance is decreasing.
 
@@ -337,3 +337,20 @@ Now, if for every timetable that contains a hole-hour we have proven that the $H
 
 This is the constraint I used for optimizing the timetables in the solver.
 
+\section{Client}
+
+The client is a simple Qt application, with minimal GUI.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth, keepaspectratio]{figures/login.png}
+\caption{Login Screen} 
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth, keepaspectratio]{figures/inside.png}
+\caption{Inside} 
+\end{figure}
+
+It can display the data, but currently it will not upload it back to the database.
