@@ -301,3 +301,39 @@ AllDiff$(U_{TR_i})$ $\forall{}i$\\
 AllDiff$(U_{TF_i})$ $\forall{}i$\\
 AllDiff$(U_{TY_{i,j}})$ $\forall{}i,j$\\
 
+\subsection{Optimalization}
+
+To optimalize the devised timetable, I wanted to minimize the number of hole-hours for the students. To achieve this, we have to mathematically describe this using the variables in the Constraint Satisfaction Problem description above.
+
+\paragraph{Theorem}
+
+Let $S_1,S_2,...,S_{y_c}$ be the sets of the classes for a given year.
+
+Minimizing $H_k = \sum\limits_{i\in{}S_k}\sum\limits_{j\in{}S_k}|T_i - T_j|$ will minimize the number of hole-hours in the kth year's timetable.
+
+\paragraph{Lemma}
+
+If the kth year's timetalbe with value $H_k = h$ contains a hole-hour there is always a timetable with value $H_k=h^*$ so that $h^* < h$.
+
+\paragraph{Proof}
+
+Let's move the chronologically first class, $min\limits{f}T_f$ in the timetable to the hole-hour. Then let's look at the changes in the $H_k$ value after this move. The $Y_i$, $Y_j$ pairs where $i\neq{}f$ and $j\neqf$ did not change, so their contribution to the sum did not change either.
+
+The only pairs that changed are the ones where one of them was $T_f$.
+
+Since $T_f$ was the first class, the value of $T_f$ could only increase when moved to the hole-hour.
+
+Let $T_s$ denote the chronologically second class in the timetable. If we increase $T_f$'s value until $T_f = T_s$ the sum of every (T_f, T_x) pair's distances decreased, since $T_s\leq{}T_x$.
+
+Then, let's denote the chornologically thrid class as $T_t$. If we increase  $T_f$'s value until $T_f = T_t$ there are two cases. The first case is with $T_s$. Since $T_f$ is getting further away from $T_s$, their distance is increasing. However, if we pair $T_s$ up with the chronologically last class, $T_l$, the sum of their distances from $T_f$ stays constant. The other case is with every other $T_x$, where the distance is decreasing.
+
+We can continue this logic until a) we reach a hole-hour and put $T_f$ there, or b) until we leave the first half of the timetable.
+
+In case a) we have successfully proven that the sum of all pairs's distances decreased by putting $T_f$ in the hole-hour. In case b) we know that hole-hour exists in the second half of the timetable. Here, we need to do the same process but instead of the chronologically first class we use the chronologically last and decrease its value, so from this viewpoint the hole-hour will be in the first half of the timetable.
+
+This proves the correctness of the lemma.
+
+Now, if for every timetable that contains a hole-hour we have proven that the $H_k$ value can't be minimal. This means that only timetables with no hole-hours can minimize the $H_k$ value, so minimizing for this results in hole-hour-less timetables.
+
+This is the constraint I used for optimizing the timetables in the solver.
+
