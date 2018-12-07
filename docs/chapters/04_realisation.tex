@@ -16,11 +16,13 @@ Several libraries can be used for constraint programming. I chose Google's OR-to
 
 \section{Data model}
 
-I suspected that the data model would be suspect to several changes as I develop the solver. In retrospect, this was true.
+I assumed that the data model would be suspect to several changes as I develop the solver. In retrospect, this was true.
 
-I wanted to create a framework where I could quickly change my data model depending on my needs and iterate over the different versions. I needed the data to be persistent, to have matching database tables and queries in SQL for manipulation.
+I wanted to create a framework where I could quickly change my data model depending on my needs and iterate over the different versions. I needed the data to be persistent and to have matching database tables and queries in SQL for manipulation.
 
-I created a json format to describe my types.
+To achieve this, I created a json format to describe my data.
+
+The following format describes the C++ and SQL equivalent for every type in my system.
 
 \begin{lstlisting}
 {
@@ -62,9 +64,7 @@ I created a json format to describe my types.
 }
 \end{lstlisting}
 
-This format describes the C++ and SQL equivalent for every type in my system.
-
-Then, using these types I created another json format to describe my data model.
+Then, using these types the json file below describes my data model.
 
 \begin{lstlisting}
 {
@@ -222,3 +222,82 @@ Then, using these types I created another json format to describe my data model.
     ]
 }
 \end{lstlisting}
+
+Every class has an id member which is the primary key in the database table for that class. Then, the default section describes the members every class has, namely the last modification timestamp and a delete toggle for soft deletion.
+
+The next section describes my classes. The timeslot is responsible for storing the different class periods (for example, Monday 8 am to 10 am, or Friday 10 am to 12 pm). The location class stores the buildings. The class type stores if the class is a seminar or practice session or a laboratory class. Year describes the different student years in the computer engineering major. Room stores the rooms on campus, which references the location the room is in and the type of class the room can hold. Department stores the faculty's departments. Course stores the different courses that are offered for the major (for example, Probability Theory or Theory of Algorithms). Class stores all the classes that are available from a specific course. The faculty member stores the teachers, referencing the department they are part of. The license indicates if a faculty member can teach a course, of the given class type.
+
+\section{Automatic code generation}
+
+Using these json descriptors, I wrote a Python script that generates the corresponding C++ classes and the database class responsible for interfacing to the PostgreSQL database. This way every time the data model changed throughout the development of the solver algorithm I was able to quickly change the json descriptor and generate a persistent data model for it without spending days changing the code manually.
+
+Then I created a Google Drive Sheet for the data model, seen in Figure \ref{fig:GoogleDriveSheet}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth, keepaspectratio]{figures/chronos_sheet.png}
+\caption{Google Drive Sheet} 
+\label{fig:GoogleDriveSheet}
+\end{figure}
+
+The worksheets represent the classes in the data model. The first row lists the names of the variables, the second row the types of them. After that, every row is one object from the class or one row in the database. I wrote a Google Apps Script that will generate the descriptor jsons and an SQL script that creates the database structure and initialises the tables with the data from the worksheets.
+
+Now, every time I needed to change the data model or the specific object I was able to open this spreadsheet, quickly edit it the way I wanted to, then run a few generator scripts and have my database ready and code modified to match it.
+
+This quick prototyping method allowed me to make changes faster throughout the semester and played a huge role in completing my thesis on time.
+
+\section{Mathematical description of the problem}
+
+In the following section I will describe the Constraint Satisfaction Problem that I used to solve the timetabling problem.
+
+Let $c_c$ denote the number of classes, $t_c$ the number of timeslots $r_c$ the number of rooms, $f_c$ the number of faculties and $p_c$ the number of allowed parallel non-seminar classes.\\
+
+\subsection{Variables}
+
+The variables are assigned in the following way.\\
+\\
+$T_i$ is the timeslot assigned to the ith class where $1\leq{}i\leq{}c_c$.\\
+$R_i$ is the room assigned to the ith class where $1\leq{}i\leq{}c_c$.\\
+$F_i$ is the faculty member assigned to the ith class where $1\leq{}i\leq{}c_c$.\\
+\\
+Then, there are special uniqueness variables. These variables help us to describe unique constraints in the system.  \\
+\\
+$U_{TR_i}$ is a uniqueness variable on the timeslot and room pair assigned to the ith class where $1\leq{}i\leq{}c_c$. These variables make sure rooms are not overbooked in any timeslot.\\\\
+$U_{TF_i}$ is a uniqueness variable on the timeslot and faculty member pair assigned to the ith class where $1\leq{}i\leq{}c_c$. These variables make sure the faculty members don't have to teach two classes at the same time.\\\\
+$U_{TYP_{i,j}}$ is a uniqueness variable on the timeslot, year and parallelness triplet assigned to the ith class where $1\leq{}i\leq{}c_c$ and jth parallel timeslot where $1\leq{}j\leq{}p_c$. These variables make sure that no year of students has to go to two classes at the same time.\\\\
+$P_{i}$ is a parallelness variable for non-seminar classes. This allows the years of students to have parallel non-seminar classes in their timetable. \\
+
+\subsection{Domains}
+
+The domains of the variables are as follows.\\
+\\
+$T_i \in{} (1,t_c)$\\
+$R_i \in{} (1,r_c) \cap \{$''where the room type matches the course type''$\}$\\
+$F_i \in{} (1,f_c) \cap \{$''which class the faculty member is licensed to teach''$\}$\\
+\\
+$U_{TR_i} \in{} (1, (t_c + 1) (r_c + 1))$, $1\leq{}i\leq{}c_c$\\
+$U_{TF_i} \in{} (1, (t_c + 1) (f_c + 1))$, $1\leq{}i\leq{}c_c$\\
+$U_{TYP_{i,j}} \in{} (1, (t_c + 1) (y_c + 1) (p_c + 1))$, $1\leq{}i\leq{}c_c$, $1\leq{}j\leq{}c_c$\\
+
+\subsection{Constraints}
+
+The constraints are below.\\
+\\
+The uniqueness variables are number pairs represented as one number in a $t_c$ base-number system.\\
+\\
+$U_{TR_i} = R_i (t_c + 1) + T_i$\\
+$U_{TF_i} = F_i (t_c + 1) + T_i$\\
+\\
+The $U_{TYP_i}$ variable uses the same representation trick but for a triplet.
+When the ith class is a non-seminar class:\\
+$U_{TYP_{i,1}} = Y_i (p_c + 1) (t_c + 1) + P_i (t_c + 1) + T_i$\\
+\\
+When the ith class is a seminar class we have to occupy ever parallel timeslot. This is done by creating $p_c$ number of uniqueness variables for seminars.\\
+$U_{TYP_{i,j}} = Y_i (p_c + 1) (t_c + 1) + j (t_c + 1) + T_i$, $1\leq{}j\leq{}p_c$\\
+\\
+The following constraints make sure that the pairs and triplets are unique.\\
+\\
+AllDiff$(U_{TR_i})$ $\forall{}i$\\
+AllDiff$(U_{TF_i})$ $\forall{}i$\\
+AllDiff$(U_{TY_{i,j}})$ $\forall{}i,j$\\
+
