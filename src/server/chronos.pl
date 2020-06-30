@@ -113,7 +113,6 @@ department(BTK).
 department(MAT).
 department(FIZ).
 
-#Course(name, year, department)
 course(Analizis-1, 1, MAT).
 course(A-programozas-alapjai-1, 1, EET).
 course(Bevezetes-a-szamitaselmeletbe-1, 1, SZIT).
@@ -156,6 +155,3 @@ course(Intelligens-elosztott-rendszerek, 6, MIT).
 course(Rendszertervezes-laboratorium-1, 6, MIT).
 course(Deklarativ-programozas, 7, SZIT).
 course(Rendszertervezes-laboratorium-2, 7, MIT).
-
-class(X, courseName, ):-
-  course(
